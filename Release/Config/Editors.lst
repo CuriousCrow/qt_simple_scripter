@@ -1,0 +1,12 @@
+﻿Type=Combobox
+Path=Edit
+Sex=Combobox
+Audience_age=CheckList
+Audience_level=CheckList
+Audience_size=CheckList
+Birthday=CheckList
+Created=CheckList
+Sphere=CheckList
+Style=CheckList
+Topic=CheckList
+TypePublic=CheckList
