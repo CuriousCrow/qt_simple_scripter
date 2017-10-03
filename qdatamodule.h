@@ -41,14 +41,14 @@
 
 #define DIR_PROJECTS_ROOT "Projects/"
 
-#define TABLE_PROJECTS "projects"
-#define TABLE_SPEAKERS "speakers"
-#define TABLE_STATEMENTS "statements"
-#define TABLE_SCHEMES "highlight_schemes"
-#define TABLE_SCHEME_PATTERNS "scheme_patterns"
-#define TABLE_PATTERNS "patterns"
-#define TABLE_REPLACE_PATTERNS "replace_patterns"
-#define TABLE_STATEMENTS_HISTORY "statements_history"
+#define TABLE_PROJECTS "PROJECTS"
+#define TABLE_SPEAKERS "SPEAKERS"
+#define TABLE_STATEMENTS "STATEMENTS"
+#define TABLE_SCHEMES "HIGHLIGHT_SCHEMES"
+#define TABLE_SCHEME_PATTERNS "SCHEME_PATTERNS"
+#define TABLE_PATTERNS "PATTERNS"
+#define TABLE_REPLACE_PATTERNS "REPLACE_PATTERNS"
+#define TABLE_STATEMENTS_HISTORY "STATEMENTS_HISTORY"
 
 const QString SMainWinTitle = "";
 const QString SErrWhileDbConnection = "Не удалось подключиться к базе данных";
@@ -66,6 +66,10 @@ const QString SLoadTableResultOK = "Loading table \"%1\"... Success";
 const QString SLoadTableResultFailed = "Loading table \"%1\"... Failed";
 const QString SErrPatternAlreadyAdded = "Шаблон уже присутствует в схеме.";
 const QString SPrmAutosavePeriod = "Частота автосохранения в мин.";
+const QString SChangesAppliesAfterRestart = "Изменения вступят в силу при следующем запуске программы";
+const QString SEnterFileSeparationDelimiter = "Введите разделитель между файлами";
+const QString SSettingEditing = "Редактирование настройки";
+const QString SExportSetting = "Настройка экспорта";
 
 const QString SExportFilePattern = "<html><head></head><body>\r\n%1</body></html>";
 const QString SExportStatementPattern = "<speech %1>%2</speech>\r\n";

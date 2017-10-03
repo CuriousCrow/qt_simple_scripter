@@ -24,6 +24,10 @@ private slots:
 
   void on_btnSubmit_clicked();
 
+  void on_btnAddPattern_clicked();
+
+  void on_btnDeletePattern_clicked();
+
 private:
   static QReplacePatternWindow* singletonWindow;
   QDataModule* dm;

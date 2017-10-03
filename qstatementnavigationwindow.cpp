@@ -1,5 +1,6 @@
 #include "qstatementnavigationwindow.h"
 #include "ui_qstatementnavigationwindow.h"
+#include <QDebug>
 
 QStatementNavigationWindow* QStatementNavigationWindow::singletonWindow = 0;
 
@@ -40,6 +41,6 @@ void QStatementNavigationWindow::on_btnClear_clicked()
 }
 
 void QStatementNavigationWindow::on_lvStatements_doubleClicked(const QModelIndex &index)
-{
-  dm->_mapperStatements->setCurrentModelIndex(dm->mStatementsNavigation->mapToSource(index));
+{  
+  dm->_mapperStatements->setCurrentIndex(dm->mStatementsNavigation->mapToSource(index).row());
 }
