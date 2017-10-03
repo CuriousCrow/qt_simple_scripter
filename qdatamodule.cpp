@@ -235,8 +235,8 @@ bool QDataModule::exportProject()
     return false;
 
   QString multifileDelimiter
-      = QSmartDialog::inputStringDialog("Настройка экспорта",
-                                        "Введите разделитель между файлами");
+      = QSmartDialog::inputStringDialog(SExportSetting,
+                                        SEnterFileSeparationDelimiter);
 
   //Экспорт данных по проектам
   exportSqlTableModel(mProjects, appPath() + DIR_PROJECTS_ROOT + "Projects.txt");
@@ -331,10 +331,10 @@ bool QDataModule::exportSqlTableModel(LSqlTableModel* model, QString outPath)
 bool QDataModule::editSetting(QString settingName, QString caption)
 {
   QString oldValue = setting(settingName,"").toString();
-  QString newValue = QSmartDialog::inputStringDialog("Редактирование настройки", caption, 0, oldValue);
+  QString newValue = QSmartDialog::inputStringDialog(SSettingEditing, caption, 0, oldValue);
   if (!newValue.isEmpty()){
     setSetting(settingName, newValue);
-    QSmartDialog::infoDialog("Изменения вступят в силу при следующем запуске программы");
+    QSmartDialog::infoDialog(SChangesAppliesAfterRestart);
   }
   return !newValue.isEmpty();
 }

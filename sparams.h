@@ -6,6 +6,7 @@
 #include <QList>
 #include <QStringList>
 #include <QVariant>
+#include <QDataStream>
 
 class SParams
 {
