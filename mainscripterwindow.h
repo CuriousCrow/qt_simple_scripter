@@ -53,6 +53,8 @@ private slots:
   void onProjectLoaded();
   void on_aWhatsThis_triggered();
 
+  void on_aExecuteScript_triggered();
+
 private:
   Ui::MainScripterWindow *ui;
   QString baseWindowTitle;

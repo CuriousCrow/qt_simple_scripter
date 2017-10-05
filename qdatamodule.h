@@ -147,7 +147,9 @@ public:
   void saveLastStatement();
   void loadLastStatement();
 
-  int nextId(QString sequenceName);
+  qlonglong nextId(QString sequenceName);
+  bool execSql(const QString &sql);
+  bool execSqlScript(QString script);
 
   //Импорт проекта из файла
   bool importProject(QString importPath);
@@ -169,6 +171,9 @@ private:
   QTimer* timer;  
   bool initDatabase();
   bool loadModels();
+  bool startTransaction();
+  bool commitTransaction();
+  bool rollbackTransaction();
   bool loadModel(LSqlTableModel* model, QString table, QString sequence = "");
   int getLastRecordId(LSqlTableModel* model);
   void setTableHeaders(QSqlTableModel* table, QStringList headers);

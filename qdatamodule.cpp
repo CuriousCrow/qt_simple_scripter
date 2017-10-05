@@ -139,7 +139,7 @@ void QDataModule::loadLastStatement()
   }
 }
 
-int QDataModule::nextId(QString sequenceName)
+qlonglong QDataModule::nextId(QString sequenceName)
 {
     QString sql = "select GEN_ID(%1, 1) from rdb$database";
     QSqlQuery query = QSqlQuery(db);
@@ -148,7 +148,37 @@ int QDataModule::nextId(QString sequenceName)
         throw query.lastError().text();
     }
     query.next();
-    return query.value(0).toInt();
+    return query.value(0).toLongLong();
+}
+
+bool QDataModule::execSql(const QString &sql)
+{
+  qDebug() << "SQL:" << sql;
+  QSqlError error = db.exec(sql).lastError();
+  if (error.isValid()) {
+    qDebug() << "Sql error:" << error.databaseText();
+    return false;
+  }
+  qDebug() << "Succesfully executed!";
+  return true;
+}
+
+bool QDataModule::execSqlScript(QString script)
+{
+  if (!startTransaction()) {
+    qWarning() << "Transaction begin fails";
+    return false;
+  }
+  QStringList queries = QTextProcessor::splitSqlScript(script);
+  foreach (QString query, queries) {
+    query.replace("[semicolon]", ";");
+    if (!execSql(query)) {
+      rollbackTransaction();
+      return false;
+    }
+  }
+  commitTransaction();
+  return true;
 }
 
 bool QDataModule::importProject(QString importPath)
@@ -381,6 +411,7 @@ bool QDataModule::loadModels()
     result = result && loadModel(mSchemePatterns, TABLE_SCHEME_PATTERNS, "GEN_SCHEME_PATTERNS_ID");
 
     mReplacePatterns = new LSqlTableModel(this, db);
+    mReplacePatterns->setSort("priority", Qt::AscendingOrder);
     result = result && loadModel(mReplacePatterns, TABLE_REPLACE_PATTERNS, "GEN_REPLACE_PATTERNS_ID");
 
     mSpeakers = new QUserSqlTableModel(this, db);
@@ -415,6 +446,27 @@ bool QDataModule::loadModels()
     return true;
 }
 
+bool QDataModule::startTransaction()
+{
+  bool result = db.transaction();
+  qDebug() << "START TRANSACTION" << result;
+  return result;
+}
+
+bool QDataModule::commitTransaction()
+{
+  bool result = db.commit();
+  qDebug() << "COMMIT TRANSACTION" << result;
+  return result;
+}
+
+bool QDataModule::rollbackTransaction()
+{
+  bool result = db.rollback();
+  qDebug() << "ROLLBACK TRANSACTION" << result;
+  return result;
+}
+
 bool QDataModule::loadModel(LSqlTableModel* model, QString table, QString sequence)
 {
   bool result = false;
@@ -446,6 +498,7 @@ void QDataModule::setTableHeaders(QSqlTableModel *table, QStringList headers)
 
 QString QDataModule::processByReplacePatterns(QString statement, int patternType)
 {
+//  qDebug() << statement;
   QSqlRecord patternRec;
   QString result = statement;
   QRegExp rx;
@@ -455,6 +508,7 @@ QString QDataModule::processByReplacePatterns(QString statement, int patternType
       rx.setPattern(patternRec.value(SColRegexp).toString());
       QString pattern = patternRec.value(SColPattern).toString();
       result = result.replace(rx, pattern);
+//      qDebug() << result;
     }
   }
   return result;

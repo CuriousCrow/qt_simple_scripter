@@ -21,6 +21,7 @@ public:
   static QString loadEditorTypes();
   static QString configDir();
   static QString editorScript();
+  static QStringList splitSqlScript(QString script);
   static QSettings* settings(QWidget* parent = 0);
 private:
   static QSettings* _settings;
