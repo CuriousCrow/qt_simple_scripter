@@ -263,6 +263,7 @@
     <addaction name="aReplacePatterns"/>
     <addaction name="separator"/>
     <addaction name="aTestPattern"/>
+    <addaction name="aExecuteScript"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -340,6 +341,11 @@
    </property>
    <property name="shortcutContext">
     <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="aExecuteScript">
+   <property name="text">
+    <string>Выполнить SQL скрипт</string>
    </property>
   </action>
  </widget>

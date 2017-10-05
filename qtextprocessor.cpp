@@ -123,6 +123,33 @@ QString QTextProcessor::editorScript()
   return fileToString(configDir() + FILE_EDITOR_SCRIPT);
 }
 
+QStringList QTextProcessor::splitSqlScript(QString script)
+{
+  QStringList result;
+  QString semicolonless;
+  bool inQuotes = false;
+  foreach (QChar chr, script) {
+    if (chr == '\'') {
+      inQuotes = !inQuotes;
+    }
+    else if (chr == ';') {
+      if (inQuotes) {
+        semicolonless += "[semicolon]";
+        continue;
+      }
+    }
+    semicolonless.append(chr);
+  }
+  qDebug() << semicolonless;
+  foreach (QString item, semicolonless.split(";", QString::SkipEmptyParts)) {
+    item = item.trimmed();
+    if (item.isEmpty())
+      continue;
+    result.append(item.replace("[semicolon]", ";"));
+  }
+  return result;
+}
+
 QSettings *QTextProcessor::settings(QWidget *parent)
 {
   if (!_settings){

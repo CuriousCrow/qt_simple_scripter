@@ -50,6 +50,7 @@ void QReplacePatternWindow::on_btnClose_clicked()
 void QReplacePatternWindow::on_btnSubmit_clicked()
 {
   dm->mReplacePatterns->submitAll();
+  dm->mReplacePatterns->select();
 }
 
 void QReplacePatternWindow::on_btnAddPattern_clicked()
