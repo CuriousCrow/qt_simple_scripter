@@ -3,7 +3,7 @@
 
 #include "qbasewindow.h"
 #include "qdatamodule.h"
-#include "sparams.h"
+#include "utils/sparams.h"
 #include <QDataWidgetMapper>
 #include <QMenu>
 #include "qspeakerwindow.h"

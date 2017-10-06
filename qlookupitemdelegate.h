@@ -2,7 +2,7 @@
 #define QLOOKUPITEMDELEGATE_H
 
 #include <QItemDelegate>
-#include <qusersqltablemodel.h>
+#include "models/qusersqltablemodel.h"
 
 class QLookupItemDelegate : public QItemDelegate
 {

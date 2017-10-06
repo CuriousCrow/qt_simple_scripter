@@ -4,7 +4,7 @@
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QFileDialog>
-#include <qsmartdialog.h>
+#include "widgets/qsmartdialog.h"
 
 QProjectListWindow* QProjectListWindow::singletonWindow = 0;
 

@@ -6,7 +6,7 @@
 #include <QApplication>
 #include <QFile>
 #include <QSettings>
-#include "sparams.h"
+#include "utils/sparams.h"
 
 class QTextProcessor : public QObject
 {

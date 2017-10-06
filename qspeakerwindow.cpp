@@ -7,7 +7,7 @@
 #include <QSqlQuery>
 #include <QInputDialog>
 #include <QMessageBox>
-#include <qsmartdialog.h>
+#include "widgets/qsmartdialog.h"
 
 #define WARN_CHOOSE_SPEAKER "Для автосвязывания необходимо сначала выбрать говорящего"
 #define INPUT_SPEAKER_PATTERN "Задайте регулярное выражение соответвующее говорящему \"%1\""

@@ -11,11 +11,11 @@
 #include <QSqlError>
 #include <QTimer>
 #include <QSettings>
-#include "qusersqltablemodel.h"
+#include "models/qusersqltablemodel.h"
 #include <QSortFilterProxyModel>
-#include <qstatementmodel.h>
-#include "qstatementfiltermodel.h"
-#include <sparams.h>
+#include "models/qstatementmodel.h"
+#include "models/qstatementfiltermodel.h"
+#include "utils/sparams.h"
 
 #define MAX_STATEMENT_LENGTH 3500
 #define DB_VERSION_TABLE "SYS_PARAMS"

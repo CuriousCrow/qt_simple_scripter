@@ -8,8 +8,8 @@
 #include <QDir>
 #include "qtextprocessor.h"
 #include <QTextCodec>
-#include "qdatabaseupdater.h"
-#include <qsmartdialog.h>
+#include "utils/qdatabaseupdater.h"
+#include "widgets/qsmartdialog.h"
 
 QDataModule* QDataModule::_dm = 0;
 
