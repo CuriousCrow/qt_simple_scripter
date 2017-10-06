@@ -12,7 +12,7 @@
 #include "../../../Qt/QCheckboxCombo/trunk/qcheckboxcombo.h"
 #include <QDataWidgetMapper>
 #include <QScriptEngine>
-#include "sparams.h"
+#include "utils/sparams.h"
 
 namespace Ui {
 class QProjectEditWindow;

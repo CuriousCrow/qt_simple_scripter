@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QTextBrowser>
 #include "qstatementhistorydialog.h"
-#include "qsmartdialog.h"
+#include "widgets/qsmartdialog.h"
 #include "qstatementnavigationwindow.h"
 #include "qtwovaluesinputdialog.h"
 

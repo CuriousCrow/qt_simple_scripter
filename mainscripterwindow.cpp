@@ -4,7 +4,7 @@
 #include "qdatamodule.h"
 #include <QFileDialog>
 #include <QDebug>
-#include "qsmartdialog.h"
+#include "widgets/qsmartdialog.h"
 
 MainScripterWindow::MainScripterWindow(QWidget *parent) :
   QMainWindow(parent),

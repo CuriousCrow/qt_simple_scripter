@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QSqlDriver>
 #include <QSqlTableModel>
-#include <qsmartdialog.h>
+#include "widgets/qsmartdialog.h"
 
 QPatternSchemeWindow* QPatternSchemeWindow::singletonWindow = 0;
 
