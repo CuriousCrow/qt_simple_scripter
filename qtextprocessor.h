@@ -5,7 +5,6 @@
 #include <QProcess>
 #include <QApplication>
 #include <QFile>
-#include <QSettings>
 #include "utils/sparams.h"
 
 class QTextProcessor : public QObject
@@ -22,9 +21,8 @@ public:
   static QString configDir();
   static QString editorScript();
   static QStringList splitSqlScript(QString script);
-  static QSettings* settings(QWidget* parent = 0);
 private:
-  static QSettings* _settings;
+
 signals:
 
 public slots:

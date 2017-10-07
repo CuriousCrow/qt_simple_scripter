@@ -1,37 +1,19 @@
 #ifndef APPCONST_H
 #define APPCONST_H
 
-#define CONNECTION_NAME "mainDB"
-
-#define GR_FIELD_PART_OF_SPEECH "PART_OF_SPEECH"
-#define GR_VAL_NOUN 1
-#define GR_VAL_ADJECTIVE 2
-#define GR_VAL_NUMERAL 4
-#define GR_VAL_NUMERAL_ADJECTIVE 8
-#define GR_VAL_VERB 16
-#define GR_VAL_PREDICATE 32
-#define GR_VAL_INTRODUCTION 64
-#define GR_VAL_PRONOMINAL_NOUN 128
-#define GR_VAL_PRONOMINAL_ADJECTIVE 256
-#define GR_VAL_PRONOMINAL_PREDICATE 512
-#define GR_VAL_PRONOMINAL_ADVERB 1024
-#define GR_VAL_PREPOSITION 2048
-#define GR_VAL_CONJUNCTION 4096
-#define GR_VAL_PARTICLE 8192
-#define GR_VAL_INTERJECTION 16384
-
-#define GR_FIELD_CASE "CASE"
-#define GR_FIELD_NUMBER "NUMBER"
-#define GR_FIELD_GENDER "GENDER"
-#define GR_FIELD_ANIMACY "ANIMACY"
-#define GR_FIELD_MOOD "MOOD"
-#define GR_FIELD_TENSE "TENSE"
-#define GR_FIELD_PERSON "PERSON"
-#define GR_FIELD_VOICE "VOICE"
-#define GR_FIELD_PERFECTION "PERFECTION"
-#define GR_FIELD_COMP_DEGREE "COMPARATIVE_DEGREE"
-#define GR_FIELD_TRANSITIVITY "TRANSITIVITY"
-#define GR_FIELD_PROPER_NAME "PROPER_NAME"
-#define GR_FIELD_OTHER "OTHER"
+#define S_ID "ID"
+#define S_HEADER "Заголовок"
+#define S_PATH "Путь"
+#define S_AUTHOR "Автор"
+#define S_SEX "Пол"
+#define S_BIRTH_YEAR "Год рождения"
+#define S_CREATE_YEAR "Год создания"
+#define S_SPHERE "Сфера"
+#define S_TEXT_TYPE "Тип текста"
+#define S_TOPIC "Тематика"
+#define S_STYLE "Стиль"
+#define S_AUDIENCE_AGE "Возраст аудитории"
+#define S_AUDIENCE_EDUCATION "Уровень аудитории"
+#define S_AUDIENCE_SIZE "Размер аудитории"
 
 #endif // APPCONST_H

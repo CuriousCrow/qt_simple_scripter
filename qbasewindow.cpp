@@ -3,6 +3,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QDebug>
+#include "utils/appsettings.h"
 
 QBaseWindow::QBaseWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -29,23 +30,17 @@ void QBaseWindow::setTitle(QString title)
 
 void QBaseWindow::loadSettings()
 {
-  QSettings* settings = QTextProcessor::settings();
-  settings->beginGroup("Forms");
-  if (settings->contains(objectName())){
-    setGeometry(settings->value(objectName()).toRect());    
+  if (AppSettings::contains(SECTION_FORMS, objectName())){
+    setGeometry(AppSettings::val(SECTION_FORMS, objectName()).toRect());
   }
   else {
     moveToScreenCenter();
   }
-  settings->endGroup();
 }
 
 void QBaseWindow::saveSettings()
 {
-  QSettings* settings = QTextProcessor::settings();
-  settings->beginGroup("Forms");
-  settings->setValue(objectName(), geometry());  
-  settings->endGroup();
+  AppSettings::setVal(SECTION_FORMS, objectName(), geometry());
 }
 
 void QBaseWindow::moveToScreenCenter()
