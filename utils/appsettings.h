@@ -4,21 +4,15 @@
 #include <QSettings>
 
 #define SECTION_DATABASE "database"
-#define PRM_TYPE "type"
 #define PRM_HOST "host"
 #define PRM_PORT "port"
 #define PRM_DATABASE_NAME "name"
 #define PRM_USERNAME "username"
 #define PRM_PASSWORD "password"
-#define PRM_BASE_IMPORT_PATH "baseImportPath"
-
-#define SECTION_IMPORT "import"
-#define PRM_DELIMITER "delimiter"
-#define PRM_EOL "\r\n"
 
 #define SECTION_GENERAL "common"
-#define PRM_GRAMMAR_SUPPORT "grammarSupport"
-#define PRM_BASE_MEDIA_PATH "baseMediaPath"
+
+#define SECTION_FORMS "Forms"
 
 #define SECTION_LOGGER "logger"
 #define PRM_LOG_FILE "logFile"
@@ -33,14 +27,20 @@ class AppSettings
 public:
     AppSettings();
     static bool contains(QString section, QString name);
-    static QVariant val(QString name, QVariant defValue = QVariant());    
+    static QVariant val(QString section, QString param, QVariant defValue = QVariant());
+    static QVariant val(QString key, QVariant defValue = QVariant());
+    static void setVal(QString key, QVariant val);
+    static void setVal(QString section, QString param, QVariant val);
     static QString strVal(QString section, QString name, QVariant defValue = QVariant());
     static int intVal(QString section, QString name, QVariant defValue = QVariant());
     static bool boolVal(QString section, QString name, QVariant defValue = QVariant());
+    static void remove(const QString &key);
     static QString applicationPath();
+    static QString applicationName();
     static void sync();
 private:
     static QSettings* _settings;
+    static void init();
 };
 
 #endif // APPSETTINGS_H

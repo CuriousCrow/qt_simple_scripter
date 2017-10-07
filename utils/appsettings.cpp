@@ -4,16 +4,31 @@
 
 QSettings* AppSettings::_settings = 0;
 
-QVariant AppSettings::val(QString name, QVariant defValue)
+QVariant AppSettings::val(QString key, QVariant defValue)
 {
-    if (!_settings) {
-        QString settingsPath = QApplication::applicationDirPath() + "/localmediacorpus.ini";
-        qDebug() << "Loading settings: " + settingsPath;
-        _settings = new QSettings(settingsPath, QSettings::IniFormat);
-    }
-    QVariant res = _settings->value(name, defValue);
-    qDebug() << name << res;
-    return res;
+  if (!_settings)
+    init();
+  QVariant res = _settings->value(key, defValue);
+  qDebug() << "Load:" << key << res;
+  return res;
+}
+
+QVariant AppSettings::val(QString section, QString param, QVariant defValue)
+{
+  return val(section + "/" + param, defValue);
+}
+
+void AppSettings::setVal(QString key, QVariant val)
+{
+  if (!_settings)
+    init();
+  _settings->setValue(key, val);
+  qDebug() << "Save:" << key << val;
+}
+
+void AppSettings::setVal(QString section, QString param, QVariant val)
+{
+  setVal(section + "/" + param, val);
 }
 
 QString AppSettings::strVal(QString section, QString name, QVariant defValue)
@@ -40,15 +55,35 @@ bool AppSettings::boolVal(QString section, QString name, QVariant defValue)
     return val(fullName, defValue).toBool();
 }
 
+void AppSettings::remove(const QString &key)
+{
+  if (!_settings)
+    init();
+  _settings->remove(key);
+}
+
 QString AppSettings::applicationPath()
 {
-    return QApplication::applicationDirPath() + "/";
+  return QApplication::applicationDirPath() + "/";
+}
+
+QString AppSettings::applicationName()
+{
+  return QApplication::applicationName();
 }
 
 void AppSettings::sync()
 {
-    val("");
+    if (!_settings)
+      init();
     _settings->sync();
+}
+
+void AppSettings::init()
+{
+  QString settingsPath = applicationPath() + applicationName() + ".ini";
+  qDebug() << "Loading settings: " + settingsPath;
+  _settings = new QSettings(settingsPath, QSettings::IniFormat);
 }
 
 AppSettings::AppSettings(){}
@@ -56,7 +91,7 @@ AppSettings::AppSettings(){}
 bool AppSettings::contains(QString section, QString name)
 {
     if (!_settings)
-        val("");
+      init();
     QString fullName = name;
     if (!section.isEmpty())
         fullName.prepend(section + "/");

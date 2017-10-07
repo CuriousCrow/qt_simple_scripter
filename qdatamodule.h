@@ -115,8 +115,8 @@ public:
 
   static QDataModule* _dm;
   static QDataModule* dm(QObject* parent = 0);
-  static QVariant setting(QString key, QVariant defValue);
-  static void setSetting(QString key, QVariant value);
+//  static QVariant setting(QString key, QVariant defValue);
+//  static void setSetting(QString key, QVariant value);
 
   static const int PT_IMPORT = 1;
   static const int PT_EXPORT = 2;
@@ -138,7 +138,7 @@ public:
   QString newStatementText;
   QString projectTitle;
 
-  QString appPath(){ return _appPath + "/"; }
+  QString appPath();
 
   void loadProjectData(int id);
   bool saveProjectData();

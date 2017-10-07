@@ -10,6 +10,8 @@
 #include <QTextCodec>
 #include "utils/qdatabaseupdater.h"
 #include "widgets/qsmartdialog.h"
+#include "utils/appsettings.h"
+#include "utils/appconst.h"
 
 QDataModule* QDataModule::_dm = 0;
 
@@ -22,7 +24,7 @@ QDataModule::QDataModule(QObject *parent) :
   QTimer* timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(on_autosave_timeout()));
   //Запуск таймера автосохранения
-  timer->start(1000 * 60 * setting(SETTING_AUTOSAVE, SETTING_AUTOSAVE_DEF_VAL).toInt());
+  timer->start(1000 * 60 * AppSettings::intVal("", SETTING_AUTOSAVE, SETTING_AUTOSAVE_DEF_VAL));
 
   //Инициализация подключения к БД
   if (!initDatabase()){
@@ -53,17 +55,22 @@ QDataModule *QDataModule::dm(QObject* parent)
   return _dm;
 }
 
-QVariant QDataModule::setting(QString key, QVariant defValue)
-{
-  QVariant settingVal = QTextProcessor::settings()->value(key, defValue);
-  qDebug() << "Setting" << key << ":" << settingVal;
-  return settingVal;
-}
+//QVariant QDataModule::setting(QString key, QVariant defValue)
+//{
+//  QVariant settingVal = QTextProcessor::settings()->value(key, defValue);
+//  qDebug() << "Setting" << key << ":" << settingVal;
+//  return settingVal;
+//}
 
-void QDataModule::setSetting(QString key, QVariant value)
+//void QDataModule::setSetting(QString key, QVariant value)
+//{
+//  qDebug() << "Setting" << key << "has new value" << value;
+//  QTextProcessor::settings()->setValue(key, value);
+//}
+
+QString QDataModule::appPath()
 {
-  qDebug() << "Setting" << key << "has new value" << value;
-  QTextProcessor::settings()->setValue(key, value);
+  return AppSettings::applicationPath();
 }
 
 void QDataModule::loadProjectData(int id)
@@ -110,32 +117,24 @@ void QDataModule::saveLastStatement()
 {
   //Сохранение номера последней записи
   if (projectId > 0){
-    QSettings* settings = QTextProcessor::settings();
-    settings->beginGroup(SETTING_GROUP_PROJECTS);
-      settings->beginGroup(SETTING_PROJECT_PREFIX + QString::number(projectId));
-        settings->setValue(SETTING_LAST_STATEMENT, _mapperStatements->currentIndex());
-        qDebug() << _mapperStatements->currentIndex();
-        settings->setValue(SETTING_TITLE, projectTitle);
-      settings->endGroup();
-    settings->endGroup();
+    QString section = SETTING_GROUP_PROJECTS "\\" SETTING_PROJECT_PREFIX + QString::number(projectId);
+    AppSettings::setVal(section, SETTING_LAST_STATEMENT, _mapperStatements->currentIndex());
+    AppSettings::setVal(section, SETTING_TITLE, projectTitle);
   }
 }
 
 void QDataModule::loadLastStatement()
 {
   if (projectId > 0){
-    QSettings* settings = QTextProcessor::settings();
-    settings->beginGroup(SETTING_GROUP_PROJECTS);
-      settings->beginGroup(SETTING_PROJECT_PREFIX + QString::number(projectId));
-        int lastStatement = settings->value(SETTING_LAST_STATEMENT, 0).toInt();
-        if (lastStatement >= 0){
-          _mapperStatements->setCurrentIndex(lastStatement);
-        }
-        else {
-          _mapperStatements->toLast();
-        }
-      settings->endGroup();
-    settings->endGroup();
+    QString section = SETTING_GROUP_PROJECTS "\\" SETTING_PROJECT_PREFIX + QString::number(projectId);
+
+    int lastStatement = AppSettings::intVal(section, SETTING_LAST_STATEMENT, 0);
+    if (lastStatement >= 0){
+      _mapperStatements->setCurrentIndex(lastStatement);
+    }
+    else {
+      _mapperStatements->toLast();
+    }
   }
 }
 
@@ -217,7 +216,7 @@ bool QDataModule::importProject(QString importPath)
 
   bool submitted = true;
 
-  QString headerDelimiter = setting(SETTING_HEADER_DELIMITER, SETTING_HEADER_DELIMITER_DEF_VAL).toString();
+  QString headerDelimiter = AppSettings::strVal("", SETTING_HEADER_DELIMITER, SETTING_HEADER_DELIMITER_DEF_VAL);
 
   foreach(QString rawLine, textLines){
     QStringList statementList
@@ -243,9 +242,8 @@ bool QDataModule::deleteProject(int row)
   bool result = mProjects->removeRow(row);
   if (result){
     //Удаление информации о проекте из настроек
-    QSettings* settings = QTextProcessor::settings();
-    QString groupName = "projects/project" + QString::number(projectToBeDeleted);
-    settings->remove(groupName);
+    QString section = "projects/project" + QString::number(projectToBeDeleted);
+    AppSettings::remove(section);
   }
   if (result && (projectToBeDeleted == projectId))
     loadProjectData(0);
@@ -360,10 +358,10 @@ bool QDataModule::exportSqlTableModel(LSqlTableModel* model, QString outPath)
 
 bool QDataModule::editSetting(QString settingName, QString caption)
 {
-  QString oldValue = setting(settingName,"").toString();
+  QString oldValue = AppSettings::val(settingName).toString();
   QString newValue = QSmartDialog::inputStringDialog(SSettingEditing, caption, 0, oldValue);
   if (!newValue.isEmpty()){
-    setSetting(settingName, newValue);
+    AppSettings::setVal(settingName, newValue);
     QSmartDialog::infoDialog(SChangesAppliesAfterRestart);
   }
   return !newValue.isEmpty();
@@ -371,7 +369,7 @@ bool QDataModule::editSetting(QString settingName, QString caption)
 
 bool QDataModule::initDatabase()
 {
-  QString dbPath = setting(SETTING_DATABASE, "Scripter.fdb").toString();
+  QString dbPath = AppSettings::strVal("", SETTING_DATABASE, "Scripter.fdb");
   qDebug() << dbPath;
   db = QSqlDatabase::addDatabase("QIBASE");
   db.setDatabaseName(dbPath);
@@ -389,10 +387,9 @@ bool QDataModule::loadModels()
     QStringList titles;
 
     mProjects = new LSqlTableModel(this, db);    
-    titles << "ID" << "Заголовок" << "Путь" << "Автор" <<
-              "Пол" << "Год рождения" << "Год создания" << "Сфера" <<
-              "Тип текста" << "Тематика" << "Стиль" << "Возраст аудитории" <<
-              "Уровень аудитории" << "Размер аудитории";
+    titles << S_ID << S_HEADER << S_PATH << S_AUTHOR << S_SEX << S_BIRTH_YEAR <<
+           S_CREATE_YEAR << S_SPHERE << S_TEXT_TYPE << S_TOPIC << S_STYLE <<
+           S_AUDIENCE_AGE << S_AUDIENCE_EDUCATION << S_AUDIENCE_SIZE;
 
     mProjects->setHeaders(titles);
     mProjects->setFilter("id>0");

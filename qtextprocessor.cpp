@@ -12,8 +12,6 @@
 #define FILE_EDITOR_SCRIPT "editors.script"
 #define FILE_SETTINGS "QtSimpleScripter.ini"
 
-QSettings* QTextProcessor::_settings = 0;
-
 QTextProcessor::QTextProcessor(QObject *parent) :
   QObject(parent)
 {
@@ -148,12 +146,4 @@ QStringList QTextProcessor::splitSqlScript(QString script)
     result.append(item.replace("[semicolon]", ";"));
   }
   return result;
-}
-
-QSettings *QTextProcessor::settings(QWidget *parent)
-{
-  if (!_settings){
-    _settings = new QSettings("QtSimpleScripter.ini", QSettings::IniFormat, (QObject*)parent);
-  }
-  return _settings;
 }
