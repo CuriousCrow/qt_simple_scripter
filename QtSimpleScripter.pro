@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     models/qstatementfiltermodel.cpp \
     utils/appsettings.cpp \
     utils/qsqlqueryhelper.cpp \
-    utils/slogger.cpp
+    utils/slogger.cpp \
+    utils/qfileutils.cpp
 
 HEADERS  += \
     qdatamodule.h \
@@ -79,7 +80,8 @@ HEADERS  += \
     utils/appconst.h \
     utils/appsettings.h \
     utils/qsqlqueryhelper.h \
-    utils/slogger.h
+    utils/slogger.h \
+    utils/qfileutils.h
 
 FORMS    += \
     qstatementwindow.ui \

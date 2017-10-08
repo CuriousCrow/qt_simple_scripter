@@ -178,7 +178,7 @@ private:
   int getLastRecordId(LSqlTableModel* model);
   void setTableHeaders(QSqlTableModel* table, QStringList headers);
   //Применение шаблонов замены к строке
-  QString processByReplacePatterns(QString statement, int patternType);
+  QString processByReplacePatterns(QString statement, int patternType, bool logging);
 signals:
   void projectLoaded(int oldProjecId, int newProjectId);
 private slots:

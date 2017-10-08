@@ -12,6 +12,7 @@
 #include "widgets/qsmartdialog.h"
 #include "utils/appsettings.h"
 #include "utils/appconst.h"
+#include "utils/qsqlqueryhelper.h"
 
 QDataModule* QDataModule::_dm = 0;
 
@@ -181,7 +182,7 @@ bool QDataModule::execSqlScript(QString script)
 }
 
 bool QDataModule::importProject(QString importPath)
-{
+{    
   //Грузим пустой проект, чтобы очистить модели
   loadProjectData(0);
 
@@ -222,7 +223,7 @@ bool QDataModule::importProject(QString importPath)
     QStringList statementList
         = QTextProcessor::splitStringBySize(rawLine, MAX_STATEMENT_LENGTH, ".", headerDelimiter);
     foreach(QString statement, statementList){
-      newStatementText = processByReplacePatterns(statement.trimmed(), PT_IMPORT);
+      newStatementText = processByReplacePatterns(statement.trimmed(), PT_IMPORT, false);
       submitted &= mStatements->insertRow(mStatements->rowCount());
       if (!submitted){
         return false;
@@ -275,7 +276,7 @@ bool QDataModule::exportProject()
   QSqlRecord* speakerRec;
 
   bool result = true;
-
+  bool detailedLogging = AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_EXPORT_DETAILS, false);
 
   int fileIndex = 1;
   int lastSpeakerId = -1;
@@ -309,7 +310,7 @@ bool QDataModule::exportProject()
           speakerAttrs.setValue("profession", speakerRec->value(SColProfession).toString());
         }
       }
-      resStatement += processByReplacePatterns(statementText, PT_EXPORT);
+      resStatement += processByReplacePatterns(statementText, PT_EXPORT, detailedLogging);
     }
     lastSpeakerId = currSpeakerId;
   }
@@ -378,69 +379,73 @@ bool QDataModule::initDatabase()
 
   bool ok = db.open();
   qDebug() << (ok ? SDbConnectionSuccess : db.lastError().databaseText());
+
+  LSqlTableModel::enableLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
+  QSqlQueryHelper::setLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
+
   return ok;
 }
 
 bool QDataModule::loadModels()
 {
-    bool result = true;
-    QStringList titles;
+  bool result = true;
+  QStringList titles;
 
-    mProjects = new LSqlTableModel(this, db);    
-    titles << S_ID << S_HEADER << S_PATH << S_AUTHOR << S_SEX << S_BIRTH_YEAR <<
-           S_CREATE_YEAR << S_SPHERE << S_TEXT_TYPE << S_TOPIC << S_STYLE <<
-           S_AUDIENCE_AGE << S_AUDIENCE_EDUCATION << S_AUDIENCE_SIZE;
+  mProjects = new LSqlTableModel(this, db);
+  titles << S_ID << S_HEADER << S_PATH << S_AUTHOR << S_SEX << S_BIRTH_YEAR <<
+            S_CREATE_YEAR << S_SPHERE << S_TEXT_TYPE << S_TOPIC << S_STYLE <<
+            S_AUDIENCE_AGE << S_AUDIENCE_EDUCATION << S_AUDIENCE_SIZE;
 
-    mProjects->setHeaders(titles);
-    mProjects->setFilter("id>0");
-    result = result && loadModel(mProjects, TABLE_PROJECTS, "GEN_PROJECTS_ID");
+  mProjects->setHeaders(titles);
+  mProjects->setFilter("id>0");
+  result = result && loadModel(mProjects, TABLE_PROJECTS, "GEN_PROJECTS_ID");
 
-    mPatterns = new LSqlTableModel(this, db);
-    result = result && loadModel(mPatterns, TABLE_PATTERNS, "GEN_PATTERNS_ID");
+  mPatterns = new LSqlTableModel(this, db);
+  result = result && loadModel(mPatterns, TABLE_PATTERNS, "GEN_PATTERNS_ID");
 
-    mSchemes = new LSqlTableModel(this, db);
-    result = result && loadModel(mSchemes, TABLE_SCHEMES, "GEN_HIGHLIGHT_SCHEMES_ID");
+  mSchemes = new LSqlTableModel(this, db);
+  result = result && loadModel(mSchemes, TABLE_SCHEMES, "GEN_HIGHLIGHT_SCHEMES_ID");
 
-    mSchemePatterns = new LSqlTableModel(this, db);
-    mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "NAME");
-    mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "PATTERN");
-    mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "HEXCOLOR");
-    result = result && loadModel(mSchemePatterns, TABLE_SCHEME_PATTERNS, "GEN_SCHEME_PATTERNS_ID");
+  mSchemePatterns = new LSqlTableModel(this, db);
+  mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "NAME");
+  mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "PATTERN");
+  mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "HEXCOLOR");
+  result = result && loadModel(mSchemePatterns, TABLE_SCHEME_PATTERNS, "GEN_SCHEME_PATTERNS_ID");
 
-    mReplacePatterns = new LSqlTableModel(this, db);
-    mReplacePatterns->setSort("priority", Qt::AscendingOrder);
-    result = result && loadModel(mReplacePatterns, TABLE_REPLACE_PATTERNS, "GEN_REPLACE_PATTERNS_ID");
+  mReplacePatterns = new LSqlTableModel(this, db);
+  mReplacePatterns->setSort("priority", Qt::AscendingOrder);
+  result = result && loadModel(mReplacePatterns, TABLE_REPLACE_PATTERNS, "GEN_REPLACE_PATTERNS_ID");
 
-    mSpeakers = new QUserSqlTableModel(this, db);
-    mSpeakers->setFilter("project_id=0");
-    result = result && loadModel(mSpeakers, TABLE_SPEAKERS, "GEN_SPEAKERS_ID");
+  mSpeakers = new QUserSqlTableModel(this, db);
+  mSpeakers->setFilter("project_id=0");
+  result = result && loadModel(mSpeakers, TABLE_SPEAKERS, "GEN_SPEAKERS_ID");
 
-    mStatements = new QStatementModel(this, db);
-    mStatements->setFilter("project_id=0");
-    mStatements->setLinkField("PARENT_ID");
+  mStatements = new QStatementModel(this, db);
+  mStatements->setFilter("project_id=0");
+  mStatements->setLinkField("PARENT_ID");
 
-    //Прокси-модель реплик для навигации
-    mStatementsNavigation = new QSortFilterProxyModel(this);
-    mStatementsNavigation->setSourceModel(mStatements);       
-    connect(mStatements, SIGNAL(beforeInsert(QSqlRecord&)),
-            this, SLOT(onBeforeStatementInsert(QSqlRecord&)));
-    result = loadModel(mStatements, TABLE_STATEMENTS, "GEN_STATEMENTS_ID");
-    mStatementsNavigation->setFilterKeyColumn(mStatements->columnCount(QModelIndex()) - 1);
-    mStatementsNavigation->setFilterCaseSensitivity(Qt::CaseInsensitive);
+  //Прокси-модель реплик для навигации
+  mStatementsNavigation = new QSortFilterProxyModel(this);
+  mStatementsNavigation->setSourceModel(mStatements);
+  connect(mStatements, SIGNAL(beforeInsert(QSqlRecord&)),
+          this, SLOT(onBeforeStatementInsert(QSqlRecord&)));
+  result = loadModel(mStatements, TABLE_STATEMENTS, "GEN_STATEMENTS_ID");
+  mStatementsNavigation->setFilterKeyColumn(mStatements->columnCount(QModelIndex()) - 1);
+  mStatementsNavigation->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-    //Фильтрованная прокси-модель реплик
-    mStatementsSmartFiltered = new QStatementFilterModel(this);
-    mStatementsSmartFiltered->setSourceModel(mStatements);
-    mStatementsSmartFiltered->setModel(mSchemePatterns);
-    mStatementsSmartFiltered->setFilterKeyColumn(mStatements->fieldIndex("STATEMENT"));
+  //Фильтрованная прокси-модель реплик
+  mStatementsSmartFiltered = new QStatementFilterModel(this);
+  mStatementsSmartFiltered->setSourceModel(mStatements);
+  mStatementsSmartFiltered->setModel(mSchemePatterns);
+  mStatementsSmartFiltered->setFilterKeyColumn(mStatements->fieldIndex("STATEMENT"));
 
-    _mapperStatements = new QDataWidgetMapper(this);
-    _mapperStatements->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+  _mapperStatements = new QDataWidgetMapper(this);
+  _mapperStatements->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    mStatementHistory = new LSqlTableModel(this, db);
-    mStatementHistory->setTable(TABLE_STATEMENTS_HISTORY);
+  mStatementHistory = new LSqlTableModel(this, db);
+  mStatementHistory->setTable(TABLE_STATEMENTS_HISTORY);
 
-    return true;
+  return true;
 }
 
 bool QDataModule::startTransaction()
@@ -493,9 +498,10 @@ void QDataModule::setTableHeaders(QSqlTableModel *table, QStringList headers)
     }
 }
 
-QString QDataModule::processByReplacePatterns(QString statement, int patternType)
+QString QDataModule::processByReplacePatterns(QString statement, int patternType, bool logging)
 {
-//  qDebug() << statement;
+  if (logging)
+    qDebug() << "Initial statement:" << statement;
   QSqlRecord patternRec;
   QString result = statement;
   QRegExp rx;
@@ -505,9 +511,12 @@ QString QDataModule::processByReplacePatterns(QString statement, int patternType
       rx.setPattern(patternRec.value(SColRegexp).toString());
       QString pattern = patternRec.value(SColPattern).toString();
       result = result.replace(rx, pattern);
-//      qDebug() << result;
+      if (logging)
+        qDebug() << "Processing step" << row + 1 << ":" << result;
     }
   }
+  if (logging)
+    qDebug() << "Result statement:" << result;
   return result;
 }
 

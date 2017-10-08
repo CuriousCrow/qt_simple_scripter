@@ -16,4 +16,9 @@
 #define S_AUDIENCE_EDUCATION "Уровень аудитории"
 #define S_AUDIENCE_SIZE "Размер аудитории"
 
+#define DEF_LOG_DIR "logs"
+#define DEF_LOG_EXT ".log"
+
+#define PATH_DELIMITER "/"
+
 #endif // APPCONST_H

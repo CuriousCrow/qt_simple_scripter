@@ -21,6 +21,10 @@
 #define PRM_LOG_FATAL "logFatal"
 #define PRM_LOG_WARNING "logWarning"
 #define PRM_LOG_FILTER "filter"
+#define PRM_LOG_EVENT_TIME "logEventTime"
+#define PRM_LOG_SQL "logSql"
+#define PRM_LOG_EXPORT_DETAILS "logExportDetails"
+
 
 class AppSettings
 {
