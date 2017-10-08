@@ -3,27 +3,17 @@
 #include <QRegExp>
 #include <QSqlRecord>
 
-QSqlQueryHelper::QSqlQueryHelper()
-{
-
-}
-
-QSqlQueryHelper::~QSqlQueryHelper()
-{
-
-}
+bool QSqlQueryHelper::_logging = false;
 
 QSqlQuery QSqlQueryHelper::execSql(QString sql, QString connectionName)
 {
-#ifdef DEBUG_SQL
-  qDebug() << QString("SQL(%1): %2").arg(connectionName).arg(sql);
-#endif
-  QSqlQuery sqlResult = QSqlDatabase::database(connectionName).exec(sql);
-#ifdef DEBUG_SQL
-  if (sqlResult.lastError().isValid()){
+  if (_logging)
+    qDebug() << QString("SQL(%1): %2").arg(connectionName).arg(sql);
+
+  QSqlQuery sqlResult = QSqlDatabase::database(connectionName).exec(sql);  
+  if (sqlResult.lastError().isValid() && _logging){
     qWarning() << "Error" << sqlResult.lastError().text();
   }
-#endif
   return sqlResult;
 }
 
@@ -87,5 +77,10 @@ void QSqlQueryHelper::fillObjectFromRecord(QObject *object, QSqlRecord &rec)
 
     object->setProperty(qPrintable(rec.fieldName(i)), rec.value(i));
   }
+}
+
+void QSqlQueryHelper::setLogging(bool enable)
+{
+  _logging = enable;
 }
 

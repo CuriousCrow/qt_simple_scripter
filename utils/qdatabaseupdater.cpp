@@ -3,25 +3,26 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QDateTime>
+#include "slogger.h"
 
 
 
 bool QDatabaseUpdater::updateDatabase(QSqlDatabase db, QString versionTable, QString versionField)
 {
-  log(SMsgUpdateIsStarting);
+  qWarning() << SMsgUpdateIsStarting;
   int currentVersion = getDbVersion(db, versionTable, versionField);
-  log(SMsgCurrentDbVersion.arg(QString::number(currentVersion)));
+  qWarning() << SMsgCurrentDbVersion.arg(QString::number(currentVersion));
   QStringList queryList = initializeUpdateScript();
   while (currentVersion < queryList.size()){
     QSqlQuery query = db.exec(queryList.at(currentVersion));
     if (query.lastError().type() != QSqlError::NoError){
-      log(SErrCantUpdateToVer.arg(QString::number(currentVersion + 1)));
+      qFatal(qPrintable(SErrCantUpdateToVer.arg(QString::number(currentVersion + 1))));
       return false;
     }
     setDbVersion(db, versionTable, versionField, ++currentVersion);
-    log(SMsgDbUpdatedToVersion.arg(QString::number(currentVersion)));
+    qWarning() << SMsgDbUpdatedToVersion.arg(QString::number(currentVersion));
   }
-  log(SMsgUpdateCompleted);
+  qWarning() << SMsgUpdateCompleted;
   return true;
 }
 
@@ -30,11 +31,11 @@ int QDatabaseUpdater::getDbVersion(QSqlDatabase db, QString versionTable, QStrin
   QString sql = SQL_GET_VERSION;
   QSqlQuery query = db.exec(sql.arg(versionField, versionTable));
   if (query.lastError().type() != QSqlError::NoError){
-    qDebug() << query.lastError().databaseText();
+     ("Error while updating DB: " + query.lastError().databaseText());
     return -1;
   }
   if (!query.next()){
-    log("No record in version table " + versionTable);
+    qFatal(qPrintable("No record in version table " + versionTable));
     return -1;
   }
   return query.value(versionField).toInt();
@@ -66,9 +67,4 @@ QStringList QDatabaseUpdater::initializeUpdateScript()
   //8
   scriptList.append("select * from sys_params");
   return scriptList;
-}
-
-void QDatabaseUpdater::log(QString msg)
-{
-  qDebug() << QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss: ") + msg;
 }

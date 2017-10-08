@@ -57,7 +57,7 @@ void SLogger::logOutput(QtMsgType type, const QMessageLogContext &context, const
 
 void SLogger::setLogToFile(const QString &value)
 {
-    QFileInfo fileInfo(value);
+    QFileInfo fileInfo(value);    
     _logFile = fileInfo.fileName();
     _logDir = fileInfo.path();
 }

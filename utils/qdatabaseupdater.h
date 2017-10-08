@@ -31,8 +31,6 @@ private:
   static void setDbVersion(QSqlDatabase db, QString versionTable, QString versionField, int version);
   //Формирование списка запросов обновления БД
   static QStringList initializeUpdateScript();
-  //Вывод сообщения в лог
-  static void log(QString msg);
 signals:
 
 public slots:
