@@ -56,19 +56,6 @@ QDataModule *QDataModule::dm(QObject* parent)
   return _dm;
 }
 
-//QVariant QDataModule::setting(QString key, QVariant defValue)
-//{
-//  QVariant settingVal = QTextProcessor::settings()->value(key, defValue);
-//  qDebug() << "Setting" << key << ":" << settingVal;
-//  return settingVal;
-//}
-
-//void QDataModule::setSetting(QString key, QVariant value)
-//{
-//  qDebug() << "Setting" << key << "has new value" << value;
-//  QTextProcessor::settings()->setValue(key, value);
-//}
-
 QString QDataModule::appPath()
 {
   return AppSettings::applicationPath();
