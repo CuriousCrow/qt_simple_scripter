@@ -6,9 +6,10 @@
 #include <QDebug>
 
 #define FATAL qFatal() << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
-#define WARNING qWarning() << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
-#define LOG qDebug() << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
-#define INFO qDebug() << "I: " << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
+#define CRITICAL qCritical().noquote() << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
+#define WARNING qWarning().noquote() << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
+#define LOG qDebug().noquote() << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
+#define INFO qDebug().noquote() << "I: " << __FILE__ << "-" << __FUNCTION__ << "(" << __LINE__ << ") |"
 
 class SLogger
 {
