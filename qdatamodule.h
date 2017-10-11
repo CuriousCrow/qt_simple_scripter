@@ -29,8 +29,7 @@
 #define RESULT_SUCCESS "success"
 #define RESULT_FAILED "failed"
 
-#define SETTING_GROUP_PROJECTS "projects"
-#define SETTING_PROJECT_PREFIX "project"
+#define SETTING_PROJECT_GROUP "projects/project"
 #define SETTING_LAST_STATEMENT "lastStatement"
 #define SETTING_TITLE "title"
 #define SETTING_AUTOSAVE "AUTOSAVE_INTERVAL"
@@ -51,6 +50,7 @@
 #define TABLE_STATEMENTS_HISTORY "STATEMENTS_HISTORY"
 
 const QString SMainWinTitle = "";
+const QString SErrDatabase = "Ошибка БД: ";
 const QString SErrWhileDbConnection = "Не удалось подключиться к базе данных";
 const QString SErrWhileDbUpfate = "Не удалось обновить базу данных";
 const QString SErrCanNotSplitIfSelected = "Нельзя разбить реплику при выделенном тексте";

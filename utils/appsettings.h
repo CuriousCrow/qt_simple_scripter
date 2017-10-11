@@ -10,9 +10,7 @@
 #define PRM_USERNAME "username"
 #define PRM_PASSWORD "password"
 
-#define SECTION_GENERAL "common"
-
-#define SECTION_FORMS "Forms"
+#define SECTION_FORMS "forms"
 
 #define SECTION_LOGGER "logger"
 #define PRM_LOG_FILE "logFile"

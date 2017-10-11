@@ -21,7 +21,6 @@ QStatementFilterModel::~QStatementFilterModel()
 
 bool QStatementFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-  qDebug() << source_row;
   //Если модель для подсветки не задана или подсвечивание выключено
   //сброс подсветки
   if (!_model || !_isFiltered)

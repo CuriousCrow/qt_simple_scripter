@@ -13,6 +13,7 @@
 #include "utils/appsettings.h"
 #include "utils/appconst.h"
 #include "utils/qsqlqueryhelper.h"
+#include "utils/slogger.h"
 
 QDataModule* QDataModule::_dm = 0;
 
@@ -46,6 +47,8 @@ QDataModule::QDataModule(QObject *parent) :
 QDataModule::~QDataModule()
 {
   saveLastStatement();
+  //Записывает настройки в файл
+  AppSettings::sync();
 }
 
 QDataModule *QDataModule::dm(QObject* parent)
@@ -105,7 +108,7 @@ void QDataModule::saveLastStatement()
 {
   //Сохранение номера последней записи
   if (projectId > 0){
-    QString section = SETTING_GROUP_PROJECTS "\\" SETTING_PROJECT_PREFIX + QString::number(projectId);
+    QString section = SETTING_PROJECT_GROUP + QString::number(projectId);
     AppSettings::setVal(section, SETTING_LAST_STATEMENT, _mapperStatements->currentIndex());
     AppSettings::setVal(section, SETTING_TITLE, projectTitle);
   }
@@ -114,7 +117,7 @@ void QDataModule::saveLastStatement()
 void QDataModule::loadLastStatement()
 {
   if (projectId > 0){
-    QString section = SETTING_GROUP_PROJECTS "\\" SETTING_PROJECT_PREFIX + QString::number(projectId);
+    QString section = SETTING_PROJECT_GROUP + QString::number(projectId);
 
     int lastStatement = AppSettings::intVal(section, SETTING_LAST_STATEMENT, 0);
     if (lastStatement >= 0){
@@ -291,10 +294,10 @@ bool QDataModule::exportProject()
         speakerAttrs.clear();
         if (currSpeakerId != 0){
           speakerRec = mSpeakers->recordById(currSpeakerId);
-          speakerAttrs.setValue("role", speakerRec->value(SColSpeachRole).toString());
-          speakerAttrs.setValue("actor", speakerRec->value(SColActor).toString());
-          speakerAttrs.setValue("sex", speakerRec->value(SColSex).toString());
-          speakerAttrs.setValue("profession", speakerRec->value(SColProfession).toString());
+          speakerAttrs.setValue(COL_ROLE, speakerRec->value(SColSpeachRole).toString());
+          speakerAttrs.setValue(COL_ACTOR, speakerRec->value(SColActor).toString());
+          speakerAttrs.setValue(COL_SEX, speakerRec->value(SColSex).toString());
+          speakerAttrs.setValue(COL_PROFESSION, speakerRec->value(SColProfession).toString());
         }
       }
       resStatement += processByReplacePatterns(statementText, PT_EXPORT, detailedLogging);
@@ -358,18 +361,19 @@ bool QDataModule::editSetting(QString settingName, QString caption)
 bool QDataModule::initDatabase()
 {
   QString dbPath = AppSettings::strVal("", SETTING_DATABASE, "Scripter.fdb");
-  qDebug() << dbPath;
   db = QSqlDatabase::addDatabase("QIBASE");
   db.setDatabaseName(dbPath);
   db.setUserName("SYSDBA");
   db.setPassword("masterkey");
 
   bool ok = db.open();
-  qDebug() << (ok ? SDbConnectionSuccess : db.lastError().databaseText());
-
-  LSqlTableModel::enableLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
-  QSqlQueryHelper::setLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
-
+  if (ok) {
+    INFO << SDbConnectionSuccess;
+    LSqlTableModel::enableLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
+    QSqlQueryHelper::setLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
+  }
+  else
+    CRITICAL << SErrDatabase << db.lastError().databaseText();
   return ok;
 }
 
@@ -385,38 +389,38 @@ bool QDataModule::loadModels()
 
   mProjects->setHeaders(titles);
   mProjects->setFilter("id>0");
-  result = result && loadModel(mProjects, TABLE_PROJECTS, "GEN_PROJECTS_ID");
+  result = result && loadModel(mProjects, TABLE_PROJECTS, GEN_PROJECTS);
 
   mPatterns = new LSqlTableModel(this, db);
-  result = result && loadModel(mPatterns, TABLE_PATTERNS, "GEN_PATTERNS_ID");
+  result = result && loadModel(mPatterns, TABLE_PATTERNS, GEN_PATTERNS);
 
   mSchemes = new LSqlTableModel(this, db);
-  result = result && loadModel(mSchemes, TABLE_SCHEMES, "GEN_HIGHLIGHT_SCHEMES_ID");
+  result = result && loadModel(mSchemes, TABLE_SCHEMES, GEN_HIGHLIGHT_SCHEMES);
 
   mSchemePatterns = new LSqlTableModel(this, db);
-  mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "NAME");
-  mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "PATTERN");
-  mSchemePatterns->addLookupField(mPatterns, "PATTERN_ID", "HEXCOLOR");
-  result = result && loadModel(mSchemePatterns, TABLE_SCHEME_PATTERNS, "GEN_SCHEME_PATTERNS_ID");
+  mSchemePatterns->addLookupField(mPatterns, COL_PATTERN_ID, COL_NAME);
+  mSchemePatterns->addLookupField(mPatterns, COL_PATTERN_ID, COL_PATTERN);
+  mSchemePatterns->addLookupField(mPatterns, COL_PATTERN_ID, COL_HEXCOLOR);
+  result = result && loadModel(mSchemePatterns, TABLE_SCHEME_PATTERNS, GEN_SCHEME_PATTERNS);
 
   mReplacePatterns = new LSqlTableModel(this, db);
-  mReplacePatterns->setSort("priority", Qt::AscendingOrder);
-  result = result && loadModel(mReplacePatterns, TABLE_REPLACE_PATTERNS, "GEN_REPLACE_PATTERNS_ID");
+  mReplacePatterns->setSort(COL_PRIORITY, Qt::AscendingOrder);
+  result = result && loadModel(mReplacePatterns, TABLE_REPLACE_PATTERNS, GEN_REPLACE_PATTERNS);
 
   mSpeakers = new QUserSqlTableModel(this, db);
   mSpeakers->setFilter("project_id=0");
-  result = result && loadModel(mSpeakers, TABLE_SPEAKERS, "GEN_SPEAKERS_ID");
+  result = result && loadModel(mSpeakers, TABLE_SPEAKERS, GEN_SPEAKERS);
 
   mStatements = new QStatementModel(this, db);
   mStatements->setFilter("project_id=0");
-  mStatements->setLinkField("PARENT_ID");
+  mStatements->setLinkField(COL_PARENT_ID);
 
   //Прокси-модель реплик для навигации
   mStatementsNavigation = new QSortFilterProxyModel(this);
   mStatementsNavigation->setSourceModel(mStatements);
   connect(mStatements, SIGNAL(beforeInsert(QSqlRecord&)),
           this, SLOT(onBeforeStatementInsert(QSqlRecord&)));
-  result = loadModel(mStatements, TABLE_STATEMENTS, "GEN_STATEMENTS_ID");
+  result = loadModel(mStatements, TABLE_STATEMENTS, GEN_STATEMENTS);
   mStatementsNavigation->setFilterKeyColumn(mStatements->columnCount(QModelIndex()) - 1);
   mStatementsNavigation->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
@@ -424,7 +428,7 @@ bool QDataModule::loadModels()
   mStatementsSmartFiltered = new QStatementFilterModel(this);
   mStatementsSmartFiltered->setSourceModel(mStatements);
   mStatementsSmartFiltered->setModel(mSchemePatterns);
-  mStatementsSmartFiltered->setFilterKeyColumn(mStatements->fieldIndex("STATEMENT"));
+  mStatementsSmartFiltered->setFilterKeyColumn(mStatements->fieldIndex(COL_STATEMENT));
 
   _mapperStatements = new QDataWidgetMapper(this);
   _mapperStatements->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
