@@ -398,9 +398,9 @@ bool QDataModule::loadModels()
   result = result && loadModel(mSchemes, TABLE_SCHEMES, GEN_HIGHLIGHT_SCHEMES);
 
   mSchemePatterns = new LSqlTableModel(this, db);
-  mSchemePatterns->addLookupField(mPatterns, COL_PATTERN_ID, COL_NAME);
-  mSchemePatterns->addLookupField(mPatterns, COL_PATTERN_ID, COL_PATTERN);
-  mSchemePatterns->addLookupField(mPatterns, COL_PATTERN_ID, COL_HEXCOLOR);
+  mSchemePatterns->addCalcField(new LLookupField(COL_NAME, mPatterns, COL_PATTERN_ID, COL_NAME));
+  mSchemePatterns->addCalcField(new LLookupField(COL_PATTERN, mPatterns, COL_PATTERN_ID, COL_PATTERN));
+  mSchemePatterns->addCalcField(new LLookupField(COL_HEXCOLOR, mPatterns, COL_PATTERN_ID, COL_HEXCOLOR));
   result = result && loadModel(mSchemePatterns, TABLE_SCHEME_PATTERNS, GEN_SCHEME_PATTERNS);
 
   mReplacePatterns = new LSqlTableModel(this, db);
