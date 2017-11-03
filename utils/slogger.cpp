@@ -145,7 +145,7 @@ QString SLogger::createLogStr(QtMsgType type, const QString &msg)
     case QtDebugMsg:
     {
         QString s = QString(msg).left(6);
-        if ( (s.at(0) == 'I') && (s.at(1) == ':') ) {
+        if (s.left(2) == "I:") {
             if (_logInfo)
                 logStr = QString("I %1| %2").arg(dateStamp).arg(QString(msg));
         } else if (_logDebug)
