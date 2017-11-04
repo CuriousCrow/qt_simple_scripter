@@ -4,6 +4,7 @@
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QFileDialog>
+#include <QMenu>
 #include "widgets/qsmartdialog.h"
 
 QProjectListWindow* QProjectListWindow::singletonWindow = 0;
@@ -33,6 +34,8 @@ QProjectListWindow::QProjectListWindow(QWidget *parent) :
   QProjectEditWindow* editWindow = QProjectEditWindow::Instance(parent);
   connect(ui->projectsView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
           editWindow->projectMapper, SLOT(setCurrentModelIndex(QModelIndex)));
+
+  createImportMenu();
 }
 
 QProjectListWindow::~QProjectListWindow()
@@ -115,4 +118,25 @@ void QProjectListWindow::updateColumnSize(const QModelIndex &index)
     qDebug() << "column " << index.column() << "resize";
     ui->projectsView->resizeColumnToContents(index.column());
   }
+}
+
+void QProjectListWindow::on_btnImportXml_clicked()
+{
+  QString importFilePath = QFileDialog::getOpenFileName(this);
+  //Если файл не выбран, выходим
+  if (importFilePath.isNull()){
+    return;
+  }
+  if (_dm->importFromXml(importFilePath))
+    QSmartDialog::infoDialog(SMsgProjectImportSuccess.arg(_dm->projectTitle), this);
+  else
+    QSmartDialog::errorDialog(SMsgProjectImportError.arg(_dm->projectTitle), this);
+}
+
+void QProjectListWindow::createImportMenu()
+{
+  QMenu* importMenu = new QMenu(ui->btnImportProject);
+  importMenu->addAction("Импорт из текстового файла", this, SLOT(on_btnImportProject_clicked()));
+  importMenu->addAction("Импорт из XML-файла", this, SLOT(on_btnImportXml_clicked()));
+  ui->btnImportProject->setMenu(importMenu);
 }

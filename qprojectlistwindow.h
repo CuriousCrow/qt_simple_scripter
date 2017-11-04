@@ -43,10 +43,12 @@ private slots:
 
   void updateColumnSize(const QModelIndex &index);
 
+  void on_btnImportXml_clicked();
 private:
   static QProjectListWindow* singletonWindow;
   QDataModule* _dm;
   Ui::QProjectListWindow *ui;
+  void createImportMenu();
 };
 
 #endif // QPROJECTLISTWINDOW_H

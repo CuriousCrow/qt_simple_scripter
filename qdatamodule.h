@@ -131,9 +131,15 @@ public:
   LSqlTableModel* mReplacePatterns;
   LSqlTableModel* mStatementHistory;
 
-  int projectId = 0;
+  qlonglong projectId = 0;
   AddOperation addOper;
+  qlonglong newStatementSpeaker;
   QString newStatementText;
+
+  QString newSpeakerRole;
+  QString newSpeakerSex;
+  QString newSpeakerProfession;
+
   QString projectTitle;
 
   QString appPath();
@@ -151,6 +157,8 @@ public:
 
   //Импорт проекта из файла
   bool importProject(QString importPath);
+
+  bool importFromXml(QString importPath);
   //Удаление проекта
   bool deleteProject(int row);
   //Экспорт загруженного проекта
@@ -173,7 +181,7 @@ private:
   bool commitTransaction();
   bool rollbackTransaction();
   bool loadModel(LSqlTableModel* model, QString table, QString sequence = "");
-  int getLastRecordId(LSqlTableModel* model);
+  qlonglong getLastRecordId(LSqlTableModel* model);
   void setTableHeaders(QSqlTableModel* table, QStringList headers);
   //Применение шаблонов замены к строке
   QString processByReplacePatterns(QString statement, int patternType, bool logging);
@@ -181,7 +189,7 @@ signals:
   void projectLoaded(int oldProjecId, int newProjectId);
 private slots:
   void on_autosave_timeout();
-
+  void initNewSpeaker(QSqlRecord &record);
 public slots:
   void onBeforeStatementInsert(QSqlRecord& rec);
 };

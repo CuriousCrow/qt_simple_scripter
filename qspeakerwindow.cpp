@@ -78,7 +78,6 @@ void QSpeakerWindow::setModel(LSqlTableModel *model)
     mapper->addMapping(ui->edtBirthYear, 5);
     connect(ui->listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
-    connect(_model, SIGNAL(beforeInsert(QSqlRecord&)), this, SLOT(initRecord(QSqlRecord&)));
 }
 
 void QSpeakerWindow::on_btnClose_clicked()
@@ -94,13 +93,8 @@ void QSpeakerWindow::on_btnSave_clicked()
 
 void QSpeakerWindow::on_btnAddSpeaker_clicked()
 {
-    _model->insertRow(_model->rowCount());
-}
-
-void QSpeakerWindow::initRecord(QSqlRecord &record)
-{    
-    record.setValue(SColProjectId, _dm->projectId);
-    record.setValue(SColSpeachRole, NEW_SPEAKER);
+  QDataModule::dm()->newSpeakerRole = NEW_SPEAKER;
+  _model->insertRow(_model->rowCount());
 }
 
 void QSpeakerWindow::on_btnDeleteSpeaker_clicked()
