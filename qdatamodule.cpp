@@ -14,6 +14,7 @@
 #include "utils/appconst.h"
 #include "utils/qsqlqueryhelper.h"
 #include "utils/slogger.h"
+#include "utils/strutils.h"
 
 QDataModule* QDataModule::_dm = 0;
 
@@ -199,7 +200,7 @@ bool QDataModule::importProject(QString importPath)
   if (!mProjects->submitAll()){
     return false;
   }
-  int newProjectId = getLastRecordId(mProjects);
+  qlonglong newProjectId = getLastRecordId(mProjects);
   projectId = newProjectId;
 
   QString text = QTextProcessor::fileToString(importPath);
@@ -218,6 +219,76 @@ bool QDataModule::importProject(QString importPath)
       if (!submitted){
         return false;
       }      
+    }
+  }
+  if (submitted){
+    emit projectLoaded(0, projectId);
+  }
+  return submitted;
+}
+
+bool QDataModule::importFromXml(QString importPath)
+{
+  //Грузим пустой проект, чтобы очистить модели
+  loadProjectData(0);
+
+  QFileInfo fileInfo(importPath);
+  projectTitle = fileInfo.baseName();
+
+  //Если файл не существует
+  if (!fileInfo.exists()){
+    return false;
+  }
+  //Если проект не вставился
+  bool insertProjectResult = mProjects->insertRow(mProjects->rowCount());
+  if (!insertProjectResult){
+    return false;
+  }
+  mProjects->setData(mProjects->index(mProjects->rowCount() - 1,
+                     mProjects->fieldIndex(SColHeader)),
+                     fileInfo.baseName());
+  mProjects->setData(mProjects->index(mProjects->rowCount() - 1,
+                     mProjects->fieldIndex(SColPath)),
+                     importPath);
+  //Если проект не сохранился в БД
+  if (!mProjects->submitAll()){
+    return false;
+  }
+  qlonglong newProjectId = getLastRecordId(mProjects);
+  projectId = newProjectId;
+
+  QString text = QTextProcessor::fileToString(importPath);
+  QStringList textLines = text.split(SNewLine, QString::SkipEmptyParts);
+
+  bool submitted = true;
+
+  QHash<QString, qlonglong> newSpeakers;
+
+  foreach(QString xmlStatement, textLines){
+    qlonglong speakerId = 0;
+    QHash<QString, QString> strValHash = StrUtils::tagToHash(xmlStatement, "speach");
+    if (strValHash.contains("role")) {
+      if (!newSpeakers.contains(strValHash.value("role"))) {
+        newSpeakerRole = strValHash.value("role");
+        newSpeakerProfession = strValHash.value("profession");
+        newSpeakerSex = strValHash.value("sex");
+        mSpeakers->insertRow(mSpeakers->rowCount());
+        mSpeakers->submitAll();
+        speakerId = getLastRecordId(mSpeakers);
+        newSpeakers.insert(strValHash.value("role"), speakerId);
+      }
+      else {
+        speakerId = newSpeakers.value(strValHash.value("role"));
+      }
+    }
+    else {
+      speakerId = 0;
+    }
+    newStatementSpeaker = speakerId;
+    newStatementText = processByReplacePatterns(strValHash.value("text"), PT_IMPORT, false);
+    submitted &= mStatements->insertRow(mStatements->rowCount());
+    if (!submitted){
+      return false;
     }
   }
   if (submitted){
@@ -409,6 +480,8 @@ bool QDataModule::loadModels()
 
   mSpeakers = new QUserSqlTableModel(this, db);
   mSpeakers->setFilter("project_id=0");
+  connect(mSpeakers, SIGNAL(beforeInsert(QSqlRecord&)),
+          this, SLOT(initNewSpeaker(QSqlRecord&)));
   result = result && loadModel(mSpeakers, TABLE_SPEAKERS, GEN_SPEAKERS);
 
   mStatements = new QStatementModel(this, db);
@@ -472,14 +545,14 @@ bool QDataModule::loadModel(LSqlTableModel* model, QString table, QString sequen
   return result;
 }
 
-int QDataModule::getLastRecordId(LSqlTableModel *model)
+qlonglong QDataModule::getLastRecordId(LSqlTableModel *model)
 {
   int rowIndex = model->rowCount() - 1;
   if (rowIndex < 0){
     return -1;
   }
 
-  return model->data(model->index(rowIndex, model->fieldIndex(SColID))).toInt();
+  return model->data(model->index(rowIndex, model->fieldIndex(SColID))).toLongLong();
 }
 
 void QDataModule::setTableHeaders(QSqlTableModel *table, QStringList headers)
@@ -529,10 +602,30 @@ void QDataModule::on_autosave_timeout()
   qDebug() << SMsgAutosaving.arg(debugMsg);
 }
 
+void QDataModule::initNewSpeaker(QSqlRecord &record)
+{
+  record.setValue(SColProjectId, _dm->projectId);
+  if (!newSpeakerRole.isEmpty())
+    record.setValue(SColSpeachRole, newSpeakerRole);
+  if (!newSpeakerProfession.isEmpty())
+    record.setValue(SColProfession, newSpeakerProfession);
+  if (!newSpeakerSex.isEmpty())
+    record.setValue(SColSex, newSpeakerSex);
+
+  newSpeakerRole = "";
+  newSpeakerProfession = "";
+  newSpeakerSex = "";
+}
+
 void QDataModule::onBeforeStatementInsert(QSqlRecord &rec)
 {
   rec.setValue(SColProjectId, projectId);
+  if (newStatementSpeaker > 0)
+    rec.setValue(SColSpeakerId, newStatementSpeaker);
   rec.setValue(SColStatement, newStatementText);
+
+  newStatementText = "";
+  newStatementSpeaker = 0;
 }
 
 

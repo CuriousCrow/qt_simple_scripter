@@ -30,8 +30,6 @@ private slots:
   void on_btnAddSpeaker_clicked();
   void on_btnDeleteSpeaker_clicked();
   void on_btnAutoAssign_clicked();
-
-  void initRecord(QSqlRecord &record);
 private:
   static QSpeakerWindow* singletonWindow;
   Ui::QSpeakerWindow *ui;
