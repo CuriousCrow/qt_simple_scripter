@@ -14,11 +14,12 @@ QVariant QStatementModel::data(const QModelIndex &index, int role) const
 {
   if (!index.isValid())
     return QVariant();
-  if (role == Qt::DisplayRole) {
-    if (index.column() == columnCount(index) - 1){
+  if (index.column() == columnCount(index) - 1) {
+    if (role == Qt::DisplayRole){
       QString rawText = record(index.row()).value("STATEMENT").toString();
       return rawText.replace("'", "");
     }
+    return QVariant();
   }
   return LSqlLinkedRecordsModel::data(index, role);
 }
