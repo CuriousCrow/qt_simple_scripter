@@ -237,9 +237,14 @@ void QStatementWindow::on_addStatementMenuClicked()
       qDebug() << destStr1 << destStr2 << cur.anchor() << cur.position();
       ui->memStatement->setPlainText(destStr2);
       submitMapperData();
+
+      qlonglong curSpeakerId = dm->mSpeakers->index(ui->cmbSpeaker->currentIndex(), 0).data(Qt::UserRole).toLongLong();
+
+      dm->newStatementSpeaker = 0;
       dm->newStatementText = "";
       dm->mStatementsSmartFiltered->insertRow(currentRow);
 
+      dm->newStatementSpeaker = curSpeakerId;
       dm->newStatementText = destStr1;
       dm->mStatementsSmartFiltered->insertRow(currentRow);
 
@@ -251,11 +256,13 @@ void QStatementWindow::on_addStatementMenuClicked()
     }
     break;
   case Insert:
+    dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
     dm->mStatementsSmartFiltered->insertRow(currentRow);
     dm->_mapperStatements->setCurrentIndex(currentRow);
     break;
   case Add:
+    dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
     dm->mStatementsSmartFiltered->insertRow(dm->mStatementsSmartFiltered->rowCount());
     dm->_mapperStatements->toLast();

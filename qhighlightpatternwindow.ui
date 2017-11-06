@@ -263,7 +263,7 @@
   <customwidget>
    <class>QColorBox</class>
    <extends>QComboBox</extends>
-   <header>qcolorbox.h</header>
+   <header>widgets/qcolorbox.h</header>
   </customwidget>
  </customwidgets>
  <resources>
