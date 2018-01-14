@@ -145,6 +145,14 @@ QStringList StrUtils::dashValues(QString inStr)
     return resVals;
 }
 
+QString StrUtils::intToStr(int val, int digits)
+{
+  QString result = QString::number(val);
+  if (digits > 0 && result.length() < digits)
+    result.prepend(QString().fill('0', digits - result.length()));
+  return result;
+}
+
 bool lessThanByLength(QString &str1, QString &str2)
 {
     return str1.length() < str2.length();
