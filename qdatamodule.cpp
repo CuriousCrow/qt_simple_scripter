@@ -319,6 +319,8 @@ bool QDataModule::exportProject()
     return false;
   }
 
+  int digitsCount = AppSettings::intVal("", PRM_EXPORT_DIGIT_COUNT, 2);
+
   QDir dir(appPath());
   QString projectDir = DIR_PROJECTS_ROOT + projectTitle;
   if (!dir.mkpath(projectDir))
@@ -354,7 +356,7 @@ bool QDataModule::exportProject()
       exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(), resStatement.trimmed());
       resStatement.clear();
       speakerAttrs.clear();
-      QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + "_" + QString::number(fileIndex++) + ".xml");
+      QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + "_" + StrUtils::intToStr(fileIndex++, digitsCount) + ".xml");
       exportText.clear();
     }
     else {
@@ -380,7 +382,7 @@ bool QDataModule::exportProject()
     QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + ".xml");
   }
   else {
-    result = QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + "_" + QString::number(fileIndex++) + ".xml");
+    result = QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + "_" + StrUtils::intToStr(fileIndex++, digitsCount) + ".xml");
   }
 
   return result;

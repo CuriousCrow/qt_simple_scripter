@@ -14,6 +14,7 @@ public:
     static QHash<QString, QString> attrsToHash(QString attrs);
     static QHash<QString, QString> tagToHash(QString inStr, QString tag);
     static QStringList dashValues(QString inStr);
+    static QString intToStr(int val, int digits = 0);
 private:
     StrUtils();
 };

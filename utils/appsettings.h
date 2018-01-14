@@ -23,6 +23,9 @@
 #define PRM_LOG_SQL "logSql"
 #define PRM_LOG_EXPORT_DETAILS "logExportDetails"
 
+//Общие настройки
+#define PRM_EXPORT_DIGIT_COUNT "exportDigitCount"
+
 
 class AppSettings
 {

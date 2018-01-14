@@ -213,8 +213,6 @@ void QStatementWindow::on_customActionClick()
 
 void QStatementWindow::on_addStatementMenuClicked()
 {
-  submitMapperData();
-
   QAction* act = (QAction*)sender();
   dm->addOper = (AddOperation)act->property("Action").toInt();
   QTextCursor cur;
@@ -256,12 +254,14 @@ void QStatementWindow::on_addStatementMenuClicked()
     }
     break;
   case Insert:
+    submitMapperData();
     dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
     dm->mStatementsSmartFiltered->insertRow(currentRow);
     dm->_mapperStatements->setCurrentIndex(currentRow);
     break;
   case Add:
+    submitMapperData();
     dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
     dm->mStatementsSmartFiltered->insertRow(dm->mStatementsSmartFiltered->rowCount());
