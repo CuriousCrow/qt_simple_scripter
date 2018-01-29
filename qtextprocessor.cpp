@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QTextCodec>
+#include "qdatamodule.h"
 
 #define DIR_CONFIG "/Config/"
 #define DIR_PERL "/Perl/"
@@ -72,7 +73,7 @@ bool QTextProcessor::stringToFile(QString str, QString filepath, bool isUtf)
   return result;
 }
 
-QStringList QTextProcessor::splitStringBySize(QString inStr, int size, QString delimiter, QString headerDelimiter)
+QStringList QTextProcessor::splitStringBySize(QString inStr, int size, QString headerDelimiter)
 {
   inStr = inStr.trimmed();
   QString header;
@@ -83,19 +84,26 @@ QStringList QTextProcessor::splitStringBySize(QString inStr, int size, QString d
   else {
     header = "";
   }
-  QStringList tempSl = inStr.split(delimiter, QString::SkipEmptyParts);
-
+  QStringList sentences = splitStringBySentences(inStr);
+  QString resLine;
   QStringList resultSl;
-  QString resLine = "";
-  foreach(QString rawChop, tempSl){
-    if (header.length() + resLine.length() > size){
-      resultSl.append(header + resLine);
+  foreach(QString sentence, sentences){
+    if (header.length() + resLine.length() + 1 > size){
+      resultSl.append(header + SSpace + resLine);
       resLine.clear();
     }
-    resLine += rawChop + delimiter;
+    resLine += sentence.trimmed() + SSpace;
   }
-  resultSl.append(header + resLine);
+  resultSl.append(header + SSpace + resLine);
   return resultSl;
+}
+
+QStringList QTextProcessor::splitStringBySentences(QString inStr)
+{
+  QRegExp rxBound("([\\.\\?\\!])\\s");
+  inStr = inStr.replace(rxBound, "\\1||");
+  QStringList resSl = inStr.split("||", QString::SkipEmptyParts);
+  return resSl;
 }
 
 QString QTextProcessor::removeCDATA(QString &str)

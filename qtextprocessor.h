@@ -15,7 +15,8 @@ public:
   static QString processByAccentuator(QString str);
   static QString fileToString(QString filepath, bool isUtf8 = true);
   static bool stringToFile(QString str, QString filepath, bool isUtf8 = true);
-  static QStringList splitStringBySize(QString inStr, int size, QString delimiter, QString headerDelimiter);
+  static QStringList splitStringBySize(QString inStr, int size, QString headerDelimiter);
+  static QStringList splitStringBySentences(QString inStr);
   static QString removeCDATA(QString& str);
   static QString loadEditorTypes();
   static QString configDir();
