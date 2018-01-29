@@ -71,7 +71,7 @@ void QDataModule::loadProjectData(int id)
 
   saveLastStatement();
 
-  QString filter = "project_id>0 and project_id=%1";
+  QString filter = "project_id=0 or project_id=%1";
   mSpeakers->setFilter(filter.arg(QString::number(id)));
   mSpeakers->select();
 
@@ -212,7 +212,7 @@ bool QDataModule::importProject(QString importPath)
 
   foreach(QString rawLine, textLines){
     QStringList statementList
-        = QTextProcessor::splitStringBySize(rawLine, MAX_STATEMENT_LENGTH, ".", headerDelimiter);
+        = QTextProcessor::splitStringBySize(rawLine, MAX_STATEMENT_LENGTH, headerDelimiter);
     foreach(QString statement, statementList){
       newStatementText = processByReplacePatterns(statement.trimmed(), PT_IMPORT, false);
       submitted &= mStatements->insertRow(mStatements->rowCount());
