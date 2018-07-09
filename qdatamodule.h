@@ -133,7 +133,7 @@ public:
 
   qlonglong projectId = 0;
   AddOperation addOper;
-  qlonglong newStatementSpeaker;
+  qlonglong newStatementSpeaker = 0;
   QString newStatementText;
 
   QString newSpeakerRole;
