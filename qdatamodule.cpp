@@ -622,7 +622,7 @@ void QDataModule::initNewSpeaker(QSqlRecord &record)
 void QDataModule::onBeforeStatementInsert(QSqlRecord &rec)
 {
   rec.setValue(SColProjectId, projectId);
-  if (newStatementSpeaker > 0)
+  if (newStatementSpeaker >= 0)
     rec.setValue(SColSpeakerId, newStatementSpeaker);
   rec.setValue(SColStatement, newStatementText);
 
