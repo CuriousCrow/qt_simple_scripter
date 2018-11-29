@@ -8,6 +8,7 @@
 #include "widgets/qsmartdialog.h"
 #include "qstatementnavigationwindow.h"
 #include "qtwovaluesinputdialog.h"
+#include "utils/appsettings.h"
 
 #define ACT_BTN_PREFIX "ActionButton_"
 #define FILE_CUSTOM_ACTIONS "Actions.lst"
@@ -49,6 +50,9 @@ QStatementWindow::QStatementWindow(QWidget *parent) :
   dm->_mapperStatements->addMapping(ui->memStatement, dm->mStatements->fieldIndex("STATEMENT"), "plainText");
   connect(dm->_mapperStatements, SIGNAL(currentIndexChanged(int)),
           this, SLOT(updateActions(int)));
+  if (AppSettings::boolVal("", PRM_SHOW_FRAGMENT_NUMBER, false))
+    connect(dm->_mapperStatements, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(updateFragmentNumber()));
 
   //Мэппер для отображения свойств говорящего
   _mapperSpeakers->setModel(dm->mSpeakers);
@@ -337,6 +341,19 @@ void QStatementWindow::createAddMenu()
 void QStatementWindow::submitMapperData()
 {
   dm->_mapperStatements->submit();
+}
+
+void QStatementWindow::updateFragmentNumber()
+{
+  int curRow = dm->_mapperStatements->currentIndex();
+  int srcRow = dm->mStatementsSmartFiltered->mapToSource(dm->mStatementsSmartFiltered->index(curRow, 0)).row();
+  int fragments = 1;
+  int col = dm->mStatements->fieldIndex("STATEMENT");
+  for(int row = 0; row < srcRow; row++) {
+    if (dm->mStatements->index(row, col).data().toString() == "$")
+      fragments++;
+  }
+  statusBar()->showMessage("Эпизод: " + QString::number(fragments));
 }
 
 void QStatementWindow::on_btnDelete_clicked()

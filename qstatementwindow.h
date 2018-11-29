@@ -53,6 +53,7 @@ private slots:
 
   void on_chbFilter_clicked();
 
+  void updateFragmentNumber();
 public slots:
   void onProjectLoaded(int oldId, int newId);
 private:
