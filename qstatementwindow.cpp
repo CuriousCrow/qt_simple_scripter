@@ -184,6 +184,9 @@ void QStatementWindow::on_chbHighlighter_clicked()
 
 void QStatementWindow::on_btnAccentuator_clicked()
 {
+  QString statementText = ui->memStatement->toPlainText();
+  if (statementText.contains("'") && !QSmartDialog::confirmationDialog(SConfirmAccentuatorRun))
+    return;
   QString resText = QTextProcessor::processByAccentuator(ui->memStatement->toPlainText());
   ui->memStatement->setPlainText(resText);
 }
