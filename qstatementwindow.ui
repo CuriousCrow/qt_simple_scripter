@@ -281,6 +281,9 @@
             <height>32</height>
            </size>
           </property>
+          <property name="shortcut">
+           <string>Ctrl+Left</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -312,6 +315,9 @@
             <width>32</width>
             <height>32</height>
            </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+Right</string>
           </property>
          </widget>
         </item>
@@ -426,6 +432,9 @@
             <height>32</height>
            </size>
           </property>
+          <property name="shortcut">
+           <string>Ctrl+A</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -457,6 +466,9 @@
             <width>32</width>
             <height>32</height>
            </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+H</string>
           </property>
          </widget>
         </item>
@@ -561,6 +573,9 @@
             <width>32</width>
             <height>32</height>
            </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+S</string>
           </property>
          </widget>
         </item>
