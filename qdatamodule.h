@@ -70,6 +70,7 @@ const QString SChangesAppliesAfterRestart = "Изменения вступят �
 const QString SEnterFileSeparationDelimiter = "Введите разделитель между файлами";
 const QString SSettingEditing = "Редактирование настройки";
 const QString SExportSetting = "Настройка экспорта";
+const QString SConfirmDeleteStatement = "Вы действительно хотите удалить текущую реплику?";
 
 const QString SExportFilePattern = "<html><head></head><body>\r\n%1</body></html>";
 const QString SExportStatementPattern = "<speech %1>%2</speech>\r\n";

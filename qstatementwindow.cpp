@@ -338,6 +338,8 @@ void QStatementWindow::submitMapperData()
 
 void QStatementWindow::on_btnDelete_clicked()
 {
+  if (!QSmartDialog::confirmationDialog(SConfirmDeleteStatement))
+    return;
   int indexToDelete = dm->_mapperStatements->currentIndex();
   dm->mStatementsSmartFiltered->removeRow(indexToDelete);
   if (indexToDelete > 0){
