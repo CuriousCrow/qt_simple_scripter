@@ -25,6 +25,7 @@
 
 //Общие настройки
 #define PRM_EXPORT_DIGIT_COUNT "exportDigitCount"
+#define PRM_SHOW_FRAGMENT_NUMBER "showFragmentNumber"
 
 
 class AppSettings
