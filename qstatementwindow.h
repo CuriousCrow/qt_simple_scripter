@@ -69,6 +69,10 @@ private:
   QString prepareActionResult(QString actionName, QString actionString);
   void createAddMenu();
   void submitMapperData();
+
+  // QObject interface
+public:
+  virtual bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // QSTATEMENTWINDOW_H

@@ -79,6 +79,9 @@ QStatementWindow::QStatementWindow(QWidget *parent) :
   loadCustomActions();
 
   createAddMenu();
+
+  //Перехват комбинаций клавиш от редактора
+  ui->memStatement->installEventFilter(this);
   //Проверка загруженности проекта
   onProjectLoaded(0, dm->projectId);
 }
@@ -408,4 +411,26 @@ void QStatementWindow::on_btnRemoveAccent_clicked()
 void QStatementWindow::on_chbFilter_clicked()
 {
   dm->mStatementsSmartFiltered->setFiltered(ui->chbFilter->isChecked());
+}
+
+
+bool QStatementWindow::eventFilter(QObject *watched, QEvent *event)
+{
+  if ((watched == ui->memStatement) && (event->type() == QEvent::KeyPress)) {
+    QKeyEvent* keyEvent = (QKeyEvent*)event;
+
+    if (keyEvent->key() == Qt::Key_A && keyEvent->modifiers() == Qt::ControlModifier) {
+      on_btnAccentuator_clicked();
+      return true;
+    }
+    else if (keyEvent->key() == Qt::Key_Right && keyEvent->modifiers() == Qt::ControlModifier) {
+      on_btnNext_clicked();
+      return true;
+    }
+    else if (keyEvent->key() == Qt::Key_Left && keyEvent->modifiers() == Qt::ControlModifier) {
+      on_btnPrevious_clicked();
+      return true;
+    }
+  }
+  return false;
 }
