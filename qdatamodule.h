@@ -148,6 +148,7 @@ public:
 
   void loadProjectData(int id);
   bool saveProjectData();
+  bool backupLocalProject();
   void checkForUnsavedProject();
 
   void saveLastStatement();

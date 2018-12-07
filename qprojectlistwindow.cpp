@@ -72,9 +72,9 @@ void QProjectListWindow::on_projectsView_doubleClicked(const QModelIndex &index)
   _dm->loadProjectData(projectId);
 }
 
-void QProjectListWindow::on_btnImportProject_clicked()
+void QProjectListWindow::importProjectFromTxt()
 {
-  QString importFilePath = QFileDialog::getOpenFileName(this);
+  QString importFilePath = QFileDialog::getOpenFileName(this, "Выберете файл проекта в текстовом формате");
   //Если файл не выбран, выходим
   if (importFilePath.isNull()){
     return;
@@ -120,9 +120,9 @@ void QProjectListWindow::updateColumnSize(const QModelIndex &index)
   }
 }
 
-void QProjectListWindow::on_btnImportXml_clicked()
+void QProjectListWindow::importProjectFromXml()
 {
-  QString importFilePath = QFileDialog::getOpenFileName(this);
+  QString importFilePath = QFileDialog::getOpenFileName(this, "Выбрать файл проекта в формате XML", "", "XML project (*.xml)");
   //Если файл не выбран, выходим
   if (importFilePath.isNull()){
     return;
@@ -136,7 +136,7 @@ void QProjectListWindow::on_btnImportXml_clicked()
 void QProjectListWindow::createImportMenu()
 {
   QMenu* importMenu = new QMenu(ui->btnImportProject);
-  importMenu->addAction("Импорт из текстового файла", this, SLOT(on_btnImportProject_clicked()));
-  importMenu->addAction("Импорт из XML-файла", this, SLOT(on_btnImportXml_clicked()));
+  importMenu->addAction("Импорт из текстового файла", this, SLOT(importProjectFromTxt()));
+  importMenu->addAction("Импорт из XML-файла", this, SLOT(importProjectFromXml()));
   ui->btnImportProject->setMenu(importMenu);
 }

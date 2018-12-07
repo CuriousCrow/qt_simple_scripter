@@ -33,7 +33,7 @@ private slots:
 
   void on_projectsView_doubleClicked(const QModelIndex &index);
 
-  void on_btnImportProject_clicked();
+  void importProjectFromTxt();
 
   void on_btnExportProject_clicked();
 
@@ -43,7 +43,7 @@ private slots:
 
   void updateColumnSize(const QModelIndex &index);
 
-  void on_btnImportXml_clicked();
+  void importProjectFromXml();
 private:
   static QProjectListWindow* singletonWindow;
   QDataModule* _dm;

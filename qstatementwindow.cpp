@@ -4,13 +4,11 @@
 #include <QTextCursor>
 #include <QMessageBox>
 #include <QTextBrowser>
-#include <QDateTime>
 #include "qstatementhistorydialog.h"
 #include "widgets/qsmartdialog.h"
 #include "qstatementnavigationwindow.h"
 #include "qtwovaluesinputdialog.h"
 #include "utils/appsettings.h"
-#include "utils/qfileutils.h"
 
 #define ACT_BTN_PREFIX "ActionButton_"
 #define FILE_CUSTOM_ACTIONS "Actions.lst"
@@ -183,11 +181,7 @@ void QStatementWindow::updateActions(int index)
 void QStatementWindow::on_btnSaveStatements_clicked()
 {
   submitMapperData();
-  if (AppSettings::boolVal("", PRM_LOCAL_PROJECT_BACKUP, false)) {
-    QString backupFile = QFileUtils::legalFilename(dm->projectTitle + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh_mm") + ".backup");
-    qDebug() << "Backup project" << dm->projectTitle << "to" << backupFile;
-    dm->exportSqlTableModel(dm->mStatements, backupFile);
-  }
+  dm->backupLocalProject();
   dm->saveProjectData();
 }
 
@@ -244,6 +238,7 @@ void QStatementWindow::on_addStatementMenuClicked()
     if (currentRow < 0)
       break;
 
+    qDebug() << "Action: Split statement";
     cur = ui->memStatement->textCursor();
     if (cur.anchor() == cur.position()){
       QString sourceStr = ui->memStatement->toPlainText();
@@ -271,6 +266,7 @@ void QStatementWindow::on_addStatementMenuClicked()
     }
     break;
   case Insert:
+    qDebug() << "Action: Insert statement";
     submitMapperData();
     dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
@@ -278,6 +274,7 @@ void QStatementWindow::on_addStatementMenuClicked()
     dm->_mapperStatements->setCurrentIndex(currentRow);
     break;
   case Add:
+    qDebug() << "Action: Add statement";
     submitMapperData();
     dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
