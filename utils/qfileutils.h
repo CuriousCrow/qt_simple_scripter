@@ -24,6 +24,8 @@ public:
   static QString extractDirPath(const QString &fullPath);
 
   static QString extractFileName(const QString &fullPath);
+
+  static QString legalFilename(QString original);
 };
 
 #endif // QFILEUTILS_H

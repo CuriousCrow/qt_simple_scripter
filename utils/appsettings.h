@@ -26,6 +26,7 @@
 //Общие настройки
 #define PRM_EXPORT_DIGIT_COUNT "exportDigitCount"
 #define PRM_SHOW_FRAGMENT_NUMBER "showFragmentNumber"
+#define PRM_LOCAL_PROJECT_BACKUP "localProjectBackup"
 
 
 class AppSettings
