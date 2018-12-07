@@ -92,3 +92,9 @@ QString QFileUtils::extractFileName(const QString &fullPath)
   QFileInfo info(fullPath);
   return info.fileName();
 }
+
+QString QFileUtils::legalFilename(QString original)
+{
+  QRegExp rx("[, \"\\!\\?]{1,}");
+  return original.replace(rx, "_");
+}

@@ -4,11 +4,13 @@
 #include <QTextCursor>
 #include <QMessageBox>
 #include <QTextBrowser>
+#include <QDateTime>
 #include "qstatementhistorydialog.h"
 #include "widgets/qsmartdialog.h"
 #include "qstatementnavigationwindow.h"
 #include "qtwovaluesinputdialog.h"
 #include "utils/appsettings.h"
+#include "utils/qfileutils.h"
 
 #define ACT_BTN_PREFIX "ActionButton_"
 #define FILE_CUSTOM_ACTIONS "Actions.lst"
@@ -162,7 +164,7 @@ void QStatementWindow::on_btnAddDefect_clicked()
 
 void QStatementWindow::updateActions(int index)
 {
-//  qDebug() << "update actions: index =" << index;
+  //  qDebug() << "update actions: index =" << index;
 
   ui->btnNext->setEnabled(index + 1 < dm->mStatementsSmartFiltered->rowCount());
   ui->btnLast->setEnabled(index + 1 < dm->mStatementsSmartFiltered->rowCount());
@@ -181,7 +183,12 @@ void QStatementWindow::updateActions(int index)
 void QStatementWindow::on_btnSaveStatements_clicked()
 {
   submitMapperData();
-  dm->mStatements->submitAll();
+  if (AppSettings::boolVal("", PRM_LOCAL_PROJECT_BACKUP, false)) {
+    QString backupFile = QFileUtils::legalFilename(dm->projectTitle + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh_mm") + ".backup");
+    qDebug() << "Backup project" << dm->projectTitle << "to" << backupFile;
+    dm->exportSqlTableModel(dm->mStatements, backupFile);
+  }
+  dm->saveProjectData();
 }
 
 void QStatementWindow::on_chbHighlighter_clicked()
@@ -209,7 +216,7 @@ void QStatementWindow::on_btnHistory_clicked()
   if ((historyDialog.exec() == QDialog::Accepted)
       && !historyDialog.resultStatement.isEmpty()){
     ui->memStatement->setPlainText(historyDialog.resultStatement);
-  }    
+  }
 }
 
 void QStatementWindow::on_customActionClick()

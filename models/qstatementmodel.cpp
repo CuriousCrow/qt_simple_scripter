@@ -1,33 +1,21 @@
 #include "qstatementmodel.h"
+#include "utils/appconst.h"
 
 QStatementModel::QStatementModel(QObject *parent, QSqlDatabase db) :
   LSqlLinkedRecordsModel(parent, db)
 {
+  addCalcField(new PlainStatementField(COL_STATEMENT_PLAIN));
 }
 
-int QStatementModel::columnCount(const QModelIndex &parent) const
+PlainStatementField::PlainStatementField(QString name) : LCalcField(name)
 {
-  return LSqlLinkedRecordsModel::columnCount(parent) + 1;
 }
 
-QVariant QStatementModel::data(const QModelIndex &index, int role) const
+QVariant PlainStatementField::data(int row, int role)
 {
-  if (!index.isValid())
-    return QVariant();
-  if (index.column() == columnCount(index) - 1) {
-    if (role == Qt::DisplayRole){
-      QString rawText = record(index.row()).value("STATEMENT").toString();
-      return rawText.replace("'", "");
-    }
-    return QVariant();
+  if (role == Qt::DisplayRole){
+    QString rawText = modelData(row, COL_STATEMENT, role).toString();
+    return rawText.replace("'", "");
   }
-  return LSqlLinkedRecordsModel::data(index, role);
-}
-
-Qt::ItemFlags QStatementModel::flags(const QModelIndex &index) const
-{
-  if (index.column() == columnCount(index) - 1){
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-  }
-  return LSqlLinkedRecordsModel::flags(index);
+  return QVariant();
 }
