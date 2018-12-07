@@ -8,6 +8,7 @@
 #include <QDir>
 #include "qtextprocessor.h"
 #include <QTextCodec>
+#include <QDateTime>
 #include "utils/qdatabaseupdater.h"
 #include "widgets/qsmartdialog.h"
 #include "utils/appsettings.h"
@@ -15,6 +16,7 @@
 #include "utils/qsqlqueryhelper.h"
 #include "utils/slogger.h"
 #include "utils/strutils.h"
+#include "utils/qfileutils.h"
 
 QDataModule* QDataModule::_dm = 0;
 
@@ -93,7 +95,16 @@ void QDataModule::loadProjectData(int id)
 bool QDataModule::saveProjectData()
 {
   return mSpeakers->submitAll()
-      && mStatements->submitAll();
+          && mStatements->submitAll();
+}
+
+bool QDataModule::backupLocalProject()
+{
+    if (AppSettings::boolVal("", PRM_LOCAL_PROJECT_BACKUP, false)) {
+      QString backupFile = QFileUtils::legalFilename(projectTitle + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh_mm") + ".backup");
+      qDebug() << "Backup project" << projectTitle << "to" << backupFile;
+      exportSqlTableModel(mStatements, backupFile);
+    }
 }
 
 void QDataModule::checkForUnsavedProject()
@@ -101,8 +112,10 @@ void QDataModule::checkForUnsavedProject()
   if (!mStatements->isDirty() && !mSpeakers->isDirty())
     return;
 
-  if (QSmartDialog::confirmationDialog(SConfirmSaveModifiedProject))
+  if (QSmartDialog::confirmationDialog(SConfirmSaveModifiedProject)) {
+    backupLocalProject();
     saveProjectData();
+  }
 }
 
 void QDataModule::saveLastStatement()
