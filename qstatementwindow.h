@@ -4,6 +4,7 @@
 #include "qbasewindow.h"
 #include "qdatamodule.h"
 #include "utils/sparams.h"
+#include "widgets/colormonitor.h"
 #include <QDataWidgetMapper>
 #include <QMenu>
 #include "qspeakerwindow.h"
@@ -54,6 +55,9 @@ private slots:
   void on_chbFilter_clicked();
 
   void updateFragmentNumber();
+
+  void monitorCheck(MonitorState &state, QString &description);
+
 public slots:
   void onProjectLoaded(int oldId, int newId);
 private:

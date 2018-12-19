@@ -47,7 +47,8 @@ SOURCES += main.cpp\
     utils/qsqlqueryhelper.cpp \
     utils/slogger.cpp \
     utils/qfileutils.cpp \
-    utils/strutils.cpp
+    utils/strutils.cpp \
+    widgets/colormonitor.cpp
 
 HEADERS  += \
     qdatamodule.h \
@@ -83,7 +84,8 @@ HEADERS  += \
     utils/qsqlqueryhelper.h \
     utils/slogger.h \
     utils/qfileutils.h \
-    utils/strutils.h
+    utils/strutils.h \
+    widgets/colormonitor.h
 
 FORMS    += \
     qstatementwindow.ui \

@@ -66,5 +66,7 @@ QStringList QDatabaseUpdater::initializeUpdateScript()
   scriptList.append("select * from sys_params");
   //8
   scriptList.append("select * from sys_params");
+  //9 Максимальный размер реплики 5000 символов
+  scriptList.append("ALTER TABLE statements ALTER statement TYPE varchar(5000)");
   return scriptList;
 }
