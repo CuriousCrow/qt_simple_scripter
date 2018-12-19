@@ -9,6 +9,7 @@
 #include "qstatementnavigationwindow.h"
 #include "qtwovaluesinputdialog.h"
 #include "utils/appsettings.h"
+#include "utils/appconst.h"
 
 #define ACT_BTN_PREFIX "ActionButton_"
 #define FILE_CUSTOM_ACTIONS "Actions.lst"
@@ -22,7 +23,7 @@ QStatementWindow* QStatementWindow::singletonWindow = 0;
 QStatementWindow::QStatementWindow(QWidget *parent) :
   QBaseWindow(parent),
   ui(new Ui::QStatementWindow)
-{
+{     
   ui->setupUi(this);
   setObjectName("QStatementWindow");
 
@@ -79,6 +80,11 @@ QStatementWindow::QStatementWindow(QWidget *parent) :
   loadCustomActions();
 
   createAddMenu();
+
+  connect(ui->wtMonitor, SIGNAL(checkMethod(MonitorState&,QString&)),
+          this, SLOT(monitorCheck(MonitorState&,QString&)));
+  connect(ui->memStatement, SIGNAL(textChanged()),
+          ui->wtMonitor, SLOT(update()));
 
   //Перехват комбинаций клавиш от редактора
   ui->memStatement->installEventFilter(this);
@@ -181,8 +187,7 @@ void QStatementWindow::updateActions(int index)
 void QStatementWindow::on_btnSaveStatements_clicked()
 {
   submitMapperData();
-  dm->backupLocalProject();
-  dm->saveProjectData();
+  dm->checkForUnsavedProject(false);
 }
 
 void QStatementWindow::on_chbHighlighter_clicked()
@@ -361,6 +366,19 @@ void QStatementWindow::updateFragmentNumber()
       fragments++;
   }
   statusBar()->showMessage("Эпизод: " + QString::number(fragments));
+}
+
+void QStatementWindow::monitorCheck(MonitorState &state, QString &description)
+{
+  qDebug() << ui->memStatement->toPlainText().length();
+  if (ui->memStatement->toPlainText().length() > MAX_STATEMENT_SIZE) {
+    state = MonitorState::Error;
+    description = "Превышен максимальный размер реплики";
+  }
+  else {
+    state = MonitorState::Ok;
+    description = "Всё хорошо";
+  }
 }
 
 void QStatementWindow::on_btnDelete_clicked()

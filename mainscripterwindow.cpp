@@ -77,7 +77,7 @@ void MainScripterWindow::on_aTestPattern_triggered()
 
 void MainScripterWindow::closeEvent(QCloseEvent *)
 {
-  QDataModule::dm(this)->checkForUnsavedProject();
+  QDataModule::dm(this)->checkForUnsavedProject(true);
 }
 
 void MainScripterWindow::on_aAutosaveSetting_triggered()

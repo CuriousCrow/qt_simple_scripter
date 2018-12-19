@@ -17,7 +17,6 @@
 #include "models/qstatementfiltermodel.h"
 #include "utils/sparams.h"
 
-#define MAX_STATEMENT_LENGTH 3500
 #define DB_VERSION_TABLE "SYS_PARAMS"
 #define DB_VERSION_FIELD "DATABASE_VERSION"
 
@@ -149,7 +148,7 @@ public:
   void loadProjectData(int id);
   bool saveProjectData();
   bool backupLocalProject();
-  void checkForUnsavedProject();
+  void checkForUnsavedProject(bool showDialog = false);
 
   void saveLastStatement();
   void loadLastStatement();
@@ -185,6 +184,7 @@ private:
   bool rollbackTransaction();
   bool loadModel(LSqlTableModel* model, QString table, QString sequence = "");
   qlonglong getLastRecordId(LSqlTableModel* model);
+  int checkStatementLengthExceeded();
   void setTableHeaders(QSqlTableModel* table, QStringList headers);
   //Применение шаблонов замены к строке
   QString processByReplacePatterns(QString statement, int patternType, bool logging);

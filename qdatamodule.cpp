@@ -12,11 +12,11 @@
 #include "utils/qdatabaseupdater.h"
 #include "widgets/qsmartdialog.h"
 #include "utils/appsettings.h"
-#include "utils/appconst.h"
 #include "utils/qsqlqueryhelper.h"
 #include "utils/slogger.h"
 #include "utils/strutils.h"
 #include "utils/qfileutils.h"
+#include "utils/appconst.h"
 
 QDataModule* QDataModule::_dm = 0;
 
@@ -69,7 +69,7 @@ QString QDataModule::appPath()
 
 void QDataModule::loadProjectData(int id)
 {      
-  checkForUnsavedProject();
+  checkForUnsavedProject(true);
 
   saveLastStatement();
 
@@ -105,16 +105,25 @@ bool QDataModule::backupLocalProject()
       qDebug() << "Backup project" << projectTitle << "to" << backupFile;
       exportSqlTableModel(mStatements, backupFile);
     }
+    return true;
 }
 
-void QDataModule::checkForUnsavedProject()
+void QDataModule::checkForUnsavedProject(bool showDialog)
 {
   if (!mStatements->isDirty() && !mSpeakers->isDirty())
     return;
 
-  if (QSmartDialog::confirmationDialog(SConfirmSaveModifiedProject)) {
+  if (!showDialog || QSmartDialog::confirmationDialog(SConfirmSaveModifiedProject)) {
     backupLocalProject();
-    saveProjectData();
+    int errorRow = QDataModule::dm()->checkStatementLengthExceeded();
+    if (errorRow >= 0) {
+      int targetRow = mStatementsSmartFiltered->mapFromSource(mStatements->index(errorRow, 0)).row();
+      _mapperStatements->setCurrentIndex(targetRow);
+      QSmartDialog::errorDialog("Проект не может быть сохранен. Есть реплики с превышением максимального размера реплики");
+    }
+    else {
+      saveProjectData();
+    }
   }
 }
 
@@ -225,7 +234,7 @@ bool QDataModule::importProject(QString importPath)
 
   foreach(QString rawLine, textLines){
     QStringList statementList
-        = QTextProcessor::splitStringBySize(rawLine, MAX_STATEMENT_LENGTH, headerDelimiter);
+        = QTextProcessor::splitStringBySize(rawLine, STATEMENT_SPLIT_SIZE, headerDelimiter);
     foreach(QString statement, statementList){
       newStatementText = processByReplacePatterns(statement.trimmed(), PT_IMPORT, false);
       submitted &= mStatements->insertRow(mStatements->rowCount());
@@ -570,6 +579,21 @@ qlonglong QDataModule::getLastRecordId(LSqlTableModel *model)
   return model->data(model->index(rowIndex, model->fieldIndex(SColID))).toLongLong();
 }
 
+int QDataModule::checkStatementLengthExceeded()
+{
+  int idx = -1;
+  for (int row = 0; row < mStatements->rowCount(); row++) {
+      int stSize = mStatements->data(row, COL_STATEMENT).toString().size();
+      qDebug() << "Row:" << row << stSize;
+      if (stSize > MAX_STATEMENT_SIZE) {
+        qDebug() << "Statement size exceeded";
+        idx = row;
+        break;
+      }
+  }
+  return idx;
+}
+
 void QDataModule::setTableHeaders(QSqlTableModel *table, QStringList headers)
 {
     for (int i=0; i < headers.size(); i++){
@@ -607,7 +631,11 @@ void QDataModule::on_autosave_timeout()
     debugMsg = SErrNoProjectLoaded;
   }
   else {
-    if (saveProjectData()){
+    int exceedLengthRow = checkStatementLengthExceeded();
+    if (exceedLengthRow >= 0) {
+      debugMsg = RESULT_FAILED;
+    }
+    else if (saveProjectData()){
       debugMsg = RESULT_SUCCESS;
     }
     else {
