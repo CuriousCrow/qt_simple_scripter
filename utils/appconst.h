@@ -41,7 +41,7 @@
 #define DEF_LOG_EXT ".log"
 
 #define PATH_DELIMITER "/"
-#define MAX_STATEMENT_SIZE 200
+#define MAX_STATEMENT_SIZE 5000
 #define STATEMENT_SPLIT_SIZE 3000
 
 #endif // APPCONST_H

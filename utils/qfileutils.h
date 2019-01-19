@@ -15,7 +15,7 @@ public:
   //Загрука файла в строку
   static QString fileToString(QString filepath, bool isUtf8 = true);
   //Сохранение строки в файл
-  bool stringToFile(QString str, QString filepath, bool isUtf = true);
+  static bool stringToFile(QString str, QString filepath, bool isUtf = true);
   //Транслитерация строки
   static QString transliterate(QString& inStr);
   //

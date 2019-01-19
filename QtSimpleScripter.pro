@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     qdatamodule.cpp \
     qstatementwindow.cpp \
     qspeakerwindow.cpp \
-    models/qusersqltablemodel.cpp \
     qlookupitemdelegate.cpp \
     qhighlightpatternwindow.cpp \
     widgets/qcolorbox.cpp \
@@ -54,7 +53,6 @@ HEADERS  += \
     qdatamodule.h \
     qstatementwindow.h \
     qspeakerwindow.h \
-    models/qusersqltablemodel.h \
     qlookupitemdelegate.h \
     qhighlightpatternwindow.h \
     widgets/qcolorbox.h \
