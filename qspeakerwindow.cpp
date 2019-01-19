@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QIntValidator>
 #include "widgets/qsmartdialog.h"
 
 #define WARN_CHOOSE_SPEAKER "Для автосвязывания необходимо сначала выбрать говорящего"
@@ -26,6 +27,8 @@ QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setObjectName("QSpeakerWindow");
+
+    ui->edtBirthYear->setValidator(new QIntValidator(1000, 2000, this));
 
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);

@@ -362,7 +362,7 @@ void QStatementWindow::updateFragmentNumber()
   int fragments = 1;
   int col = dm->mStatements->fieldIndex("STATEMENT");
   for(int row = 0; row < srcRow; row++) {
-    if (dm->mStatements->index(row, col).data().toString() == "$")
+    if (dm->mStatements->index(row, col).data().toString().trimmed() == "$")
       fragments++;
   }
   statusBar()->showMessage("Эпизод: " + QString::number(fragments));

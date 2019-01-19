@@ -92,10 +92,21 @@ void QDataModule::loadProjectData(int id)
   emit projectLoaded(oldProject, projectId);
 }
 
-bool QDataModule::saveProjectData()
+bool QDataModule::saveProjectData(bool verbose)
 {
-  return mSpeakers->submitAll()
-          && mStatements->submitAll();
+  QStringList sqlErrors;
+  bool saveResult = mSpeakers->submitAll();
+  sqlErrors.append(mSpeakers->sqlErrors());
+  saveResult = saveResult && mStatements->submitAll();
+  sqlErrors.append(mStatements->sqlErrors());
+  if (!sqlErrors.isEmpty()) {
+    QString msg = "Произошло %1 ошибок при сохранении проекта!\r\n№1: %2";
+    if (verbose)
+      QSmartDialog::errorDialog(msg.arg(sqlErrors.count()).arg(sqlErrors.first()));
+    QFileUtils::stringToFile(sqlErrors.join("\r\n"), "sql_errors.txt");
+  }
+
+  return saveResult;
 }
 
 bool QDataModule::backupLocalProject()
@@ -122,7 +133,7 @@ void QDataModule::checkForUnsavedProject(bool showDialog)
       QSmartDialog::errorDialog("Проект не может быть сохранен. Есть реплики с превышением максимального размера реплики");
     }
     else {
-      saveProjectData();
+      saveProjectData(true);
     }
   }
 }
@@ -502,7 +513,7 @@ bool QDataModule::loadModels()
   mReplacePatterns->setSort(COL_PRIORITY, Qt::AscendingOrder);
   result = result && loadModel(mReplacePatterns, TABLE_REPLACE_PATTERNS, GEN_REPLACE_PATTERNS);
 
-  mSpeakers = new QUserSqlTableModel(this, db);
+  mSpeakers = new LSqlTableModel(this, db);
   mSpeakers->setFilter("project_id=0");
   connect(mSpeakers, SIGNAL(beforeInsert(QSqlRecord&)),
           this, SLOT(initNewSpeaker(QSqlRecord&)));
@@ -635,7 +646,7 @@ void QDataModule::on_autosave_timeout()
     if (exceedLengthRow >= 0) {
       debugMsg = RESULT_FAILED;
     }
-    else if (saveProjectData()){
+    else if (saveProjectData(false)){
       debugMsg = RESULT_SUCCESS;
     }
     else {

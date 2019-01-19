@@ -11,7 +11,6 @@
 #include <QSqlError>
 #include <QTimer>
 #include <QSettings>
-#include "models/qusersqltablemodel.h"
 #include <QSortFilterProxyModel>
 #include "models/qstatementmodel.h"
 #include "models/qstatementfiltermodel.h"
@@ -122,7 +121,7 @@ public:
 
   QSqlDatabase db;
   LSqlTableModel* mProjects;
-  QUserSqlTableModel* mSpeakers;
+  LSqlTableModel* mSpeakers;
   QStatementModel* mStatements;
   QSortFilterProxyModel* mStatementsNavigation;
   QStatementFilterModel* mStatementsSmartFiltered;
@@ -146,7 +145,7 @@ public:
   QString appPath();
 
   void loadProjectData(int id);
-  bool saveProjectData();
+  bool saveProjectData(bool verbose = false);
   bool backupLocalProject();
   void checkForUnsavedProject(bool showDialog = false);
 

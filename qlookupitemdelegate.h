@@ -2,19 +2,19 @@
 #define QLOOKUPITEMDELEGATE_H
 
 #include <QItemDelegate>
-#include "models/qusersqltablemodel.h"
+#include "../../../Qt/LSqlTableModel/trunk/lsqltablemodel.h"
 
 class QLookupItemDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
     explicit QLookupItemDelegate(QObject *parent = 0);
-    void setListModel(QUserSqlTableModel* model){ listModel = model; }
+    void setListModel(LSqlTableModel* model){ listModel = model; }
     //QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex & index) const;
     void setEditorData(QWidget* editor, const QModelIndex& index) const;
     void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
 private:
-    QUserSqlTableModel* listModel;
+    LSqlTableModel* listModel;
 signals:
 
 public slots:
