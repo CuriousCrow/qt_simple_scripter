@@ -595,7 +595,7 @@ int QDataModule::checkStatementLengthExceeded()
   int idx = -1;
   for (int row = 0; row < mStatements->rowCount(); row++) {
       int stSize = mStatements->data(row, COL_STATEMENT).toString().size();
-      qDebug() << "Row:" << row << stSize;
+//      qDebug() << "Row:" << row << stSize;
       if (stSize > MAX_STATEMENT_SIZE) {
         qDebug() << "Statement size exceeded";
         idx = row;
