@@ -370,7 +370,7 @@ void QStatementWindow::updateFragmentNumber()
 
 void QStatementWindow::monitorCheck(MonitorState &state, QString &description)
 {
-  qDebug() << ui->memStatement->toPlainText().length();
+//  qDebug() << ui->memStatement->toPlainText().length();
   if (ui->memStatement->toPlainText().length() > MAX_STATEMENT_SIZE) {
     state = MonitorState::Error;
     description = "Превышен максимальный размер реплики";
