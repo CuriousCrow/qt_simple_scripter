@@ -395,7 +395,7 @@ bool QDataModule::exportProject()
     else {
       if (currSpeakerId != lastSpeakerId) {
         if (!resStatement.isEmpty())
-          exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(), resStatement.trimmed());
+          exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(true), resStatement.trimmed());
         resStatement.clear();
         speakerAttrs.clear();
         if (currSpeakerId != 0){
@@ -410,7 +410,7 @@ bool QDataModule::exportProject()
     }
     lastSpeakerId = currSpeakerId;
   }
-  exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(), resStatement.trimmed());
+  exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(true), resStatement.trimmed());
   if (multifileDelimiter.isEmpty()){
     QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + ".xml");
   }
