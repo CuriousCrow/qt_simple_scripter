@@ -22,7 +22,7 @@ class MainScripterWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit MainScripterWindow(QWidget *parent = 0);
+  explicit MainScripterWindow(QWidget *parent = nullptr);
   ~MainScripterWindow();
 
 private slots:

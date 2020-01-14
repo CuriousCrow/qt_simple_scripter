@@ -9,7 +9,7 @@ class QTableHighlighter : public QSyntaxHighlighter
 {
   Q_OBJECT
 public:
-  explicit QTableHighlighter(QObject *parent = 0);
+  explicit QTableHighlighter(QObject *parent = nullptr);
   void setModel(LSqlTableModel* tableModel){ _model = tableModel; }
   void setPatternColumn(QString name){ _patternColName = name; }
   void setHexcolorColumn(QString name){ _hexcolorColName = name; }

@@ -7,7 +7,7 @@
 #define EDITOR_COMBOBOX "COMBOBOX"
 #define EDITOR_CHECKLIST "CHECKLIST"
 
-QProjectEditWindow* QProjectEditWindow::singletonWindow = 0;
+QProjectEditWindow* QProjectEditWindow::singletonWindow = nullptr;
 
 QProjectEditWindow::QProjectEditWindow(QWidget *parent) :
   QBaseWindow(parent),

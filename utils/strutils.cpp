@@ -1,6 +1,6 @@
 #include "strutils.h"
 #include <QDebug>
-
+#include <QtMath>
 
 #define VAL_BRACKETS "#"
 
@@ -36,7 +36,7 @@ QList<qlonglong> StrUtils::longToList(qlonglong longVal)
 //    qDebug() << longVal << strMask;
     for(int i=0; i<strMask.length(); i++) {
         if (strMask.at(strMask.length()-1-i) == '1')
-            resList.append(pow(2,i));
+            resList.append(qRound(qPow(2,i)));
     }
     return resList;
 }

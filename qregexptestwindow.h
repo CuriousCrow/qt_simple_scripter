@@ -14,10 +14,10 @@ class QRegexpTestWindow : public QWidget
   Q_OBJECT
 
 public:
-  explicit QRegexpTestWindow(QWidget *parent = 0);
+  explicit QRegexpTestWindow(QWidget *parent = nullptr);
   ~QRegexpTestWindow();
 
-  static QRegexpTestWindow* Instance(QWidget* parent = 0);
+  static QRegexpTestWindow* Instance(QWidget* parent = nullptr);
 private slots:
   void on_edtRegexp_textChanged(const QString &arg1);
 

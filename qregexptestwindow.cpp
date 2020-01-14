@@ -2,7 +2,7 @@
 #include "ui_qregexptestwindow.h"
 #include <QDebug>
 
-QRegexpTestWindow* QRegexpTestWindow::singletonWindow = 0;
+QRegexpTestWindow* QRegexpTestWindow::singletonWindow = nullptr;
 
 QRegexpTestWindow::QRegexpTestWindow(QWidget *parent) :
   QWidget(parent, Qt::Window),

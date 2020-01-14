@@ -15,7 +15,7 @@ class QReplacePatternWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QReplacePatternWindow(QWidget *parent = 0);
+  explicit QReplacePatternWindow(QWidget *parent = nullptr);
   ~QReplacePatternWindow();
 
   static QReplacePatternWindow* Instance(QWidget* parent);

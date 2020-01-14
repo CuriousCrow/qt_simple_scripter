@@ -22,8 +22,8 @@ class QStatementWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QStatementWindow(QWidget *parent = 0);
-  ~QStatementWindow();
+  explicit QStatementWindow(QWidget *parent = nullptr);
+  virtual ~QStatementWindow() override;
   static QStatementWindow* Instance(QWidget* parent);
 
   void updateMapper();
@@ -59,7 +59,7 @@ private slots:
   void monitorCheck(MonitorState &state, QString &description);
 
 public slots:
-  void onProjectLoaded(int oldId, int newId);
+  void onProjectLoaded(qlonglong oldId, qlonglong newId);
 private:
   static QStatementWindow* singletonWindow;
   QDataModule* dm;

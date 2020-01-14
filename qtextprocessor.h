@@ -11,7 +11,7 @@ class QTextProcessor : public QObject
 {
   Q_OBJECT
 public:
-  explicit QTextProcessor(QObject *parent = 0);
+  explicit QTextProcessor(QObject *parent = nullptr);
   static QString processByAccentuator(QString str);
   static QString fileToString(QString filepath, bool isUtf8 = true);
   static bool stringToFile(QString str, QString filepath, bool isUtf8 = true);

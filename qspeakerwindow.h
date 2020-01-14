@@ -16,14 +16,14 @@ class QSpeakerWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QSpeakerWindow(QWidget *parent = 0);
+  explicit QSpeakerWindow(QWidget *parent = nullptr);
   ~QSpeakerWindow();
 
-  static QSpeakerWindow* Instance(QWidget* parent = 0);
+  static QSpeakerWindow* Instance(QWidget* parent = nullptr);
   LSqlTableModel* model() { return _model; }
   void setEditable(bool on);
 public slots:
-  void onProjectLoaded(int oldId, int newId);
+  void onProjectLoaded(qlonglong oldId, qlonglong newId);
 private slots:
   void on_btnClose_clicked();
   void on_btnSave_clicked();

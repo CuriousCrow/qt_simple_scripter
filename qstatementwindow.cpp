@@ -18,7 +18,7 @@
 #define S_DICTIONARY_FORM "Словарная форма"
 #define PATTERN_DEFECTIVE_FORM "<distinct form=\"%1\">%2</distinct>"
 
-QStatementWindow* QStatementWindow::singletonWindow = 0;
+QStatementWindow* QStatementWindow::singletonWindow = nullptr;
 
 QStatementWindow::QStatementWindow(QWidget *parent) :
   QBaseWindow(parent),
@@ -29,7 +29,7 @@ QStatementWindow::QStatementWindow(QWidget *parent) :
 
   dm = QDataModule::dm();
   //Связь сигнала о загрузке проекта
-  connect(dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded(int,int)));
+  connect(dm, SIGNAL(projectLoaded(qlonglong,qlonglong)), this, SLOT(onProjectLoaded(int,int)));
 
   _mapperDelegate = new QLookupItemDelegate(this);
 
@@ -401,7 +401,7 @@ void QStatementWindow::on_btnDelete_clicked()
 
 }
 
-void QStatementWindow::onProjectLoaded(int oldId, int newId)
+void QStatementWindow::onProjectLoaded(qlonglong oldId, qlonglong newId)
 {  
   std::ignore = oldId;
 

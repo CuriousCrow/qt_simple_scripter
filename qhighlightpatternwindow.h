@@ -15,10 +15,10 @@ class QHighlightPatternWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QHighlightPatternWindow(QWidget *parent = 0);
+  explicit QHighlightPatternWindow(QWidget *parent = nullptr);
   ~QHighlightPatternWindow();
 
-  static QHighlightPatternWindow* Instance(QWidget* parent = 0);
+  static QHighlightPatternWindow* Instance(QWidget* parent = nullptr);
 private slots:
   void on_btnApply_clicked();
   void on_btnCancel_clicked();

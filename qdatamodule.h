@@ -110,11 +110,11 @@ class QDataModule : public QObject
 {
   Q_OBJECT
 public:
-  explicit QDataModule(QObject *parent = 0);
+  explicit QDataModule(QObject *parent = nullptr);
   ~QDataModule();
 
   static QDataModule* _dm;
-  static QDataModule* dm(QObject* parent = 0);
+  static QDataModule* dm(QObject* parent = nullptr);
 
   static const int PT_IMPORT = 1;
   static const int PT_EXPORT = 2;
@@ -188,7 +188,7 @@ private:
   //Применение шаблонов замены к строке
   QString processByReplacePatterns(QString statement, int patternType, bool logging);
 signals:
-  void projectLoaded(int oldProjecId, int newProjectId);
+  void projectLoaded(qlonglong oldProjecId, qlonglong newProjectId);
 private slots:
   void on_autosave_timeout();
   void initNewSpeaker(QSqlRecord &record);

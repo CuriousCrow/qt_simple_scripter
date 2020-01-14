@@ -22,10 +22,10 @@ class QProjectListWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QProjectListWindow(QWidget *parent = 0);
+  explicit QProjectListWindow(QWidget *parent = nullptr);
   ~QProjectListWindow();
 
-  static QProjectListWindow* Instance(QWidget *parent = 0);
+  static QProjectListWindow* Instance(QWidget *parent = nullptr);
 private slots:
   void on_btnEditProject_clicked();
 

@@ -18,7 +18,7 @@
 #include "utils/qfileutils.h"
 #include "utils/appconst.h"
 
-QDataModule* QDataModule::_dm = 0;
+QDataModule* QDataModule::_dm = nullptr;
 
 QDataModule::QDataModule(QObject *parent) :
   QObject(parent)
@@ -325,7 +325,7 @@ bool QDataModule::importFromXml(QString importPath)
     }
   }
   if (submitted){
-    emit projectLoaded(0, projectId);
+    emit projectLoaded(qlonglong(0), projectId);
   }
   return submitted;
 }
