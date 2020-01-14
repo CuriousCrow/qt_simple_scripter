@@ -389,7 +389,7 @@ bool QDataModule::exportProject()
       exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(true), resStatement.trimmed());
       resStatement.clear();
       speakerAttrs.clear();
-      QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + "_" + StrUtils::intToStr(fileIndex++, digitsCount) + ".xml");
+      QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + PATH_DELIMITER + projectDir + PATH_DELIMITER + projectTitle + "_" + StrUtils::intToStr(fileIndex++, digitsCount) + ".xml");
       exportText.clear();
     }
     else {
@@ -412,10 +412,10 @@ bool QDataModule::exportProject()
   }
   exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(true), resStatement.trimmed());
   if (multifileDelimiter.isEmpty()){
-    QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + ".xml");
+    QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + PATH_DELIMITER + projectDir + PATH_DELIMITER + projectTitle + ".xml");
   }
   else {
-    result = QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + "_" + StrUtils::intToStr(fileIndex++, digitsCount) + ".xml");
+    result = QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + PATH_DELIMITER + projectDir + PATH_DELIMITER + projectTitle + "_" + StrUtils::intToStr(fileIndex++, digitsCount) + ".xml");
   }
 
   return result;
