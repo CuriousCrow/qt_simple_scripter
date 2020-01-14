@@ -71,7 +71,7 @@ const QString SExportSetting = "Настройка экспорта";
 const QString SConfirmDeleteStatement = "Вы действительно хотите удалить текущую реплику?";
 const QString SConfirmAccentuatorRun = "В реплике обнаружены знаки ударения. Вы действительно хотите запустить акцентуатор?";
 
-const QString SExportFilePattern = "<html><head></head><body>\r\n%1</body></html>";
+const QString SExportFilePattern = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<html><head></head><body>\r\n%1</body></html>";
 const QString SExportStatementPattern = "<speech %1>%2</speech>\r\n";
 
 const QString SActionAddStatement = "Добавить реплику";
