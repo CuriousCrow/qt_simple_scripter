@@ -266,10 +266,13 @@ QString SParams::toXml(const QString &root, const QString &element)
     return result;
 }
 
-QString SParams::toXmlAttrs()
+QString SParams::toXmlAttrs(bool sort)
 {
   QString res = "";
-  foreach(QString key, keys()){
+  QStringList keyList = keys();
+  if (sort)
+    keyList.sort();
+  foreach(QString key, keyList){
     if (!value(key).toString().isEmpty())
       res += (key + "=\"" + value(key).toString() + "\" ");
   }

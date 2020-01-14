@@ -21,7 +21,7 @@ public:
     QString toText() const;
     QString toHtml() const;
     QString toXml(const QString &root = "sparams", const QString &element = "param");
-    QString toXmlAttrs();
+    QString toXmlAttrs(bool sort = false);
     QString toJson();
     QString toCsv();
     void toHash(QHash <QString, QVariant> &dest, const QString &addPrefix = ""); //перекладывание параметров в QHash с указанием префикса

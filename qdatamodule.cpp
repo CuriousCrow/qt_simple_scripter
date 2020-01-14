@@ -386,7 +386,7 @@ bool QDataModule::exportProject()
     qDebug() << i << ":" << currSpeakerId;
     QString statementText = statementRec.value(SColStatement).toString() + SSpace;
     if (!multifileDelimiter.isEmpty() && statementText.trimmed() == multifileDelimiter){
-      exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(), resStatement.trimmed());
+      exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(true), resStatement.trimmed());
       resStatement.clear();
       speakerAttrs.clear();
       QTextProcessor::stringToFile(SExportFilePattern.arg(exportText), appPath() + "/" + projectDir + "/" + projectTitle + "_" + StrUtils::intToStr(fileIndex++, digitsCount) + ".xml");
