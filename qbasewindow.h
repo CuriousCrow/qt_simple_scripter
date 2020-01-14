@@ -15,7 +15,7 @@ class QBaseWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit QBaseWindow(QWidget *parent = 0);
+  explicit QBaseWindow(QWidget *parent = nullptr);
   ~QBaseWindow();
   void setTitle(QString title);
 protected:

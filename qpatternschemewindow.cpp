@@ -9,7 +9,7 @@
 #include <QSqlTableModel>
 #include "widgets/qsmartdialog.h"
 
-QPatternSchemeWindow* QPatternSchemeWindow::singletonWindow = 0;
+QPatternSchemeWindow* QPatternSchemeWindow::singletonWindow = nullptr;
 
 QPatternSchemeWindow::QPatternSchemeWindow(QWidget *parent) :
   QBaseWindow(parent),

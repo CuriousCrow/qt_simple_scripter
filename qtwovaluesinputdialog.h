@@ -12,7 +12,7 @@ class QTwoValuesInputDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit QTwoValuesInputDialog(QWidget *parent = 0);
+  explicit QTwoValuesInputDialog(QWidget *parent = nullptr);
   ~QTwoValuesInputDialog();
 
   void setParam1(QString title, QString value = "");

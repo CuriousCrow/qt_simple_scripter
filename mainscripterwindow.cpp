@@ -14,7 +14,7 @@ MainScripterWindow::MainScripterWindow(QWidget *parent) :
   baseWindowTitle = windowTitle();
 
   QDataModule* dm = QDataModule::dm(this);
-  connect(dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded()));
+  connect(dm, SIGNAL(projectLoaded(qlonglong,qlonglong)), this, SLOT(onProjectLoaded()));
   on_aProjectList_triggered();
 }
 

@@ -7,7 +7,7 @@
 #include <QMenu>
 #include "widgets/qsmartdialog.h"
 
-QProjectListWindow* QProjectListWindow::singletonWindow = 0;
+QProjectListWindow* QProjectListWindow::singletonWindow = nullptr;
 
 QProjectListWindow::QProjectListWindow(QWidget *parent) :
   QBaseWindow(parent),

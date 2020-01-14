@@ -8,7 +8,7 @@ class QRegexpHighlighter : public QSyntaxHighlighter
 {
   Q_OBJECT
 public:
-  explicit QRegexpHighlighter(QObject *parent = 0);
+  explicit QRegexpHighlighter(QObject *parent = nullptr);
   void setPattern(QString pattern);
   void setColor(QColor val){ color = val; }
 private:

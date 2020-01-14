@@ -2,7 +2,7 @@
 #include "ui_qstatementnavigationwindow.h"
 #include <QDebug>
 
-QStatementNavigationWindow* QStatementNavigationWindow::singletonWindow = 0;
+QStatementNavigationWindow* QStatementNavigationWindow::singletonWindow = nullptr;
 
 QStatementNavigationWindow::QStatementNavigationWindow(QWidget *parent) :
   QBaseWindow(parent),

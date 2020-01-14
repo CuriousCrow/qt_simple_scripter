@@ -13,7 +13,7 @@ class QStatementNavigationWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QStatementNavigationWindow(QWidget *parent = 0);
+  explicit QStatementNavigationWindow(QWidget *parent = nullptr);
   ~QStatementNavigationWindow();
 
   static QStatementNavigationWindow* Instance(QWidget *parent);

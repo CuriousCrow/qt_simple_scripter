@@ -14,10 +14,10 @@ class QPatternSchemeWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QPatternSchemeWindow(QWidget *parent = 0);
+  explicit QPatternSchemeWindow(QWidget *parent = nullptr);
   ~QPatternSchemeWindow();
 
-  static QPatternSchemeWindow* Instance(QWidget* parent = 0);
+  static QPatternSchemeWindow* Instance(QWidget* parent = nullptr);
 private slots:
   void on_btnClose_clicked();
 

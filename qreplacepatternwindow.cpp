@@ -2,7 +2,7 @@
 #include "ui_qreplacepatternwindow.h"
 #include <QDebug>
 
-QReplacePatternWindow* QReplacePatternWindow::singletonWindow = 0;
+QReplacePatternWindow* QReplacePatternWindow::singletonWindow = nullptr;
 
 QReplacePatternWindow::QReplacePatternWindow(QWidget *parent) :
   QBaseWindow(parent),

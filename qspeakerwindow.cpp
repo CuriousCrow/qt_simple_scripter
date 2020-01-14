@@ -19,7 +19,7 @@
 #define NEW_SPEAKER "Новый говорящий"
 
 
-QSpeakerWindow* QSpeakerWindow::singletonWindow = 0;
+QSpeakerWindow* QSpeakerWindow::singletonWindow = nullptr;
 
 QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
     QBaseWindow(parent),
@@ -36,7 +36,7 @@ QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
     setModel(_dm->mSpeakers);
 
     //Связываем сигнал о загрузке проекта к слоту
-    connect(_dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded(int,int)));
+    connect(_dm, SIGNAL(projectLoaded(qlonglong,qlonglong)), this, SLOT(onProjectLoaded(int,int)));
     onProjectLoaded(0, _dm->projectId);
 }
 
@@ -62,7 +62,7 @@ void QSpeakerWindow::setEditable(bool on)
   setLayoutEditable(ui->loFieldWidgets, on);
 }
 
-void QSpeakerWindow::onProjectLoaded(int oldId, int newId)
+void QSpeakerWindow::onProjectLoaded(qlonglong oldId, qlonglong newId)
 {
   std::ignore = oldId;
   setEditable(newId > 0);

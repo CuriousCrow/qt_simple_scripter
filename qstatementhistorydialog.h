@@ -13,7 +13,7 @@ class QStatementHistoryDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit QStatementHistoryDialog(QWidget *parent = 0);
+  explicit QStatementHistoryDialog(QWidget *parent = nullptr);
   ~QStatementHistoryDialog();
 
   void loadHistory(int statementId);

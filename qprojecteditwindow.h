@@ -23,9 +23,9 @@ class QProjectEditWindow : public QBaseWindow
   Q_OBJECT
 
 public:
-  explicit QProjectEditWindow(QWidget *parent = 0);
+  explicit QProjectEditWindow(QWidget *parent = nullptr);
   ~QProjectEditWindow();
-  static QProjectEditWindow* Instance(QWidget* parent = 0);
+  static QProjectEditWindow* Instance(QWidget* parent = nullptr);
 
   QDataWidgetMapper* projectMapper;
 protected:
