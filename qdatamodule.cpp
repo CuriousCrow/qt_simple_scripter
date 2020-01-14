@@ -400,10 +400,10 @@ bool QDataModule::exportProject()
         speakerAttrs.clear();
         if (currSpeakerId != 0){
           speakerRec = mSpeakers->recordById(currSpeakerId);
-          speakerAttrs.setValue(COL_ROLE, speakerRec->value(SColSpeachRole).toString());
           speakerAttrs.setValue(COL_ACTOR, speakerRec->value(SColActor).toString());
-          speakerAttrs.setValue(COL_SEX, speakerRec->value(SColSex).toString());
           speakerAttrs.setValue(COL_PROFESSION, speakerRec->value(SColProfession).toString());
+          speakerAttrs.setValue(COL_ROLE, speakerRec->value(SColSpeachRole).toString());
+          speakerAttrs.setValue(COL_SEX, speakerRec->value(SColSex).toString());
         }
       }
       resStatement += processByReplacePatterns(statementText, PT_EXPORT, detailedLogging);
