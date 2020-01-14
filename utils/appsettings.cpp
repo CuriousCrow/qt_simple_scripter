@@ -2,7 +2,9 @@
 #include <QApplication>
 #include <QDebug>
 
-QSettings* AppSettings::_settings = 0;
+#define DELIMITER "/"
+
+QSettings* AppSettings::_settings = nullptr;
 
 QVariant AppSettings::val(QString key, QVariant defValue)
 {
@@ -15,7 +17,7 @@ QVariant AppSettings::val(QString key, QVariant defValue)
 
 QVariant AppSettings::val(QString section, QString param, QVariant defValue)
 {
-  return val(section + "/" + param, defValue);
+  return val(section + DELIMITER + param, defValue);
 }
 
 void AppSettings::setVal(QString key, QVariant val)
@@ -28,14 +30,14 @@ void AppSettings::setVal(QString key, QVariant val)
 
 void AppSettings::setVal(QString section, QString param, QVariant val)
 {
-  setVal(section + "/" + param, val);
+  setVal(section + DELIMITER + param, val);
 }
 
 QString AppSettings::strVal(QString section, QString name, QVariant defValue)
 {
     QString fullName = name;
     if (!section.isEmpty())
-        fullName = fullName.prepend(section + "/");
+        fullName = fullName.prepend(section + DELIMITER);
     return val(fullName, defValue).toString();
 }
 
@@ -43,7 +45,7 @@ int AppSettings::intVal(QString section, QString name, QVariant defValue)
 {
     QString fullName = name;
     if (!section.isEmpty())
-        fullName = fullName.prepend(section + "/");
+        fullName = fullName.prepend(section + DELIMITER);
     return val(fullName, defValue).toInt();
 }
 
@@ -51,7 +53,7 @@ bool AppSettings::boolVal(QString section, QString name, QVariant defValue)
 {
     QString fullName = name;
     if (!section.isEmpty())
-        fullName = fullName.prepend(section + "/");
+        fullName = fullName.prepend(section + DELIMITER);
     return val(fullName, defValue).toBool();
 }
 
@@ -64,7 +66,7 @@ void AppSettings::remove(const QString &key)
 
 QString AppSettings::applicationPath()
 {
-  return QApplication::applicationDirPath() + "/";
+  return QApplication::applicationDirPath() + DELIMITER;
 }
 
 QString AppSettings::applicationName()
@@ -94,6 +96,6 @@ bool AppSettings::contains(QString section, QString name)
       init();
     QString fullName = name;
     if (!section.isEmpty())
-        fullName.prepend(section + "/");
+        fullName.prepend(section + DELIMITER);
     return _settings->contains(fullName);
 }
