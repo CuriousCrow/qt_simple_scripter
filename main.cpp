@@ -1,5 +1,6 @@
 #include "mainscripterwindow.h"
 #include <QApplication>
+#include <QTranslator>
 #include "utils/slogger.h"
 #include "utils/appsettings.h"
 #include "utils/qfileutils.h"
@@ -24,7 +25,11 @@ int main(int argc, char *argv[])
   log.setFilter(AppSettings::strVal(SECTION_LOGGER, PRM_LOG_FILTER, ""));
   log.start();
 
-
+  QTranslator translator2;
+  bool trRes = translator2.load(QLocale::system(), "qtbase", "_");
+  if (!trRes) {
+    qDebug() << "Translator qtbase not loaded";
+  }
 
   MainScripterWindow w;
   w.showMaximized();

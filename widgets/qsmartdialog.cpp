@@ -45,7 +45,7 @@ QVariant QSmartDialog::valueAt(int index)
   if (index >= _widgetList.count()){
     return "";
   }
-  QLineEdit* editor = (QLineEdit*)_widgetList.at(index);
+  QLineEdit* editor = qobject_cast<QLineEdit*>(_widgetList.at(index));
   return editor->text();
 }
 
