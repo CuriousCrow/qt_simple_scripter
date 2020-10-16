@@ -220,7 +220,7 @@ void QStatementWindow::on_btnHistory_clicked()
 
 void QStatementWindow::on_customActionClick()
 {
-  QPushButton* actBtn = (QPushButton*)sender();
+  QPushButton* actBtn = qobject_cast<QPushButton*>(sender());
   int actIndex = actBtn->objectName().replace(ACT_BTN_PREFIX, "", Qt::CaseInsensitive).toInt();
   QString insText = prepareActionResult(actBtn->text(), _customActions.paramValueAt(actIndex).toString());
   if (!insText.isEmpty())
@@ -229,8 +229,8 @@ void QStatementWindow::on_customActionClick()
 
 void QStatementWindow::on_addStatementMenuClicked()
 {
-  QAction* act = (QAction*)sender();
-  dm->addOper = (AddOperation)act->property("Action").toInt();
+  QAction* act = qobject_cast<QAction*>(sender());
+  dm->addOper = static_cast<AddOperation>(act->property("Action").toInt());
   QTextCursor cur;
   int currentRow = dm->_mapperStatements->currentIndex();
 
@@ -311,12 +311,14 @@ QString QStatementWindow::prepareActionResult(QString actionName, QString action
   QSmartDialog inputDialog(this);
   inputDialog.setWindowTitle("Действие \"" + actionName + "\"");
 
+  QString selectedText = ui->memStatement->textCursor().selectedText();
+
   //Подсчет кол-ва параметров в шаблоне пользовательского действия
   for(int i=1; i<=5; i++){
     if(actionString.contains("%"+QString::number(i))){
       paramCount++;
       //Добавление редактора параметра
-      inputDialog.addParam("Параметр " + QString::number(i), "");
+      inputDialog.addParam("Параметр " + QString::number(i), i==1 ? selectedText : "");
     }
     else {
       break;
