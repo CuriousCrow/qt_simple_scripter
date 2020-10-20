@@ -684,6 +684,7 @@ void QDataModule::initNewSpeaker(QSqlRecord &record)
     record.setValue(SColProfession, newSpeakerProfession);
   if (!newSpeakerSex.isEmpty())
     record.setValue(SColSex, newSpeakerSex);
+  record.setValue(SColBirthYear, QVariant());
 
   newSpeakerRole = "";
   newSpeakerActor = "";
