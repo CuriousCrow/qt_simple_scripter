@@ -10,3 +10,4 @@ Sphere=CheckList
 Style=CheckList
 Topic=CheckList
 TypePublic=CheckList
+Speaker_type_id=ModelCombo

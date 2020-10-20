@@ -59,7 +59,7 @@ private slots:
   void monitorCheck(MonitorState &state, QString &description);
 
 public slots:
-  void onProjectLoaded(qlonglong oldId, qlonglong newId);
+  void onProjectLoaded(int oldId, int newId);
 private:
   static QStatementWindow* singletonWindow;
   QDataModule* dm;

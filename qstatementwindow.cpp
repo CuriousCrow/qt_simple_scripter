@@ -29,7 +29,7 @@ QStatementWindow::QStatementWindow(QWidget *parent) :
 
   dm = QDataModule::dm();
   //Связь сигнала о загрузке проекта
-  connect(dm, SIGNAL(projectLoaded(qlonglong,qlonglong)), this, SLOT(onProjectLoaded(int,int)));
+  connect(dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded(int,int)));
 
   _mapperDelegate = new QLookupItemDelegate(this);
 
@@ -403,12 +403,15 @@ void QStatementWindow::on_btnDelete_clicked()
 
 }
 
-void QStatementWindow::onProjectLoaded(qlonglong oldId, qlonglong newId)
+void QStatementWindow::onProjectLoaded(int oldId, int newId)
 {  
-  std::ignore = oldId;
+  Q_UNUSED(oldId)
+
+  qDebug() << "QStatementWindow::onProjectLoaded()";
 
   bool editable = newId > 0;
   setTitle(editable ? dm->projectTitle : "");
+  ui->cmbSpeaker->setModelColumn(QDataModule::dm()->speakerTitleCol);
 
   ui->memStatement->setEnabled(editable);
   setLayoutEditable(ui->loAdvancedActions, editable);
@@ -441,7 +444,7 @@ void QStatementWindow::on_chbFilter_clicked()
 bool QStatementWindow::eventFilter(QObject *watched, QEvent *event)
 {
   if ((watched == ui->memStatement) && (event->type() == QEvent::KeyPress)) {
-    QKeyEvent* keyEvent = (QKeyEvent*)event;
+    QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
 
     if (keyEvent->key() == Qt::Key_A && keyEvent->modifiers() == Qt::ControlModifier) {
       on_btnAccentuator_clicked();

@@ -23,7 +23,7 @@ public:
   LSqlTableModel* model() { return _model; }
   void setEditable(bool on);
 public slots:
-  void onProjectLoaded(qlonglong oldId, qlonglong newId);
+  void onProjectLoaded(int oldId, int newId);
 private slots:
   void on_btnClose_clicked();
   void on_btnSave_clicked();
@@ -38,6 +38,7 @@ private:
   QDataModule* _dm;
 
   void setModel(LSqlTableModel* model);
+  void updateSpeakerFields();
 };
 
 #endif // QSPEAKERWINDOW_H
