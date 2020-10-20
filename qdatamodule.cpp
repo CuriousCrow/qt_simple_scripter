@@ -507,6 +507,7 @@ bool QDataModule::loadModels()
 
   mProjects->setHeaders(titles);
   mProjects->setFilter("id>0");
+  mProjects->setSort(S_ID, Qt::AscendingOrder);
   result = result && loadModel(mProjects, TABLE_PROJECTS, GEN_PROJECTS);
 
   mPatterns = new LSqlTableModel(this, db);
