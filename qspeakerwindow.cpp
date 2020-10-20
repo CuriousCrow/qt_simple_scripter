@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QDate>
 #include <QIntValidator>
 #include "widgets/qsmartdialog.h"
 
@@ -28,7 +29,7 @@ QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
     ui->setupUi(this);
     setObjectName("QSpeakerWindow");
 
-    ui->edtBirthYear->setValidator(new QIntValidator(1000, 2000, this));
+    ui->edtBirthYear->setValidator(new QIntValidator(1000, QDate::currentDate().year(), this));
 
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
@@ -36,7 +37,7 @@ QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
     setModel(_dm->mSpeakers);
 
     //Связываем сигнал о загрузке проекта к слоту
-    connect(_dm, SIGNAL(projectLoaded(qlonglong,qlonglong)), this, SLOT(onProjectLoaded(int,int)));
+    connect(_dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded(int,int)));
     onProjectLoaded(0, _dm->projectId);
 }
 
@@ -62,25 +63,50 @@ void QSpeakerWindow::setEditable(bool on)
   setLayoutEditable(ui->loFieldWidgets, on);
 }
 
-void QSpeakerWindow::onProjectLoaded(qlonglong oldId, qlonglong newId)
+void QSpeakerWindow::onProjectLoaded(int oldId, int newId)
 {
-  std::ignore = oldId;
+  Q_UNUSED(oldId)
+  qDebug() << "QSpeakerWindow::onProjectLoaded";
   setEditable(newId > 0);
+  updateSpeakerFields();
 }
 
 void QSpeakerWindow::setModel(LSqlTableModel *model)
 {
     _model = model;
     ui->listView->setModel(_model);
-    ui->listView->setModelColumn(2);
+    ui->listView->setModelColumn(IDX_ROLE);
     mapper->setModel(_model);
-    mapper->addMapping(ui->edtSpeachRole, 2);
-    mapper->addMapping(ui->edtActor, 6);
-    mapper->addMapping(ui->edtProfession, 3);
-    mapper->addMapping(ui->edtSex, 4);
-    mapper->addMapping(ui->edtBirthYear, 5);
+    mapper->addMapping(ui->edtRole, IDX_ROLE);
+    mapper->addMapping(ui->edtActor, IDX_ACTOR);
+    mapper->addMapping(ui->edtProfession, IDX_PROFESSION);
+    mapper->addMapping(ui->edtSex, IDX_SEX);
+    mapper->addMapping(ui->edtBirthYear, IDX_BIRTH_YEAR);
     connect(ui->listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+}
+
+void QSpeakerWindow::updateSpeakerFields()
+{
+    qDebug() << "Update speaker fields";
+    QString roleTitle = QDataModule::dm()->roleTitle;
+    QString actorTitle = QDataModule::dm()->actorTitle;
+    QString professionTitle = QDataModule::dm()->professionTitle;
+
+
+    ui->lblRole->setVisible(!roleTitle.isEmpty());
+    ui->lblRole->setText(roleTitle);
+    ui->edtRole->setVisible(!roleTitle.isEmpty());
+
+    ui->lblActor->setVisible(!actorTitle.isEmpty());
+    ui->lblActor->setText(actorTitle);
+    ui->edtActor->setVisible(!actorTitle.isEmpty());
+
+    ui->lblProfession->setVisible(!professionTitle.isEmpty());
+    ui->lblProfession->setText(professionTitle);
+    ui->edtProfession->setVisible(!professionTitle.isEmpty());
+
+    ui->listView->setModelColumn(QDataModule::dm()->speakerTitleCol);
 }
 
 void QSpeakerWindow::on_btnClose_clicked()
@@ -96,7 +122,10 @@ void QSpeakerWindow::on_btnSave_clicked()
 
 void QSpeakerWindow::on_btnAddSpeaker_clicked()
 {
-  QDataModule::dm()->newSpeakerRole = NEW_SPEAKER;
+  if (QDataModule::dm()->speakerTitleCol  == IDX_ROLE)
+    QDataModule::dm()->newSpeakerRole = NEW_SPEAKER;
+  else if (QDataModule::dm()->speakerTitleCol == IDX_ACTOR)
+    QDataModule::dm()->newSpeakerActor = NEW_SPEAKER;
   _model->insertRow(_model->rowCount());
 }
 
@@ -118,7 +147,7 @@ void QSpeakerWindow::on_btnAutoAssign_clicked()
   QString msg = INPUT_SPEAKER_PATTERN;
   QString pattern =
       QSmartDialog::inputStringDialog(SPEAKER_BINDING_WIZARD,
-                                      msg.arg(ui->edtSpeachRole->text()),
+                                      msg.arg(ui->edtRole->text()),
                                       this);
   //Пользователь отменил действие
   if (pattern.isEmpty())

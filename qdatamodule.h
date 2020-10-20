@@ -46,6 +46,7 @@
 #define TABLE_PATTERNS "PATTERNS"
 #define TABLE_REPLACE_PATTERNS "REPLACE_PATTERNS"
 #define TABLE_STATEMENTS_HISTORY "STATEMENTS_HISTORY"
+#define TABLE_SPEAKER_TYPES "SPEAKER_TYPES"
 
 const QString SMainWinTitle = "";
 const QString SErrDatabase = "Ошибка БД: ";
@@ -99,6 +100,16 @@ const QString SColName = "NAME";
 const QString SColPattern = "PATTERN";
 const QString SColRegexp = "REGEXP";
 const QString SColUsageType = "USAGE_TYPE";
+const QString SColSpeakerType = "SPEAKER_TYPE_ID";
+const QString SColRoleTitle = "ROLE_TITLE";
+const QString SColProfessionTitle = "PROFESSION_TITLE";
+const QString SColActorTitle = "ACTOR_TITLE";
+
+#define IDX_ROLE 2
+#define IDX_ACTOR 6
+#define IDX_PROFESSION 3
+#define IDX_SEX 4
+#define IDX_BIRTH_YEAR 5
 
 enum AddOperation {
     Add = 0x1,
@@ -130,13 +141,21 @@ public:
   LSqlTableModel* mSchemePatterns;
   LSqlTableModel* mReplacePatterns;
   LSqlTableModel* mStatementHistory;
+  LSqlTableModel* mSpeakerTypes;
 
-  qlonglong projectId = 0;
+  int projectId = 0;
+
+  int speakerTitleCol = 2;
+  QString roleTitle = "Роль";
+  QString actorTitle = "Актер";
+  QString professionTitle = "Профессия";
+
   AddOperation addOper;
-  qlonglong newStatementSpeaker = 0;
+  int newStatementSpeaker = 0;
   QString newStatementText;
 
   QString newSpeakerRole;
+  QString newSpeakerActor;
   QString newSpeakerSex;
   QString newSpeakerProfession;
 
@@ -152,7 +171,7 @@ public:
   void saveLastStatement();
   void loadLastStatement();
 
-  qlonglong nextId(QString sequenceName);
+  int nextId(QString sequenceName);
   bool execSql(const QString &sql);
   bool execSqlScript(QString script);
 
@@ -182,13 +201,13 @@ private:
   bool commitTransaction();
   bool rollbackTransaction();
   bool loadModel(LSqlTableModel* model, QString table, QString sequence = "");
-  qlonglong getLastRecordId(LSqlTableModel* model);
+  int getLastRecordId(LSqlTableModel* model);
   int checkStatementLengthExceeded();
   void setTableHeaders(QSqlTableModel* table, QStringList headers);
   //Применение шаблонов замены к строке
   QString processByReplacePatterns(QString statement, int patternType, bool logging);
 signals:
-  void projectLoaded(qlonglong oldProjecId, qlonglong newProjectId);
+  void projectLoaded(int oldProjecId, int newProjectId);
 private slots:
   void on_autosave_timeout();
   void initNewSpeaker(QSqlRecord &record);

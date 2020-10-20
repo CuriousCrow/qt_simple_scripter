@@ -2,10 +2,12 @@
 #include "ui_qprojecteditwindow.h"
 #include <QDebug>
 #include "qtextprocessor.h"
+#include "widgets/dictcombobox.h"
 #include <QVariantMap>
 
 #define EDITOR_COMBOBOX "COMBOBOX"
 #define EDITOR_CHECKLIST "CHECKLIST"
+#define EDITOR_MODELCOMBO "MODELCOMBO"
 
 QProjectEditWindow* QProjectEditWindow::singletonWindow = nullptr;
 
@@ -21,6 +23,7 @@ QProjectEditWindow::QProjectEditWindow(QWidget *parent) :
   projectMapper = new QDataWidgetMapper(this);
   projectMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
   projectMapper->setModel(dm->mProjects);
+  qDebug() << "Create controls!!!!!";
   createControls();
 }
 
@@ -64,13 +67,25 @@ void QProjectEditWindow::createControls()
       connect(combo, SIGNAL(beforeOpen()), this, SLOT(onBeforePopup()));
       editor = combo;
     }
+    else if (editorType == EDITOR_MODELCOMBO){
+      QComboBox* modelCombo = new DictCombobox(ui->scrollArea);
+      modelCombo->setModel(QDataModule::dm()->mSpeakerTypes);
+      modelCombo->setModelColumn(1);
+      modelCombo->setEditable(false);
+      editor = modelCombo;
+    }
     else {
       editor = new QLineEdit(ui->scrollArea);
     }
     editor->setObjectName(rec.fieldName(i));
 
     ui->loControls->addWidget(editor);
-    projectMapper->addMapping(editor, i);
+    if (editorType == EDITOR_MODELCOMBO) {
+      projectMapper->addMapping(editor, i, "data");
+    }
+    else {
+      projectMapper->addMapping(editor, i);
+    }
   }
 
   for(int i=1; i<rec.count(); i++){
@@ -113,12 +128,12 @@ void QProjectEditWindow::on_btnClose_clicked()
 
 void QProjectEditWindow::onBeforePopup()
 {
-  updateComboItems((QWidget*)sender());
+  updateComboItems(qobject_cast<QWidget*>(sender()));
 }
 
 void QProjectEditWindow::updateComboItems(QWidget* widget)
 {
-  QComboBox* comboEditor = (QComboBox*)widget;
+  QComboBox* comboEditor = qobject_cast<QComboBox*>(widget);
 
   QString filePath = QTextProcessor::configDir() + listFileFromScript(widget);
   QStringList values = QTextProcessor::fileToString(filePath).split(SNewLine);

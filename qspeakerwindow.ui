@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>616</width>
-    <height>420</height>
+    <height>431</height>
    </rect>
   </property>
   <property name="font">
@@ -96,7 +96,7 @@
            <number>6</number>
           </property>
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="lblRole">
             <property name="text">
              <string>Роль говорящего:</string>
             </property>
@@ -106,14 +106,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="edtSpeachRole"/>
+           <widget class="QLineEdit" name="edtRole"/>
           </item>
          </layout>
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="lblActor">
             <property name="text">
              <string>Актер:</string>
             </property>
@@ -130,7 +130,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="lblSex">
             <property name="text">
              <string>Пол:</string>
             </property>
@@ -147,7 +147,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="lblProfession">
             <property name="text">
              <string>Профессия:</string>
             </property>
@@ -164,7 +164,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="lblBirthYear">
             <property name="text">
              <string>Год рождения:</string>
             </property>
@@ -268,7 +268,7 @@
      <x>0</x>
      <y>0</y>
      <width>616</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

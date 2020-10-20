@@ -20,6 +20,7 @@ SOURCES += main.cpp\
     qspeakerwindow.cpp \
     qlookupitemdelegate.cpp \
     qhighlightpatternwindow.cpp \
+    widgets/dictcombobox.cpp \
     widgets/qcolorbox.cpp \
     qpatternschemewindow.cpp \
     ../../../Qt/LSqlTableModel/trunk/lsqltablemodel.cpp \
@@ -55,6 +56,7 @@ HEADERS  += \
     qspeakerwindow.h \
     qlookupitemdelegate.h \
     qhighlightpatternwindow.h \
+    widgets/dictcombobox.h \
     widgets/qcolorbox.h \
     qpatternschemewindow.h \
     ../../../Qt/LSqlTableModel/trunk/lsqltablemodel.h \

@@ -83,10 +83,21 @@ void QDataModule::loadProjectData(int id)
   int oldProject = projectId;
   projectId = id;
   //Загрузка названия проекта
-  if (projectId > 0)
-    projectTitle = mProjects->recordById(id)->value(SColHeader).toString();
+  if (projectId > 0) {
+    QSqlRecord* rec = mProjects->recordById(id);
+    projectTitle = rec->value(SColHeader).toString();
+    int speakerType = rec->value(SColSpeakerType).toInt();
+    QSqlRecord* speakerTypeRec = mSpeakerTypes->recordById(speakerType);
+    if (speakerTypeRec) {
+      qDebug() << "Speaker type found" << speakerType;
+      roleTitle = speakerTypeRec->value(SColRoleTitle).toString();
+      actorTitle = speakerTypeRec->value(SColActorTitle).toString();
+      professionTitle = speakerTypeRec->value(SColProfessionTitle).toString();
+    }
+  }
   else
     projectTitle.clear();
+  speakerTitleCol = roleTitle.isEmpty() ? IDX_ACTOR : IDX_ROLE;
 
   loadLastStatement();
   emit projectLoaded(oldProject, projectId);
@@ -163,7 +174,7 @@ void QDataModule::loadLastStatement()
   }
 }
 
-qlonglong QDataModule::nextId(QString sequenceName)
+int QDataModule::nextId(QString sequenceName)
 {
     QString sql = "select GEN_ID(%1, 1) from rdb$database";
     QSqlQuery query = QSqlQuery(db);
@@ -172,7 +183,7 @@ qlonglong QDataModule::nextId(QString sequenceName)
         throw query.lastError().text();
     }
     query.next();
-    return query.value(0).toLongLong();
+    return query.value(0).toInt();
 }
 
 bool QDataModule::execSql(const QString &sql)
@@ -233,7 +244,7 @@ bool QDataModule::importProject(QString importPath)
   if (!mProjects->submitAll()){
     return false;
   }
-  qlonglong newProjectId = getLastRecordId(mProjects);
+  int newProjectId = getLastRecordId(mProjects);
   projectId = newProjectId;
 
   QString text = QTextProcessor::fileToString(importPath);
@@ -287,7 +298,7 @@ bool QDataModule::importFromXml(QString importPath)
   if (!mProjects->submitAll()){
     return false;
   }
-  qlonglong newProjectId = getLastRecordId(mProjects);
+  int newProjectId = getLastRecordId(mProjects);
   projectId = newProjectId;
 
   QString text = QTextProcessor::fileToString(importPath);
@@ -295,10 +306,10 @@ bool QDataModule::importFromXml(QString importPath)
 
   bool submitted = true;
 
-  QHash<QString, qlonglong> newSpeakers;
+  QHash<QString, int> newSpeakers;
 
   foreach(QString xmlStatement, textLines){
-    qlonglong speakerId = 0;
+    int speakerId = 0;
     QHash<QString, QString> strValHash = StrUtils::tagToHash(xmlStatement, "speach");
     if (strValHash.contains("role")) {
       if (!newSpeakers.contains(strValHash.value("role"))) {
@@ -456,7 +467,7 @@ bool QDataModule::exportSqlTableModel(LSqlTableModel* model, QString outPath)
 bool QDataModule::editSetting(QString settingName, QString caption)
 {
   QString oldValue = AppSettings::val(settingName).toString();
-  QString newValue = QSmartDialog::inputStringDialog(SSettingEditing, caption, 0, oldValue);
+  QString newValue = QSmartDialog::inputStringDialog(SSettingEditing, caption, Q_NULLPTR, oldValue);
   if (!newValue.isEmpty()){
     AppSettings::setVal(settingName, newValue);
     QSmartDialog::infoDialog(SChangesAppliesAfterRestart);
@@ -491,7 +502,8 @@ bool QDataModule::loadModels()
   mProjects = new LSqlTableModel(this, db);
   titles << S_ID << S_HEADER << S_PATH << S_AUTHOR << S_SEX << S_BIRTH_YEAR <<
             S_CREATE_YEAR << S_SPHERE << S_TEXT_TYPE << S_TOPIC << S_STYLE <<
-            S_AUDIENCE_AGE << S_AUDIENCE_EDUCATION << S_AUDIENCE_SIZE;
+            S_AUDIENCE_AGE << S_AUDIENCE_EDUCATION << S_AUDIENCE_SIZE <<
+            S_SPEAKER_TYPE;
 
   mProjects->setHeaders(titles);
   mProjects->setFilter("id>0");
@@ -544,6 +556,10 @@ bool QDataModule::loadModels()
   mStatementHistory = new LSqlTableModel(this, db);
   mStatementHistory->setTable(TABLE_STATEMENTS_HISTORY);
 
+  mSpeakerTypes = new LSqlTableModel(this, db);
+  mSpeakerTypes->setTable(TABLE_SPEAKER_TYPES);
+  mSpeakerTypes->select();
+
   return true;
 }
 
@@ -580,14 +596,14 @@ bool QDataModule::loadModel(LSqlTableModel* model, QString table, QString sequen
   return result;
 }
 
-qlonglong QDataModule::getLastRecordId(LSqlTableModel *model)
+int QDataModule::getLastRecordId(LSqlTableModel *model)
 {
   int rowIndex = model->rowCount() - 1;
   if (rowIndex < 0){
     return -1;
   }
 
-  return model->data(model->index(rowIndex, model->fieldIndex(SColID))).toLongLong();
+  return model->data(model->index(rowIndex, model->fieldIndex(SColID))).toInt();
 }
 
 int QDataModule::checkStatementLengthExceeded()
@@ -661,12 +677,15 @@ void QDataModule::initNewSpeaker(QSqlRecord &record)
   record.setValue(SColProjectId, _dm->projectId);
   if (!newSpeakerRole.isEmpty())
     record.setValue(SColSpeachRole, newSpeakerRole);
+  if (!newSpeakerActor.isEmpty())
+    record.setValue(SColActor, newSpeakerActor);
   if (!newSpeakerProfession.isEmpty())
     record.setValue(SColProfession, newSpeakerProfession);
   if (!newSpeakerSex.isEmpty())
     record.setValue(SColSex, newSpeakerSex);
 
   newSpeakerRole = "";
+  newSpeakerActor = "";
   newSpeakerProfession = "";
   newSpeakerSex = "";
 }

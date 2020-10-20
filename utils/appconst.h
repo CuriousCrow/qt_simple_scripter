@@ -15,6 +15,7 @@
 #define S_AUDIENCE_AGE "Возраст аудитории"
 #define S_AUDIENCE_EDUCATION "Уровень аудитории"
 #define S_AUDIENCE_SIZE "Размер аудитории"
+#define S_SPEAKER_TYPE "Тип говорящего"
 
 #define COL_NAME "NAME"
 #define COL_HEXCOLOR "HEXCOLOR"
