@@ -30,6 +30,7 @@ private slots:
   void on_btnAddSpeaker_clicked();
   void on_btnDeleteSpeaker_clicked();
   void on_btnAutoAssign_clicked();
+  void onSpeakerSelected(QModelIndex idx);
 private:
   static QSpeakerWindow* singletonWindow;
   Ui::QSpeakerWindow *ui;

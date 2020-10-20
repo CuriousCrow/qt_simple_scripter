@@ -29,7 +29,7 @@ QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
     ui->setupUi(this);
     setObjectName("QSpeakerWindow");
 
-    ui->edtBirthYear->setValidator(new QIntValidator(1000, QDate::currentDate().year(), this));
+//    ui->edtBirthYear->setValidator(new QIntValidator(1000, QDate::currentDate().year(), this));
 
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
@@ -83,7 +83,7 @@ void QSpeakerWindow::setModel(LSqlTableModel *model)
     mapper->addMapping(ui->edtSex, IDX_SEX);
     mapper->addMapping(ui->edtBirthYear, IDX_BIRTH_YEAR);
     connect(ui->listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
-            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+            this, SLOT(onSpeakerSelected(QModelIndex)));
 }
 
 void QSpeakerWindow::updateSpeakerFields()
@@ -117,6 +117,7 @@ void QSpeakerWindow::on_btnClose_clicked()
 
 void QSpeakerWindow::on_btnSave_clicked()
 {
+    ui->btnSave->setFocus();
     _model->submitAll();
 }
 
@@ -173,4 +174,9 @@ void QSpeakerWindow::on_btnAutoAssign_clicked()
   msg = SPEAKER_BINDING_SUCCESS;
   QMessageBox::information(this, ACTION_COMPLETED,
                            msg.arg(QString::number(statementAffected)));
+}
+
+void QSpeakerWindow::onSpeakerSelected(QModelIndex idx)
+{
+  emit mapper->setCurrentModelIndex(idx);
 }
