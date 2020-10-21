@@ -13,7 +13,7 @@ const QString SErrCantUpdateToVer = "Ошибка при обновлении д
 const QString SMsgDbUpdatedToVersion = "База данных обновлена до версии %1";
 const QString SMsgCurrentDbVersion = "Текущая версия БД: %1";
 const QString SMsgUpdateIsStarting = "Запуск задания обновления БД";
-const QString SMsgUpdateCompleted = "База данных успешно обновлена";
+const QString SMsgUpdateCompleted = "База данных имеет актуальную версию";
 
 /**
  * @brief Класс реализующий автоматическое обновление базы данных

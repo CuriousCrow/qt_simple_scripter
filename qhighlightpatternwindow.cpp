@@ -2,9 +2,9 @@
 #include "ui_qhighlightpatternwindow.h"
 #include <QSqlRecord>
 #include <QSqlField>
-#include <QDebug>
+#include "utils/slogger.h"
 
-QHighlightPatternWindow* QHighlightPatternWindow::singletonWindow = 0;
+QHighlightPatternWindow* QHighlightPatternWindow::singletonWindow = nullptr;
 
 QHighlightPatternWindow::QHighlightPatternWindow(QWidget *parent) :
   QBaseWindow(parent),
@@ -73,6 +73,6 @@ void QHighlightPatternWindow::on_btnAdd_clicked()
 
 void QHighlightPatternWindow::on_btnDelete_clicked()
 {
-  qDebug() << "Deleting row " << ui->patternListView->currentIndex().row();
+  LOG << "Deleting row " << ui->patternListView->currentIndex().row();
   dm->mPatterns->removeRow(ui->patternListView->currentIndex().row());
 }

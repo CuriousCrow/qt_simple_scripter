@@ -3,7 +3,7 @@
 #include <QWhatsThis>
 #include "qdatamodule.h"
 #include <QFileDialog>
-#include <QDebug>
+#include "utils/slogger.h"
 #include "widgets/qsmartdialog.h"
 
 MainScripterWindow::MainScripterWindow(QWidget *parent) :
@@ -107,7 +107,7 @@ void MainScripterWindow::on_aExecuteScript_triggered()
 {
   QString scriptFile = QFileDialog::getOpenFileName(this, "Запуск SQL скрипта", "", "*.sql");
   QString script = QTextProcessor::fileToString(scriptFile);
-  qDebug() << "Executing script from " << scriptFile;
+  INFO << "Executing script from " << scriptFile;
   bool scriptResult = QDataModule::dm()->execSqlScript(script);
   QString resultMessage = scriptResult ? "Скрипт успешно выполнен" : "Ошибка при выполнении скрипта";
   QSmartDialog::infoDialog(resultMessage);

@@ -2,17 +2,18 @@
 #include <QMetaProperty>
 #include <QRegExp>
 #include <QSqlRecord>
+#include "utils/slogger.h"
 
 bool QSqlQueryHelper::_logging = false;
 
 QSqlQuery QSqlQueryHelper::execSql(QString sql, QString connectionName)
 {
   if (_logging)
-    qDebug() << QString("SQL(%1): %2").arg(connectionName).arg(sql);
+    LOG << QString("SQL(%1): %2").arg(connectionName).arg(sql);
 
   QSqlQuery sqlResult = QSqlDatabase::database(connectionName).exec(sql);  
   if (sqlResult.lastError().isValid() && _logging){
-    qWarning() << "Error" << sqlResult.lastError().text();
+    WARNING << "Error" << sqlResult.lastError().text();
   }
   return sqlResult;
 }
@@ -46,7 +47,7 @@ QString QSqlQueryHelper::driverName(QString connection)
 QSqlRecord QSqlQueryHelper::tableRowInfo(QString table, QString connectionName)
 {
   QSqlRecord rec = QSqlDatabase::database(connectionName).record(table);
-  qDebug() << "Table info:" << rec;
+  LOG << "Table info:" << rec;
   return rec;
 }
 

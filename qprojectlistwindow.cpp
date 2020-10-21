@@ -1,6 +1,6 @@
 #include "qprojectlistwindow.h"
 #include "ui_qprojectlistwindow.h"
-#include <QDebug>
+#include "utils/slogger.h"
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QFileDialog>
@@ -98,7 +98,7 @@ void QProjectListWindow::on_btnNewProject_clicked()
   //Создание нового проекта
   bool insertProjectResult = _dm->mProjects->insertRow(_dm->mProjects->rowCount());
   if (!insertProjectResult){
-    qDebug() << SErrWhileProjectCreation;
+    CRITICAL << SErrWhileProjectCreation;
   }
 }
 
@@ -115,7 +115,6 @@ void QProjectListWindow::updateColumnSize(const QModelIndex &index)
 {
   int colIdx = index.column();
   if (!ui->projectsView->isColumnHidden(colIdx)){
-    qDebug() << "column " << index.column() << "resize";
     ui->projectsView->resizeColumnToContents(index.column());
   }
 }

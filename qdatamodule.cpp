@@ -1,5 +1,5 @@
 #include "qdatamodule.h"
-#include <QDebug>
+#include "utils/slogger.h"
 #include <QSqlQuery>
 #include <QSqlDriver>
 #include <QApplication>
@@ -89,7 +89,7 @@ void QDataModule::loadProjectData(int id)
     int speakerType = rec->value(SColSpeakerType).toInt();
     QSqlRecord* speakerTypeRec = mSpeakerTypes->recordById(speakerType);
     if (speakerTypeRec) {
-      qDebug() << "Speaker type found" << speakerType;
+      LOG << "Speaker type found" << speakerType;
       roleTitle = speakerTypeRec->value(SColRoleTitle).toString();
       actorTitle = speakerTypeRec->value(SColActorTitle).toString();
       professionTitle = speakerTypeRec->value(SColProfessionTitle).toString();
@@ -124,7 +124,7 @@ bool QDataModule::backupLocalProject()
 {
     if (AppSettings::boolVal("", PRM_LOCAL_PROJECT_BACKUP, false)) {
       QString backupFile = QFileUtils::legalFilename(projectTitle + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh_mm") + ".backup");
-      qDebug() << "Backup project" << projectTitle << "to" << backupFile;
+      INFO << "Backup project" << projectTitle << "to" << backupFile;
       exportSqlTableModel(mStatements, backupFile);
     }
     return true;
@@ -179,7 +179,7 @@ int QDataModule::nextId(QString sequenceName)
     QString sql = "select GEN_ID(%1, 1) from rdb$database";
     QSqlQuery query = QSqlQuery(db);
     if (!query.exec(sql.arg(sequenceName))){
-        qDebug() << SErrSequenceFailed.arg(query.lastError().text());
+        CRITICAL << SErrSequenceFailed.arg(query.lastError().text());
         throw query.lastError().text();
     }
     query.next();
@@ -188,13 +188,13 @@ int QDataModule::nextId(QString sequenceName)
 
 bool QDataModule::execSql(const QString &sql)
 {
-  qDebug() << "SQL:" << sql;
+  LOG << "SQL:" << sql;
   QSqlError error = db.exec(sql).lastError();
   if (error.isValid()) {
-    qDebug() << "Sql error:" << error.databaseText();
+    WARNING << "Sql error:" << error.databaseText();
     return false;
   }
-  qDebug() << "Succesfully executed!";
+  LOG << "Succesfully executed!";
   return true;
 }
 
@@ -359,7 +359,7 @@ bool QDataModule::deleteProject(int row)
 bool QDataModule::exportProject()
 {
   if (projectId == 0){
-    qDebug() << SErrNoProjectLoaded;
+    WARNING << SErrNoProjectLoaded;
     return false;
   }
 
@@ -394,7 +394,7 @@ bool QDataModule::exportProject()
   for(int i=0; i<mStatements->rowCount(); i++){
     statementRec = mStatements->record(i);
     currSpeakerId = statementRec.value(SColSpeakerId).toInt();
-    qDebug() << i << ":" << currSpeakerId;
+    LOG << i << ":" << currSpeakerId;
     QString statementText = statementRec.value(SColStatement).toString() + SSpace;
     if (!multifileDelimiter.isEmpty() && statementText.trimmed() == multifileDelimiter){
       exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(true), resStatement.trimmed());
@@ -567,21 +567,21 @@ bool QDataModule::loadModels()
 bool QDataModule::startTransaction()
 {
   bool result = db.transaction();
-  qDebug() << "START TRANSACTION" << result;
+  LOG << "START TRANSACTION" << result;
   return result;
 }
 
 bool QDataModule::commitTransaction()
 {
   bool result = db.commit();
-  qDebug() << "COMMIT TRANSACTION" << result;
+  LOG << "COMMIT TRANSACTION" << result;
   return result;
 }
 
 bool QDataModule::rollbackTransaction()
 {
   bool result = db.rollback();
-  qDebug() << "ROLLBACK TRANSACTION" << result;
+  LOG << "ROLLBACK TRANSACTION" << result;
   return result;
 }
 
@@ -592,7 +592,7 @@ bool QDataModule::loadModel(LSqlTableModel* model, QString table, QString sequen
   if (!sequence.isEmpty())
     model->setSequenceName(sequence);
   result = model->select();
-  qDebug() << (result ?
+  INFO << (result ?
     SLoadTableResultOK.arg(model->tableName()) : SLoadTableResultFailed.arg(model->tableName()));
   return result;
 }
@@ -612,9 +612,8 @@ int QDataModule::checkStatementLengthExceeded()
   int idx = -1;
   for (int row = 0; row < mStatements->rowCount(); row++) {
       int stSize = mStatements->data(row, COL_STATEMENT).toString().size();
-//      qDebug() << "Row:" << row << stSize;
       if (stSize > MAX_STATEMENT_SIZE) {
-        qDebug() << "Statement size exceeded";
+        WARNING << "Statement size exceeded";
         idx = row;
         break;
       }
@@ -632,7 +631,7 @@ void QDataModule::setTableHeaders(QSqlTableModel *table, QStringList headers)
 QString QDataModule::processByReplacePatterns(QString statement, int patternType, bool logging)
 {
   if (logging)
-    qDebug() << "Initial statement:" << statement;
+    LOG << "Initial statement:" << statement;
   QSqlRecord patternRec;
   QString result = statement;
   QRegExp rx;
@@ -643,11 +642,11 @@ QString QDataModule::processByReplacePatterns(QString statement, int patternType
       QString pattern = patternRec.value(SColPattern).toString();
       result = result.replace(rx, pattern);
       if (logging)
-        qDebug() << "Processing step" << row + 1 << ":" << result;
+        LOG << "Processing step" << row + 1 << ":" << result;
     }
   }
   if (logging)
-    qDebug() << "Result statement:" << result;
+    LOG << "Result statement:" << result;
   return result;
 }
 
@@ -670,7 +669,7 @@ void QDataModule::on_autosave_timeout()
       debugMsg = RESULT_FAILED;
     }
   }  
-  qDebug() << SMsgAutosaving.arg(debugMsg);
+  INFO << SMsgAutosaving.arg(debugMsg);
 }
 
 void QDataModule::initNewSpeaker(QSqlRecord &record)

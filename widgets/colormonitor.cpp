@@ -13,7 +13,6 @@ void ColorMonitor::update()
     emit checkMethod(state, description);
     if (_state == state)
         return;
-    qDebug() << "Check state:" << state << description;
     _state = state;
     switch (_state) {
     case Ok:

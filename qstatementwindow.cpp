@@ -1,6 +1,6 @@
 #include "qstatementwindow.h"
 #include "ui_qstatementwindow.h"
-#include <QDebug>
+#include "utils/slogger.h"
 #include <QTextCursor>
 #include <QMessageBox>
 #include <QTextBrowser>
@@ -168,8 +168,6 @@ void QStatementWindow::on_btnAddDefect_clicked()
 
 void QStatementWindow::updateActions(int index)
 {
-  //  qDebug() << "update actions: index =" << index;
-
   ui->btnNext->setEnabled(index + 1 < dm->mStatementsSmartFiltered->rowCount());
   ui->btnLast->setEnabled(index + 1 < dm->mStatementsSmartFiltered->rowCount());
 
@@ -243,13 +241,13 @@ void QStatementWindow::on_addStatementMenuClicked()
     if (currentRow < 0)
       break;
 
-    qDebug() << "Action: Split statement";
+    INFO << "Action: Split statement";
     cur = ui->memStatement->textCursor();
     if (cur.anchor() == cur.position()){
       QString sourceStr = ui->memStatement->toPlainText();
       QString destStr1 = sourceStr.left(cur.position()).trimmed();
       QString destStr2 = sourceStr.remove(0, cur.position()).trimmed();
-      qDebug() << destStr1 << destStr2 << cur.anchor() << cur.position();
+      INFO << destStr1 << destStr2 << cur.anchor() << cur.position();
       ui->memStatement->setPlainText(destStr2);
       submitMapperData();
 
@@ -271,7 +269,7 @@ void QStatementWindow::on_addStatementMenuClicked()
     }
     break;
   case Insert:
-    qDebug() << "Action: Insert statement";
+    INFO << "Action: Insert statement";
     submitMapperData();
     dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
@@ -279,7 +277,7 @@ void QStatementWindow::on_addStatementMenuClicked()
     dm->_mapperStatements->setCurrentIndex(currentRow);
     break;
   case Add:
-    qDebug() << "Action: Add statement";
+    INFO << "Action: Add statement";
     submitMapperData();
     dm->newStatementSpeaker = 0;
     dm->newStatementText = "";
@@ -372,7 +370,6 @@ void QStatementWindow::updateFragmentNumber()
 
 void QStatementWindow::monitorCheck(MonitorState &state, QString &description)
 {
-//  qDebug() << ui->memStatement->toPlainText().length();
   if (ui->memStatement->toPlainText().length() > MAX_STATEMENT_SIZE) {
     state = MonitorState::Error;
     description = "Превышен максимальный размер реплики";
@@ -406,8 +403,6 @@ void QStatementWindow::on_btnDelete_clicked()
 void QStatementWindow::onProjectLoaded(int oldId, int newId)
 {  
   Q_UNUSED(oldId)
-
-  qDebug() << "QStatementWindow::onProjectLoaded()";
 
   bool editable = newId > 0;
   setTitle(editable ? dm->projectTitle : "");
