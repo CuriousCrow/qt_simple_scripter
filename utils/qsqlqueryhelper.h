@@ -3,9 +3,8 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
-
+#include <QObject>
 #include <QSqlError>
-#include <QDebug>
 
 #define DEBUG_SQL
 

@@ -25,11 +25,15 @@ int main(int argc, char *argv[])
   log.setFilter(AppSettings::strVal(SECTION_LOGGER, PRM_LOG_FILTER, ""));
   log.start();
 
-  QTranslator translator2;
-  bool trRes = translator2.load(QLocale::system(), "qtbase", "_");
+  QTranslator translator;
+  bool trRes = translator.load(QLocale::system(), "qt", "_", "translations");
   if (!trRes) {
-    qDebug() << "Translator qtbase not loaded";
+    WARNING << "Can't load translator";
   }
+  else {
+    INFO << "Translator successfully loaded";
+  }
+  a.installTranslator(&translator);
 
   MainScripterWindow w;
   w.showMaximized();

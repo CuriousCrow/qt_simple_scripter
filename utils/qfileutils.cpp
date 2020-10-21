@@ -1,4 +1,5 @@
 #include "qfileutils.h"
+#include "slogger.h"
 
 QFileUtils::QFileUtils()
 {
@@ -8,7 +9,7 @@ QString QFileUtils::fileToString(QString filepath, bool isUtf8)
 {
   QFile file(filepath);
   if (!file.exists()){
-    qDebug() << "File" << file.fileName() << "doesn't exists";
+    WARNING << "File" << file.fileName() << "doesn't exists";
     return "";
   }
   file.open(QIODevice::ReadOnly);

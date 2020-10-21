@@ -1,6 +1,6 @@
 #include "qspeakerwindow.h"
 #include "ui_qspeakerwindow.h"
-#include <QDebug>
+#include "utils/slogger.h"
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QRegExp>
@@ -66,7 +66,6 @@ void QSpeakerWindow::setEditable(bool on)
 void QSpeakerWindow::onProjectLoaded(int oldId, int newId)
 {
   Q_UNUSED(oldId)
-  qDebug() << "QSpeakerWindow::onProjectLoaded";
   setEditable(newId > 0);
   updateSpeakerFields();
 }
@@ -88,11 +87,9 @@ void QSpeakerWindow::setModel(LSqlTableModel *model)
 
 void QSpeakerWindow::updateSpeakerFields()
 {
-    qDebug() << "Update speaker fields";
     QString roleTitle = QDataModule::dm()->roleTitle;
     QString actorTitle = QDataModule::dm()->actorTitle;
     QString professionTitle = QDataModule::dm()->professionTitle;
-
 
     ui->lblRole->setVisible(!roleTitle.isEmpty());
     ui->lblRole->setText(roleTitle);
@@ -132,7 +129,7 @@ void QSpeakerWindow::on_btnAddSpeaker_clicked()
 
 void QSpeakerWindow::on_btnDeleteSpeaker_clicked()
 {
-    qDebug() << "Deleting row " << ui->listView->currentIndex().row();
+    LOG << "Deleting row " << ui->listView->currentIndex().row();
     _model->removeRow(ui->listView->currentIndex().row());
 }
 

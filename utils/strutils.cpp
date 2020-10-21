@@ -33,7 +33,6 @@ QList<qlonglong> StrUtils::longToList(qlonglong longVal)
 {
     QList<qlonglong> resList;
     QString strMask = QString::number(longVal, 2);
-//    qDebug() << longVal << strMask;
     for(int i=0; i<strMask.length(); i++) {
         if (strMask.at(strMask.length()-1-i) == '1')
             resList.append(qRound(qPow(2,i)));
@@ -52,7 +51,6 @@ QString StrUtils::replaceTag(QString inStr, QString tagName, QString templ)
     QStringList linksInTempl = dashValues(templ);
 
     while ((pos = rx.indexIn(inStr, pos)) >= 0) {
-//        qDebug() << "Regexp res:" << rx.cap(1) << rx.cap(2);
         QString replaceStr = templ;
         QHash<QString, QString> attrHash = attrsToHash(rx.cap(1));
         attrHash.insert("text", rx.cap(2));

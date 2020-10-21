@@ -1,6 +1,6 @@
 #include "qreplacepatternwindow.h"
 #include "ui_qreplacepatternwindow.h"
-#include <QDebug>
+#include "utils/slogger.h"
 
 QReplacePatternWindow* QReplacePatternWindow::singletonWindow = nullptr;
 
@@ -60,6 +60,6 @@ void QReplacePatternWindow::on_btnAddPattern_clicked()
 
 void QReplacePatternWindow::on_btnDeletePattern_clicked()
 {
-  qDebug() << "Deleting row " << ui->lvPatterns->currentIndex().row();
+  LOG << "Deleting row " << ui->lvPatterns->currentIndex().row();
   dm->mReplacePatterns->removeRow(ui->lvPatterns->currentIndex().row());
 }

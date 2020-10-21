@@ -1,5 +1,5 @@
 #include "qtextprocessor.h"
-#include <QDebug>
+#include "utils/slogger.h"
 #include <QApplication>
 #include <QTextCodec>
 #include "qdatamodule.h"
@@ -42,7 +42,7 @@ QString QTextProcessor::fileToString(QString filepath, bool isUtf8)
 {
   QFile file(filepath);
   if (!file.exists()){
-    qDebug() << "File" << file.fileName() << "doesn't exists";
+    WARNING << "File" << file.fileName() << "doesn't exists";
     return "";
   }
   file.open(QIODevice::ReadOnly);
@@ -146,7 +146,6 @@ QStringList QTextProcessor::splitSqlScript(QString script)
     }
     semicolonless.append(chr);
   }
-  qDebug() << semicolonless;
   foreach (QString item, semicolonless.split(";", QString::SkipEmptyParts)) {
     item = item.trimmed();
     if (item.isEmpty())

@@ -1,6 +1,6 @@
 #include "qtablehighlighter.h"
 #include <QTextCharFormat>
-#include <QDebug>
+#include "utils/slogger.h"
 #include <QBrush>
 
 QTableHighlighter::QTableHighlighter(QObject *parent) :
@@ -14,7 +14,7 @@ void QTableHighlighter::setEnabled(bool value)
   if (_isEnabled == value)
     return;
 
-  qDebug() << "switch highlighter to" << value;
+  LOG << "switch highlighter to" << value;
   _isEnabled = value;
   rehighlight();
 }

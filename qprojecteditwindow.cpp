@@ -23,7 +23,6 @@ QProjectEditWindow::QProjectEditWindow(QWidget *parent) :
   projectMapper = new QDataWidgetMapper(this);
   projectMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
   projectMapper->setModel(dm->mProjects);
-  qDebug() << "Create controls!!!!!";
   createControls();
 }
 
@@ -111,7 +110,6 @@ QString QProjectEditWindow::listFileFromScript(QWidget* editor)
   engine.globalObject().setProperty("values", sValues);
   QString script = QTextProcessor::editorScript();
   QScriptValue resValue = engine.evaluate(script);
-  qDebug() << resValue.toString();
   return resValue.toString();
 }
 
