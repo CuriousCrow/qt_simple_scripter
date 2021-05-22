@@ -234,12 +234,16 @@ bool QDataModule::importProject(QString importPath)
   if (!insertProjectResult){
     return false;
   }
-  mProjects->setData(mProjects->index(mProjects->rowCount() - 1,
+  int newRow = mProjects->rowCount() - 1;
+  mProjects->setData(mProjects->index(newRow,
                      mProjects->fieldIndex(SColHeader)),
                      fileInfo.baseName());
-  mProjects->setData(mProjects->index(mProjects->rowCount() - 1,
+  mProjects->setData(mProjects->index(newRow,
                      mProjects->fieldIndex(SColPath)),
                      importPath);
+  mProjects->setData(mProjects->index(newRow,
+                     mProjects->fieldIndex(SColSpeakerType)),
+                     0);
   //Если проект не сохранился в БД
   if (!mProjects->submitAll()){
     return false;

@@ -140,12 +140,12 @@ void QSpeakerWindow::on_btnAutoAssign_clicked()
     QSmartDialog::warningDialog(WARN_CHOOSE_SPEAKER, this);
     return;
   }
-  int speakerID = _model->data(speakerIndex, SColID).toInt();
+  qlonglong speakerID = _model->data(speakerIndex, SColID).toLongLong();
 
   QString msg = INPUT_SPEAKER_PATTERN;
   QString pattern =
       QSmartDialog::inputStringDialog(SPEAKER_BINDING_WIZARD,
-                                      msg.arg(ui->edtRole->text()),
+                                      msg.arg(ui->edtRole->isVisible() ? ui->edtRole->text() : ui->edtActor->text()),
                                       this);
   //Пользователь отменил действие
   if (pattern.isEmpty())
