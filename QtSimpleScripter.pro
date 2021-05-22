@@ -23,11 +23,11 @@ SOURCES += main.cpp\
     widgets/dictcombobox.cpp \
     widgets/qcolorbox.cpp \
     qpatternschemewindow.cpp \
-    ../../../Qt/LSqlTableModel/trunk/lsqltablemodel.cpp \
+    ../LSqlTableModel/lsqltablemodel.cpp \
     qtablehighlighter.cpp \
     qprojecteditwindow.cpp \
     qtextprocessor.cpp \
-    ../../../Qt/QCheckboxCombo/trunk/qcheckboxcombo.cpp \
+    ../QCheckboxCombo/qcheckboxcombo.cpp \
     qprojectlistwindow.cpp \
     mainscripterwindow.cpp \
     qreplacepatternwindow.cpp \
@@ -38,7 +38,7 @@ SOURCES += main.cpp\
     qbasewindow.cpp \
     widgets/qsmartdialog.cpp \
     utils/qdatabaseupdater.cpp \
-    ../../../Qt/LSqlTableModel/trunk/lsqllinkedrecordsmodel.cpp \
+    ../LSqlTableModel/lsqllinkedrecordsmodel.cpp \
     qstatementnavigationwindow.cpp \
     models/qstatementmodel.cpp \
     qtwovaluesinputdialog.cpp \
@@ -59,11 +59,11 @@ HEADERS  += \
     widgets/dictcombobox.h \
     widgets/qcolorbox.h \
     qpatternschemewindow.h \
-    ../../../Qt/LSqlTableModel/trunk/lsqltablemodel.h \
+    ../LSqlTableModel/lsqltablemodel.h \
     qtablehighlighter.h \
     qprojecteditwindow.h \
     qtextprocessor.h \
-    ../../../Qt/QCheckboxCombo/trunk/qcheckboxcombo.h \
+    ../QCheckboxCombo/qcheckboxcombo.h \
     qprojectlistwindow.h \
     mainscripterwindow.h \
     qreplacepatternwindow.h \
@@ -74,7 +74,7 @@ HEADERS  += \
     qbasewindow.h \
     widgets/qsmartdialog.h \
     utils/qdatabaseupdater.h \
-    ../../../Qt/LSqlTableModel/trunk/lsqllinkedrecordsmodel.h \
+    ../LSqlTableModel/lsqllinkedrecordsmodel.h \
     qstatementnavigationwindow.h \
     models/qstatementmodel.h \
     qtwovaluesinputdialog.h \
