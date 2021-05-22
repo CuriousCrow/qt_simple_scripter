@@ -440,9 +440,11 @@ bool QDataModule::exportSpeakerList(QString outDir)
 {
   QStringList exportList;
   QSqlRecord rec;
+  QString speakerColName = speakerTitleCol == IDX_ACTOR ? SColActor : SColSpeachRole;
   for(int i=0; i<mSpeakers->rowCount(); i++){
     rec = mSpeakers->record(i);
-    QString line = rec.value(SColSpeachRole).toString() + SDelimiter + rec.value(SColBirthYear).toString();
+
+    QString line = rec.value(speakerColName).toString() + SDelimiter + rec.value(SColBirthYear).toString();
     exportList.append(line);
   }
   return QTextProcessor::stringToFile(exportList.join(SNewLine), outDir.append("/Speakers.txt"));
