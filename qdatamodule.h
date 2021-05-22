@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
-#include "../../../Qt/LSqlTableModel/trunk/lsqltablemodel.h"
-#include "../../../Qt/LSqlTableModel/trunk/lsqllinkedrecordsmodel.h"
+#include "../LSqlTableModel/lsqltablemodel.h"
+#include "../LSqlTableModel/lsqllinkedrecordsmodel.h"
 #include <QDataWidgetMapper>
 #include <QSqlDatabase>
 #include <QSqlError>

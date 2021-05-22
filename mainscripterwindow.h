@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
-#include "../../../Qt/LSqlTableModel/trunk/lsqltablemodel.h"
+#include "../LSqlTableModel/lsqltablemodel.h"
 #include "qdatamodule.h"
 #include "qprojectlistwindow.h"
 #include "qspeakerwindow.h"

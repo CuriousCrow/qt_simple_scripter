@@ -5,11 +5,11 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QSpinBox>
-#include "../../../Qt/LSqlTableModel/trunk/lsqltablemodel.h"
+#include "../LSqlTableModel/lsqltablemodel.h"
 #include <QSqlRecord>
 #include "qbasewindow.h"
 #include "qdatamodule.h"
-#include "../../../Qt/QCheckboxCombo/trunk/qcheckboxcombo.h"
+#include "../QCheckboxCombo/qcheckboxcombo.h"
 #include <QDataWidgetMapper>
 #include <QScriptEngine>
 #include "utils/sparams.h"
