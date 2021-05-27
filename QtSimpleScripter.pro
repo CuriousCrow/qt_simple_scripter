@@ -23,7 +23,7 @@ SOURCES += main.cpp\
     widgets/dictcombobox.cpp \
     widgets/qcolorbox.cpp \
     qpatternschemewindow.cpp \
-    ../LSqlTableModel/lsqltablemodel.cpp \
+    models/lsqltablemodel.cpp \
     qtablehighlighter.cpp \
     qprojecteditwindow.cpp \
     qtextprocessor.cpp \
@@ -38,7 +38,7 @@ SOURCES += main.cpp\
     qbasewindow.cpp \
     widgets/qsmartdialog.cpp \
     utils/qdatabaseupdater.cpp \
-    ../LSqlTableModel/lsqllinkedrecordsmodel.cpp \
+    models/lsqllinkedrecordsmodel.cpp \
     qstatementnavigationwindow.cpp \
     models/qstatementmodel.cpp \
     qtwovaluesinputdialog.cpp \
@@ -59,7 +59,7 @@ HEADERS  += \
     widgets/dictcombobox.h \
     widgets/qcolorbox.h \
     qpatternschemewindow.h \
-    ../LSqlTableModel/lsqltablemodel.h \
+    models/lsqltablemodel.h \
     qtablehighlighter.h \
     qprojecteditwindow.h \
     qtextprocessor.h \
@@ -74,7 +74,7 @@ HEADERS  += \
     qbasewindow.h \
     widgets/qsmartdialog.h \
     utils/qdatabaseupdater.h \
-    ../LSqlTableModel/lsqllinkedrecordsmodel.h \
+    models/lsqllinkedrecordsmodel.h \
     qstatementnavigationwindow.h \
     models/qstatementmodel.h \
     qtwovaluesinputdialog.h \

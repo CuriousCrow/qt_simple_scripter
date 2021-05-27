@@ -5,7 +5,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QSpinBox>
-#include "../LSqlTableModel/lsqltablemodel.h"
+#include "models/lsqltablemodel.h"
 #include <QSqlRecord>
 #include "qbasewindow.h"
 #include "qdatamodule.h"
