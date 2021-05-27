@@ -2,7 +2,7 @@
 #define QSTATEMENTFILTERMODEL_H
 
 #include <QSortFilterProxyModel>
-#include "../LSqlTableModel/lsqltablemodel.h"
+#include "models/lsqltablemodel.h"
 #include <QRegExp>
 
 class QStatementFilterModel : public QSortFilterProxyModel

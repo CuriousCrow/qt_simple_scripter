@@ -1,7 +1,7 @@
 #ifndef QSTATEMENTMODEL_H
 #define QSTATEMENTMODEL_H
 
-#include "../LSqlTableModel/lsqllinkedrecordsmodel.h"
+#include "models/lsqllinkedrecordsmodel.h"
 
 class PlainStatementField : public LCalcField
 {

@@ -2,7 +2,7 @@
 #define QTABLEHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
-#include "../LSqlTableModel/lsqltablemodel.h"
+#include "models/lsqltablemodel.h"
 #include <QRegExp>
 
 class QTableHighlighter : public QSyntaxHighlighter
