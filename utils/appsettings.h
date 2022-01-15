@@ -27,6 +27,7 @@
 #define PRM_EXPORT_DIGIT_COUNT "exportDigitCount"
 #define PRM_SHOW_FRAGMENT_NUMBER "showFragmentNumber"
 #define PRM_LOCAL_PROJECT_BACKUP "localProjectBackup"
+#define PRM_DEFAULT_STATEMENT_DELIMITER "defaultStatementDelimiter"
 
 
 class AppSettings

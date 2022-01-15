@@ -9,7 +9,7 @@
 #include <QSqlRecord>
 #include "qbasewindow.h"
 #include "qdatamodule.h"
-#include "../QCheckboxCombo/qcheckboxcombo.h"
+#include "widgets/qcheckboxcombo.h"
 #include <QDataWidgetMapper>
 #include <QScriptEngine>
 #include "utils/sparams.h"

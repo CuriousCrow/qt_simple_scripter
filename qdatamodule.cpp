@@ -3,6 +3,7 @@
 #include <QSqlQuery>
 #include <QSqlDriver>
 #include <QApplication>
+#include <QScreen>
 #include <QDesktopWidget>
 #include <QFileInfo>
 #include <QDir>
@@ -252,7 +253,7 @@ bool QDataModule::importProject(QString importPath)
   projectId = newProjectId;
 
   QString text = QTextProcessor::fileToString(importPath);
-  QStringList textLines = text.split(SNewLine, QString::SkipEmptyParts);
+  QStringList textLines = text.split(SNewLine, Qt::SkipEmptyParts);
 
   bool submitted = true;
 
@@ -306,7 +307,7 @@ bool QDataModule::importFromXml(QString importPath)
   projectId = newProjectId;
 
   QString text = QTextProcessor::fileToString(importPath);
-  QStringList textLines = text.split(SNewLine, QString::SkipEmptyParts);
+  QStringList textLines = text.split(SNewLine, Qt::SkipEmptyParts);
 
   bool submitted = true;
 
@@ -315,18 +316,18 @@ bool QDataModule::importFromXml(QString importPath)
   foreach(QString xmlStatement, textLines){
     int speakerId = 0;
     QHash<QString, QString> strValHash = StrUtils::tagToHash(xmlStatement, "speach");
-    if (strValHash.contains("role")) {
-      if (!newSpeakers.contains(strValHash.value("role"))) {
-        newSpeakerRole = strValHash.value("role");
-        newSpeakerProfession = strValHash.value("profession");
-        newSpeakerSex = strValHash.value("sex");
+    if (strValHash.contains(COL_ROLE)) {
+      if (!newSpeakers.contains(strValHash.value(COL_ROLE))) {
+        newSpeakerRole = strValHash.value(COL_ROLE);
+        newSpeakerProfession = strValHash.value(COL_PROFESSION);
+        newSpeakerSex = strValHash.value(COL_SEX);
         mSpeakers->insertRow(mSpeakers->rowCount());
         mSpeakers->submitAll();
         speakerId = getLastRecordId(mSpeakers);
-        newSpeakers.insert(strValHash.value("role"), speakerId);
+        newSpeakers.insert(strValHash.value(COL_ROLE), speakerId);
       }
       else {
-        speakerId = newSpeakers.value(strValHash.value("role"));
+        speakerId = newSpeakers.value(strValHash.value(COL_ROLE));
       }
     }
     else {
@@ -711,7 +712,8 @@ void QDataModule::onBeforeStatementInsert(QSqlRecord &rec)
 
 void moveWidgetToCenter(QWidget *widget)
 {
-  QRect desktopRect = QApplication::desktop()->availableGeometry();
+  QList<QScreen*> screens = QGuiApplication::screens();
+  QRect desktopRect = screens.first()->availableGeometry();
   widget->move(desktopRect.width()/2 - widget->width()/2,
              desktopRect.height()/2 - widget->height()/2);
 }

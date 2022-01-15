@@ -102,7 +102,7 @@ QStringList QTextProcessor::splitStringBySentences(QString inStr)
 {
   QRegExp rxBound("([\\.\\?\\!])\\s");
   inStr = inStr.replace(rxBound, "\\1||");
-  QStringList resSl = inStr.split("||", QString::SkipEmptyParts);
+  QStringList resSl = inStr.split("||", Qt::SkipEmptyParts);
   return resSl;
 }
 
@@ -146,7 +146,7 @@ QStringList QTextProcessor::splitSqlScript(QString script)
     }
     semicolonless.append(chr);
   }
-  foreach (QString item, semicolonless.split(";", QString::SkipEmptyParts)) {
+  foreach (QString item, semicolonless.split(";", Qt::SkipEmptyParts)) {
     item = item.trimmed();
     if (item.isEmpty())
       continue;

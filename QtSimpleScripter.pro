@@ -27,7 +27,7 @@ SOURCES += main.cpp\
     qtablehighlighter.cpp \
     qprojecteditwindow.cpp \
     qtextprocessor.cpp \
-    ../QCheckboxCombo/qcheckboxcombo.cpp \
+    widgets/qcheckboxcombo.cpp \
     qprojectlistwindow.cpp \
     mainscripterwindow.cpp \
     qreplacepatternwindow.cpp \
@@ -63,7 +63,7 @@ HEADERS  += \
     qtablehighlighter.h \
     qprojecteditwindow.h \
     qtextprocessor.h \
-    ../QCheckboxCombo/qcheckboxcombo.h \
+    widgets/qcheckboxcombo.h \
     qprojectlistwindow.h \
     mainscripterwindow.h \
     qreplacepatternwindow.h \
