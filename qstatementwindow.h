@@ -68,6 +68,7 @@ private:
   QDataWidgetMapper* _mapperSpeakers;
   QLookupItemDelegate* _mapperDelegate;
   int tempSpeakerId;
+  QString _defStatementDelimiter = "$";
   QTableHighlighter* _highlighter;
   void loadCustomActions();
   QString prepareActionResult(QString actionName, QString actionString);
