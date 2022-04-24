@@ -13,6 +13,8 @@
 #define FILE_EDITOR_SCRIPT "editors.script"
 #define FILE_SETTINGS "QtSimpleScripter.ini"
 
+QTextCodec* win1251 = QTextCodec::codecForName("Windows-1251");
+
 QTextProcessor::QTextProcessor(QObject *parent) :
   QObject(parent)
 {
@@ -22,7 +24,7 @@ QString QTextProcessor::processByAccentuator(QString str)
 {
   QString perlPath = QApplication::applicationDirPath() + DIR_PERL;
   //Запись строки в файл
-  stringToFile(str, perlPath + FILE_IN_ACCENT_BAT, false);
+  stringToFileWin1251(str, perlPath + FILE_IN_ACCENT_BAT);
 
   //Запуск программы Акцентуатор
   QProcess accentuatorProcess;
@@ -33,7 +35,7 @@ QString QTextProcessor::processByAccentuator(QString str)
   accentuatorProcess.close();
 
   //Чтение строки из файла
-  QString result = fileToString(perlPath + FILE_OUT_ACCENT_BAT, false);
+  QString result = fileWin1251ToString(perlPath + FILE_OUT_ACCENT_BAT);
   return result.isEmpty() ? str : result;
 }
 
@@ -58,6 +60,20 @@ QString QTextProcessor::fileToString(QString filepath, bool isUtf8)
   return result;
 }
 
+QString QTextProcessor::fileWin1251ToString(QString filepath)
+{
+    QFile file(filepath);
+    if (!file.exists()){
+      WARNING << "File" << file.fileName() << "doesn't exists";
+      return "";
+    }
+    file.open(QIODevice::ReadOnly);
+    QString result = win1251->toUnicode(file.readAll());
+
+    file.close();
+    return result;
+}
+
 bool QTextProcessor::stringToFile(QString str, QString filepath, bool isUtf)
 {
   QFile file(filepath);
@@ -71,6 +87,17 @@ bool QTextProcessor::stringToFile(QString str, QString filepath, bool isUtf)
     file.close();
   }
   return result;
+}
+
+bool QTextProcessor::stringToFileWin1251(QString str, QString filepath)
+{
+    QFile file(filepath);
+    bool result = file.open(QIODevice::WriteOnly);
+    if (result){
+      result = file.write(win1251->fromUnicode(str));
+      file.close();
+    }
+    return result;
 }
 
 QStringList QTextProcessor::splitStringBySize(QString inStr, int size, QString headerDelimiter)
