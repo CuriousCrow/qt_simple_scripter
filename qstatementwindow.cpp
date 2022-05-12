@@ -292,7 +292,7 @@ void QStatementWindow::loadCustomActions()
   //Загрузка пользовательских действий
   QString customActStr =
       QTextProcessor::fileToString(QTextProcessor::configDir() + FILE_CUSTOM_ACTIONS);
-  _customActions.add(customActStr, "\r\n");
+  _customActions.add(customActStr, "\r\n", false);
 
   for(int i=0; i<_customActions.count(); i++){
     QPushButton* actBtn = new QPushButton(this);
