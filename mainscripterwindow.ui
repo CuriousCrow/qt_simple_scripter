@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Qt Simple Scripter 2.2022.04.24</string>
+   <string>Qt Simple Scripter 2.2022.05.12</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
