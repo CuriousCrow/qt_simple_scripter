@@ -37,21 +37,21 @@ StatementWindow::StatementWindow(QWidget *parent) :
   _mapperSpeakers = new QDataWidgetMapper(this);
   _mapperSpeakers->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-  _highlighter = new QTableHighlighter(this);
-  _highlighter->setDocument(ui->memStatement->document());
+//  _highlighter = new QTableHighlighter(this);
+//  _highlighter->setDocument(ui->memStatement->document());
 
   //Связываем комбобокс выбора говорящего с моделью
   ui->cmbSpeaker->setModel(dm->mSpeakers);
-  ui->cmbSpeaker->setModelColumn(dm->mSpeakers->colIdxByName("SPEACH_ROLE"));
+  ui->cmbSpeaker->setModelColumn(dm->mSpeakers->colIdxByName(COL_SPEECH_ROLE));
 
   //Мэппер для навигации по репликам
-//  dm->_mapperStatements->setModel(dm->mStatementsSmartFiltered);
-//  _mapperDelegate->setListModel(dm->mSpeakers);
-//  dm->_mapperStatements->setItemDelegate(_mapperDelegate);
-//  dm->_mapperStatements->addMapping(ui->cmbSpeaker, dm->mStatements->colIdxByName("SPEAKER_ID"));
-//  dm->_mapperStatements->addMapping(ui->memStatement, dm->mStatements->colIdxByName("STATEMENT"), "plainText");
-//  connect(dm->_mapperStatements, SIGNAL(currentIndexChanged(int)),
-//          this, SLOT(updateActions(int)));
+  dm->_mapperStatements->setModel(dm->mStatements);
+  _mapperDelegate->setListModel(dm->mSpeakers);
+  dm->_mapperStatements->setItemDelegate(_mapperDelegate);
+  dm->_mapperStatements->addMapping(ui->cmbSpeaker, dm->mStatements->colIdxByName(COL_SPEAKER_ID));
+  dm->_mapperStatements->addMapping(ui->memStatement, dm->mStatements->colIdxByName(COL_STATEMENT), "plainText");
+  connect(dm->_mapperStatements, SIGNAL(currentIndexChanged(int)),
+          this, SLOT(updateActions(int)));
 //  if (AppSettings::boolVal("", PRM_SHOW_FRAGMENT_NUMBER, false))
 //    connect(dm->_mapperStatements, SIGNAL(currentIndexChanged(int)),
 //            this, SLOT(updateFragmentNumber()));
@@ -69,7 +69,7 @@ StatementWindow::StatementWindow(QWidget *parent) :
   ui->cmbScheme->setModelColumn(dm->mSchemes->colIdxByName("NAME"));
 
   //Highlighter
-  _highlighter->setModel(dm->mSchemePatterns);
+//  _highlighter->setModel(dm->mSchemePatterns);
   //При изменении шаблона или схемы текст текущей реплики переподсвечивается
 //  connect(dm->mSchemePatterns, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
 //          _highlighter, SLOT(rehighlight()));

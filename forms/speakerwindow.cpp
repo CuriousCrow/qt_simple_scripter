@@ -34,7 +34,7 @@ SpeakerWindow::SpeakerWindow(QWidget *parent) :
     setModel(_dm->mSpeakers);
 
     //Связываем сигнал о загрузке проекта к слоту
-//    connect(_dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded(int,int)));
+    connect(_dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded(int,int)));
     onProjectLoaded(0, _dm->projectId);
 }
 
@@ -78,8 +78,8 @@ void SpeakerWindow::setModel(BaseRestTableModel *model)
     mapper->addMapping(ui->edtProfession, IDX_PROFESSION);
     mapper->addMapping(ui->edtSex, IDX_SEX);
     mapper->addMapping(ui->edtBirthYear, IDX_BIRTH_YEAR);
-//    connect(ui->listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
-//            this, SLOT(onSpeakerSelected(QModelIndex)));
+    connect(ui->listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+            this, SLOT(onSpeakerSelected(QModelIndex)));
 }
 
 void SpeakerWindow::updateSpeakerFields()

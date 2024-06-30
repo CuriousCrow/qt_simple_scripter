@@ -1,5 +1,6 @@
 #include "statementnavigationwindow.h"
 #include "ui_statementnavigationwindow.h"
+#include "core/appconst.h"
 #include <QDebug>
 
 StatementNavigationWindow* StatementNavigationWindow::singletonWindow = nullptr;
@@ -11,10 +12,11 @@ StatementNavigationWindow::StatementNavigationWindow(QWidget *parent) :
   ui->setupUi(this);
   dm = QDataModule::dm();
   ui->lvStatements->setModel(dm->mStatementsNavigation);
-  ui->lvStatements->setModelColumn(dm->mStatementsNavigation->columnCount() - 1);
+  ui->lvStatements->setModelColumn(dm->mStatements->colIdxByName(COL_STATEMENT));
   // Редактирование поля фильтра связываем с фильтрацией модели
-  connect(ui->edtFilter, SIGNAL(textChanged(QString)),
-          dm->mStatementsNavigation, SLOT(setFilterRegExp(QString)));
+  connect(ui->edtFilter, &QLineEdit::textChanged, dm->mStatementsNavigation, [=](){
+      dm->mStatementsNavigation->setFilterRegularExpression(ui->edtFilter->text());
+  });
 }
 
 StatementNavigationWindow::~StatementNavigationWindow()

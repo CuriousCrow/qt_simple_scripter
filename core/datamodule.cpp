@@ -56,12 +56,11 @@ QString QDataModule::appPath()
 }
 
 void QDataModule::loadProjectData(int id)
-{      
-  checkForUnsavedProject(true);
+{
+//  checkForUnsavedProject(true);
 
-  saveLastStatement();
+//  saveLastStatement();
 
-  QString filter = "project_id=0 or project_id=%1";
   mSpeakers->setParam("project_id", id);
   mSpeakers->refresh();
 
@@ -313,18 +312,18 @@ bool QDataModule::importFromXml(QString importPath)
   foreach(QString xmlStatement, textLines){
     int speakerId = 0;
     QHash<QString, QString> strValHash = StrUtils::tagToHash(xmlStatement, "speach");
-    if (strValHash.contains(COL_ROLE)) {
-      if (!newSpeakers.contains(strValHash.value(COL_ROLE))) {
-        newSpeakerRole = strValHash.value(COL_ROLE);
+    if (strValHash.contains(ATTR_ROLE)) {
+      if (!newSpeakers.contains(strValHash.value(ATTR_ROLE))) {
+        newSpeakerRole = strValHash.value(ATTR_ROLE);
         newSpeakerProfession = strValHash.value(COL_PROFESSION);
         newSpeakerSex = strValHash.value(COL_SEX);
         mSpeakers->insertRow(mSpeakers->rowCount());
         mSpeakers->tryToSubmitAll();
         speakerId = getLastRecordId(mSpeakers);
-        newSpeakers.insert(strValHash.value(COL_ROLE), speakerId);
+        newSpeakers.insert(strValHash.value(ATTR_ROLE), speakerId);
       }
       else {
-        speakerId = newSpeakers.value(strValHash.value(COL_ROLE));
+        speakerId = newSpeakers.value(strValHash.value(ATTR_ROLE));
       }
     }
     else {
@@ -536,7 +535,7 @@ bool QDataModule::loadModels()
   mProjects->registerColumn(COL_AUDIENCE_LEVEL, SColAudienceLevel);
   mProjects->registerColumn(COL_AUDIENCE_SIZE, SColAudienceSize);
   mProjects->registerColumn(COL_SPEAKER_TYPE, SColSpeakerType);
-  mProjects->setServiceUrl(QUrl("http://localhost/api/v1/projects"), false);
+  mProjects->setServiceUrl(QUrl(URL_PROJECTS), false);
   mProjects->refresh();
 
   mPatterns = new BaseRestTableModel(_nam, this);
@@ -571,50 +570,52 @@ bool QDataModule::loadModels()
 //  mSchemePatterns->refresh();
 
   mReplacePatterns = new BaseRestTableModel(_nam, this);
-  mReplacePatterns->registerColumn(SColID);
-  mReplacePatterns->registerColumn(SColName);
-  mReplacePatterns->registerColumn(SColPattern);
-  mReplacePatterns->registerColumn(SColRegexp);
-  mReplacePatterns->registerColumn(SColUsageType);
+  mReplacePatterns->registerColumn(COL_ID);
+  mReplacePatterns->registerColumn(COL_NAME);
+  mReplacePatterns->registerColumn(COL_PATTERN);
+  mReplacePatterns->registerColumn(COL_REGEXP);
+  mReplacePatterns->registerColumn(COL_USAGE_TYPE);
 
   mReplacePatterns->setServiceUrl(QUrl(""), false);
 //  mReplacePatterns->refresh();
 
   mSpeakers = new BaseRestTableModel(_nam, this);
-  mSpeakers->setParam("project_id", 0);
-  mSpeakers->registerColumn(SColID);
-  mSpeakers->registerColumn(SColProjectId);
-  mSpeakers->registerColumn(SColSpeachRole);
-  mSpeakers->registerColumn(SColProfession);
-  mSpeakers->registerColumn(SColSex);
-  mSpeakers->registerColumn(SColBirthYear);
-  mSpeakers->registerColumn(SColActor);
+  mSpeakers->registerColumn(COL_ID);
+  mSpeakers->registerColumn(COL_PROJECT_ID);
+  mSpeakers->registerColumn(COL_SPEECH_ROLE);
+  mSpeakers->registerColumn(COL_PROFESSION);
+  mSpeakers->registerColumn(COL_SEX);
+  mSpeakers->registerColumn(COL_BIRTH_YEAR);
+  mSpeakers->registerColumn(COL_ACTOR);
 
-  mSpeakers->setServiceUrl(QUrl(""), false);
-//  mSpeakers->refresh();
+  mSpeakers->setParam("project_id", 0);
+  mSpeakers->setServiceUrl(QUrl(URL_SPEAKERS), false);
+  mSpeakers->refresh();
 
 //  connect(mSpeakers, SIGNAL(beforeInsert(QSqlRecord&)),
 //          this, SLOT(initNewSpeaker(QSqlRecord&)));
 //  result = result && loadModel(mSpeakers, TABLE_SPEAKERS, GEN_SPEAKERS);
 
   mStatements = new BaseRestTableModel(_nam, this);
-  mStatements->registerColumn(SColID);
-  mStatements->registerColumn(SColProjectId);
-  mStatements->registerColumn(SColSpeakerId);
-  mStatements->registerColumn(SColStatement);
-  mStatements->registerColumn(SColSortId);
-  mStatements->registerColumn(SColDT);
-  mStatements->setServiceUrl(QUrl("http://localhost/api/v1/statements"), false);
+  mStatements->registerColumn(COL_ID);
+  mStatements->registerColumn(COL_PROJECT_ID);
+  mStatements->registerColumn(COL_SPEAKER_ID);
+  mStatements->registerColumn(COL_STATEMENT);
+  mStatements->registerColumn(COL_SORT_ID);
+  mStatements->registerColumn(COL_DATE_TIME);
+  mStatements->setServiceUrl(QUrl(URL_STATEMENTS), false);
+
   mStatements->setParam("project_id", 0);
 //  mStatements->setLinkField(COL_PARENT_ID);
 //  mStatements->refresh();
+
 //  connect(mStatements, SIGNAL(beforeInsert(QSqlRecord&)),
 //          this, SLOT(onBeforeStatementInsert(QSqlRecord&)));
 
   //Прокси-модель реплик для навигации
   mStatementsNavigation = new QSortFilterProxyModel(this);
   mStatementsNavigation->setSourceModel(mStatements);
-  mStatementsNavigation->setFilterKeyColumn(mStatements->columnCount(QModelIndex()) - 1);
+  mStatementsNavigation->setFilterKeyColumn(mStatements->colIdxByName(COL_STATEMENT));
   mStatementsNavigation->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
 //  //Фильтрованная прокси-модель реплик

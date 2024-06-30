@@ -43,6 +43,11 @@
 #define TABLE_STATEMENTS_HISTORY "STATEMENTS_HISTORY"
 #define TABLE_SPEAKER_TYPES "SPEAKER_TYPES"
 
+//TEMP
+#define URL_PROJECTS "http://localhost/api/v1/projects"
+#define URL_SPEAKERS "http://localhost/api/v1/speakers"
+#define URL_STATEMENTS "http://localhost/api/v1/statements"
+
 const QString SMainWinTitle = "";
 const QString SErrDatabase = "Ошибка БД: ";
 const QString SErrWhileDbConnection = "Не удалось подключиться к базе данных";
@@ -116,10 +121,10 @@ const QString SColProfessionTitle = "Profession title";
 const QString SColActorTitle = "Actor title";
 
 #define IDX_ROLE 2
-#define IDX_ACTOR 6
 #define IDX_PROFESSION 3
 #define IDX_SEX 4
 #define IDX_BIRTH_YEAR 5
+#define IDX_ACTOR 6
 
 enum AddOperation {
     Add = 0x1,

@@ -25,6 +25,16 @@
 #define COL_PROJECT_ID "projectId"
 #define COL_ACTOR "actor"
 
+//Statements
+#define COL_SPEAKER_ID "speaker_id"
+#define COL_SORT_ID "sort_id"
+#define COL_PARENT_ID "parent_id"
+#define COL_DATE_TIME "dt"
+
+
+
+#define ATTR_ROLE "role"
+
 
 
 #define S_ID "ID"
@@ -43,18 +53,16 @@
 #define S_AUDIENCE_SIZE "Размер аудитории"
 #define S_SPEAKER_TYPE "Тип говорящего"
 
-#define COL_NAME "NAME"
-#define COL_HEXCOLOR "HEXCOLOR"
-#define COL_PATTERN "PATTERN"
-#define COL_PATTERN_ID "PATTERN_ID"
-#define COL_PARENT_ID "PARENT_ID"
-#define COL_STATEMENT "STATEMENT"
-#define COL_STATEMENT_PLAIN "STATEMENT_PLAIN"
-#define COL_PRIORITY "PRIORITY"
-#define COL_ROLE "role"
-#define COL_ACTOR "actor"
-#define COL_SEX "sex"
-#define COL_PROFESSION "profession"
+#define COL_NAME "name"
+#define COL_HEXCOLOR "hexColor"
+#define COL_PATTERN "pattern"
+#define COL_REGEXP "regexp"
+#define COL_USAGE_TYPE "usageType"
+#define COL_PATTERN_ID "pattern_id"
+#define COL_PARENT_ID "parent_id"
+#define COL_STATEMENT "statement"
+#define COL_STATEMENT_PLAIN "statement_plain"
+#define COL_PRIORITY "priority"
 
 #define GEN_STATEMENTS "GEN_STATEMENTS_ID"
 #define GEN_SPEAKERS "GEN_SPEAKERS_ID"

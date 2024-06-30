@@ -22,6 +22,9 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QListView" name="lvStatements">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
       <property name="alternatingRowColors">
        <bool>true</bool>
       </property>
@@ -118,7 +121,7 @@
      <x>0</x>
      <y>0</y>
      <width>609</width>
-     <height>22</height>
+     <height>37</height>
     </rect>
    </property>
   </widget>

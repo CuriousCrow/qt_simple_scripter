@@ -71,7 +71,7 @@ void ProjectListWindow::on_projectsView_doubleClicked(const QModelIndex &index)
   if (!QSmartDialog::confirmationDialog(SConfirmLoadProject.arg(projectTitle)))
     return;
 
-  int projectId = _dm->mProjects->cellData(index.row(), SColID).toInt();
+  int projectId = _dm->mProjects->idByRow(index.row());
   _dm->loadProjectData(projectId);
 }
 
