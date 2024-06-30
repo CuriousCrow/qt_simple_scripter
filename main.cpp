@@ -1,10 +1,10 @@
-#include "mainscripterwindow.h"
+#include "forms/mainscripterwindow.h"
 #include <QApplication>
 #include <QTranslator>
 #include "utils/slogger.h"
 #include "utils/appsettings.h"
-#include "utils/qfileutils.h"
-#include "utils/appconst.h"
+#include "utils/fileutils.h"
+#include "core/appconst.h"
 
 int main(int argc, char *argv[])
 {  
@@ -25,15 +25,15 @@ int main(int argc, char *argv[])
   log.setFilter(AppSettings::strVal(SECTION_LOGGER, PRM_LOG_FILTER, ""));
   log.start();
 
-  QTranslator translator;
-  bool trRes = translator.load(QLocale::system(), "qt", "_", "translations");
-  if (!trRes) {
-    WARNING << "Can't load translator";
-  }
-  else {
-    INFO << "Translator successfully loaded";
-  }
-  a.installTranslator(&translator);
+//  QTranslator translator;
+//  bool trRes = translator.load(QLocale::system(), "qt", "_", "translations");
+//  if (!trRes) {
+//    WARNING << "Can't load translator";
+//  }
+//  else {
+//    INFO << "Translator successfully loaded";
+//  }
+//  a.installTranslator(&translator);
 
   MainScripterWindow w;
   w.showMaximized();

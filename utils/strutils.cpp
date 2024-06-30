@@ -42,43 +42,45 @@ QList<qlonglong> StrUtils::longToList(qlonglong longVal)
 
 QString StrUtils::replaceTag(QString inStr, QString tagName, QString templ)
 {
-    QRegExp rx;
-    rx.setMinimal(true);
-    rx.setCaseSensitivity(Qt::CaseInsensitive);
-    QString pattern = "<%1 ([^>]*)>(.*)</%1>";
-    rx.setPattern(pattern.arg(tagName));
-    int pos = 0;
-    QStringList linksInTempl = dashValues(templ);
+    return "";
+    //TODO
+//    QRegExp rx;
+//    rx.setMinimal(true);
+//    rx.setCaseSensitivity(Qt::CaseInsensitive);
+//    QString pattern = "<%1 ([^>]*)>(.*)</%1>";
+//    rx.setPattern(pattern.arg(tagName));
+//    int pos = 0;
+//    QStringList linksInTempl = dashValues(templ);
 
-    while ((pos = rx.indexIn(inStr, pos)) >= 0) {
-        QString replaceStr = templ;
-        QHash<QString, QString> attrHash = attrsToHash(rx.cap(1));
-        attrHash.insert("text", rx.cap(2));
-        foreach (QString link, linksInTempl) {
-            QStringList attrLinks = link.split('/', QString::SkipEmptyParts);
-            bool attrFound = false;
-            foreach (QString attrName, attrLinks) {
-                if (attrHash.contains(attrName)) {
-                    replaceStr = replaceStr.replace("#" + link + "#", attrHash.value(attrName));
-                    attrFound = true;
-                    break;
-                }
-            }
-            if (!attrFound) {
-                replaceStr = replaceStr.replace("#" + link + "#", "неизв.");
-            }
-        }
+//    while ((pos = rx.indexIn(inStr, pos)) >= 0) {
+//        QString replaceStr = templ;
+//        QHash<QString, QString> attrHash = attrsToHash(rx.cap(1));
+//        attrHash.insert("text", rx.cap(2));
+//        foreach (QString link, linksInTempl) {
+//            QStringList attrLinks = link.split('/', Qt::SkipEmptyParts);
+//            bool attrFound = false;
+//            foreach (QString attrName, attrLinks) {
+//                if (attrHash.contains(attrName)) {
+//                    replaceStr = replaceStr.replace("#" + link + "#", attrHash.value(attrName));
+//                    attrFound = true;
+//                    break;
+//                }
+//            }
+//            if (!attrFound) {
+//                replaceStr = replaceStr.replace("#" + link + "#", "неизв.");
+//            }
+//        }
 
-        foreach (QString name, attrHash.keys()) {
-            replaceStr = replaceStr.replace("#" + name + "#", attrHash.value(name));
-        }
-        QString cap = rx.cap();
-        int capLength = cap.length();
-        inStr = inStr.replace(pos, capLength, replaceStr);
-        pos += replaceStr.length();
-    }
-//    rx.setPattern();
-    return inStr;
+//        foreach (QString name, attrHash.keys()) {
+//            replaceStr = replaceStr.replace("#" + name + "#", attrHash.value(name));
+//        }
+//        QString cap = rx.cap();
+//        int capLength = cap.length();
+//        inStr = inStr.replace(pos, capLength, replaceStr);
+//        pos += replaceStr.length();
+//    }
+////    rx.setPattern();
+//    return inStr;
 }
 
 QHash<QString, QString> StrUtils::attrsToHash(QString attrs)
@@ -116,30 +118,32 @@ QHash<QString, QString> StrUtils::attrsToHash(QString attrs)
 QHash<QString, QString> StrUtils::tagToHash(QString inStr, QString tag)
 {
   QHash<QString, QString> resHash;
-  QRegExp rx;
-  rx.setMinimal(false);
-  rx.setCaseSensitivity(Qt::CaseInsensitive);
-  QString pattern = "<%1 ([^>]*)>(.*)</%1>";
-  rx.setPattern(pattern.arg(tag));
-  if (rx.indexIn(inStr) >= 0) {
-    resHash = attrsToHash(rx.cap(1));
-    resHash.insert("text", rx.cap(2));
-  }
-  else {
-    resHash.insert("text", inStr);
-  }
+    //TODO
+//  QRegExp rx;
+//  rx.setMinimal(false);
+//  rx.setCaseSensitivity(Qt::CaseInsensitive);
+//  QString pattern = "<%1 ([^>]*)>(.*)</%1>";
+//  rx.setPattern(pattern.arg(tag));
+//  if (rx.indexIn(inStr) >= 0) {
+//    resHash = attrsToHash(rx.cap(1));
+//    resHash.insert("text", rx.cap(2));
+//  }
+//  else {
+//    resHash.insert("text", inStr);
+//  }
   return resHash;
 }
 
 QStringList StrUtils::dashValues(QString inStr)
 {
     QStringList resVals;
-    QRegExp rx("#([a-z/]+)#");
-    int pos = 0;
-    while ((pos = rx.indexIn(inStr, pos)) >= 0) {
-        resVals.append(rx.cap(1));
-        pos += rx.cap().length();
-    }
+  //TODO
+//    QRegExp rx("#([a-z/]+)#");
+//    int pos = 0;
+//    while ((pos = rx.indexIn(inStr, pos)) >= 0) {
+//        resVals.append(rx.cap(1));
+//        pos += rx.cap().length();
+//    }
     return resVals;
 }
 

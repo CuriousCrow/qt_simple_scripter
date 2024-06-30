@@ -37,7 +37,7 @@ QString SParams::stringValue(const QString &key, const QString &defaultValue) co
 void SParams::add(const QString &values, const QString &delimeter, bool deleteQuotes)
 {
     if (!values.trimmed().isEmpty()) {
-        foreach (QString s, values.split(delimeter, QString::SkipEmptyParts)) {
+        foreach (QString s, values.split(delimeter, Qt::SkipEmptyParts)) {
             QString val = s.section("=",1).trimmed();
             if (deleteQuotes) val.remove("\"");
             _params.insert(s.section("=",0,0).trimmed(), val);
@@ -251,13 +251,14 @@ QString SParams::toXml(const QString &root, const QString &element)
     QString result = QString("<%1>").arg(root);
     foreach (QString s, _params.keys()) {
         QString str;
-        if (stringValue(s).contains(QRegExp("[<|>|\\r|\\n|\\t]"))) {
-            str.append("<![CDATA[");
-            str.append(stringValue(s));
-            str.append("]]>");
-            }
-        else
-            str.append(stringValue(s));
+        //TODO
+//        if (stringValue(s).contains(QRegExp("[<|>|\\r|\\n|\\t]"))) {
+//            str.append("<![CDATA[");
+//            str.append(stringValue(s));
+//            str.append("]]>");
+//            }
+//        else
+//            str.append(stringValue(s));
 
         result.append(QString("<%1 name=\"%2\">%3</%1>").arg(element).arg(s).arg(str));
     }
@@ -411,13 +412,14 @@ QString SParams::Md5Uuid()
 QString SParams::loadTextFile(const QString &fileName)
 {
     QString result;
-    QFile file(fileName);
-    if (file.open(QIODevice::ReadOnly)) {
-        QTextStream stream(&file);
-        stream.setCodec("UTF-8");
-        result = stream.readAll();
-        file.close();
-    }
+    //TODO
+//    QFile file(fileName);
+//    if (file.open(QIODevice::ReadOnly)) {
+//        QTextStream stream(&file);
+//        stream.setCodec("UTF-8");
+//        result = stream.readAll();
+//        file.close();
+//    }
     return result;
 }
 
