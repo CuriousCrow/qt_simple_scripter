@@ -1,5 +1,6 @@
 #include "qfileutils.h"
 #include "slogger.h"
+#include <QRegExp>
 
 QFileUtils::QFileUtils()
 {
@@ -97,5 +98,5 @@ QString QFileUtils::extractFileName(const QString &fullPath)
 QString QFileUtils::legalFilename(QString original)
 {
   QRegExp rx("[, \"\\!\\?]{1,}");
-  return original.replace(rx, "_");
+  return rx.replaceIn(original, "_");
 }

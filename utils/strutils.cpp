@@ -1,6 +1,7 @@
 #include "strutils.h"
 #include <QDebug>
 #include <QtMath>
+#include <QRegExp>
 
 #define VAL_BRACKETS "#"
 
@@ -55,7 +56,7 @@ QString StrUtils::replaceTag(QString inStr, QString tagName, QString templ)
         QHash<QString, QString> attrHash = attrsToHash(rx.cap(1));
         attrHash.insert("text", rx.cap(2));
         foreach (QString link, linksInTempl) {
-            QStringList attrLinks = link.split('/', QString::SkipEmptyParts);
+            QStringList attrLinks = link.split('/', Qt::SkipEmptyParts);
             bool attrFound = false;
             foreach (QString attrName, attrLinks) {
                 if (attrHash.contains(attrName)) {

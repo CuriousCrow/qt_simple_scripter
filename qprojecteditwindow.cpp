@@ -98,19 +98,22 @@ void QProjectEditWindow::createControls()
 
 QString QProjectEditWindow::listFileFromScript(QWidget* editor)
 {
-  QScriptEngine engine;
-  QVariantMap values;
-  for (int i=0; i<projectMapper->model()->columnCount(); i++){
-    QWidget* widget = projectMapper->mappedWidgetAt(i);
-    if (widget)
-      values.insert(widget->objectName(), widget->property("text"));
-  }
-  engine.globalObject().setProperty("colName", editor->objectName());
-  QScriptValue sValues = engine.newVariant(values);
-  engine.globalObject().setProperty("values", sValues);
-  QString script = QTextProcessor::editorScript();
-  QScriptValue resValue = engine.evaluate(script);
-  return resValue.toString();
+    //TODO: Restore script logic
+
+  // QScriptEngine engine;
+  // QVariantMap values;
+  // for (int i=0; i<projectMapper->model()->columnCount(); i++){
+  //   QWidget* widget = projectMapper->mappedWidgetAt(i);
+  //   if (widget)
+  //     values.insert(widget->objectName(), widget->property("text"));
+  // }
+  // engine.globalObject().setProperty("colName", editor->objectName());
+  // QScriptValue sValues = engine.newVariant(values);
+  // engine.globalObject().setProperty("values", sValues);
+  // QString script = QTextProcessor::editorScript();
+  // QScriptValue resValue = engine.evaluate(script);
+    QString resValue = editor->objectName() + ".lst";
+    return resValue; //.toString();
 }
 
 void QProjectEditWindow::on_btnSave_clicked()

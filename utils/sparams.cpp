@@ -5,6 +5,7 @@
 #include <QUuid>
 #include <QXmlStreamReader>
 #include <QTextStream>
+#include <QRegExp>
 
 SParams::SParams()
 {
@@ -37,7 +38,7 @@ QString SParams::stringValue(const QString &key, const QString &defaultValue) co
 void SParams::add(const QString &values, const QString &delimeter, bool deleteQuotes)
 {
     if (!values.trimmed().isEmpty()) {
-        foreach (QString s, values.split(delimeter, QString::SkipEmptyParts)) {
+        foreach (QString s, values.split(delimeter, Qt::SkipEmptyParts)) {
             QString val = s.section("=",1).trimmed();
             if (deleteQuotes) val.remove("\"");
             _params.insert(s.section("=",0,0).trimmed(), val);
@@ -248,10 +249,12 @@ QString SParams::toHtml() const
 
 QString SParams::toXml(const QString &root, const QString &element)
 {
+    QRegExp charsToEscape("[<|>|\\r|\\n|\\t]");
+
     QString result = QString("<%1>").arg(root);
     foreach (QString s, _params.keys()) {
         QString str;
-        if (stringValue(s).contains(QRegExp("[<|>|\\r|\\n|\\t]"))) {
+        if (charsToEscape.containedIn(stringValue(s))) {
             str.append("<![CDATA[");
             str.append(stringValue(s));
             str.append("]]>");
@@ -414,7 +417,7 @@ QString SParams::loadTextFile(const QString &fileName)
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream stream(&file);
-        stream.setCodec("UTF-8");
+        stream.setEncoding(QStringConverter::Utf8);
         result = stream.readAll();
         file.close();
     }

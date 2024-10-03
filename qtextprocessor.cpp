@@ -128,7 +128,7 @@ QStringList QTextProcessor::splitStringBySize(QString inStr, int size, QString h
 QStringList QTextProcessor::splitStringBySentences(QString inStr)
 {
   QRegExp rxBound("([\\.\\?\\!])\\s");
-  inStr = inStr.replace(rxBound, "\\1||");
+  inStr = rxBound.replaceIn(inStr, "\\1||");
   QStringList resSl = inStr.split("||", Qt::SkipEmptyParts);
   return resSl;
 }
@@ -137,7 +137,7 @@ QString QTextProcessor::removeCDATA(QString &str)
 {
   QRegExp rx("<\\!\\[CDATA\\[(.*)\\]\\]>");
   rx.setMinimal(true);
-  return str.replace(rx, "\\1");
+  return rx.replaceIn(str, "\\1");
 }
 
 QString QTextProcessor::loadEditorTypes()

@@ -1,7 +1,8 @@
 #include "qbasewindow.h"
 #include "ui_qbasewindow.h"
-#include <QDesktopWidget>
+// #include <QDesktopWidget>
 #include <QApplication>
+#include <QScreen>
 #include <QDebug>
 #include "utils/appsettings.h"
 
@@ -45,9 +46,10 @@ void QBaseWindow::saveSettings()
 
 void QBaseWindow::moveToScreenCenter()
 {
-  QRect desktopRect = QApplication::desktop()->availableGeometry();
-  this->move(desktopRect.width()/2 - this->width()/2,
-             desktopRect.height()/2 - this->height()/2);
+    auto screens = QApplication::screens();
+    QRect desktopRect = screens.first()->availableGeometry();
+    this->move(desktopRect.width()/2 - this->width()/2,
+               desktopRect.height()/2 - this->height()/2);
 }
 
 void QBaseWindow::setLayoutEditable(QLayout *layout, bool on)

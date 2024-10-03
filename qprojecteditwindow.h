@@ -11,7 +11,7 @@
 #include "qdatamodule.h"
 #include "widgets/qcheckboxcombo.h"
 #include <QDataWidgetMapper>
-#include <QScriptEngine>
+// #include <QScriptEngine>
 #include "utils/sparams.h"
 
 namespace Ui {

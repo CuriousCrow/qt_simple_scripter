@@ -5,7 +5,6 @@
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
 #include "models/lsqltablemodel.h"
-#include "models/lsqllinkedrecordsmodel.h"
 #include <QDataWidgetMapper>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -14,7 +13,6 @@
 #include <QSortFilterProxyModel>
 #include "models/qstatementmodel.h"
 #include "models/qstatementfiltermodel.h"
-#include "utils/sparams.h"
 
 #define DB_VERSION_TABLE "SYS_PARAMS"
 #define DB_VERSION_FIELD "DATABASE_VERSION"

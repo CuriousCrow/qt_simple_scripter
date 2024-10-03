@@ -164,7 +164,7 @@ void QSpeakerWindow::on_btnAutoAssign_clicked()
     QString statement = rec.value(SColStatement).toString();
     if (rx.indexIn(statement) > -1){
       _dm->mStatements->setData(i, SColSpeakerId, speakerID);
-      _dm->mStatements->setData(i, SColStatement, statement.replace(rx, "").trimmed());
+      _dm->mStatements->setData(i, SColStatement, rx.removeIn(statement).trimmed());
       statementAffected++;
     }
   }

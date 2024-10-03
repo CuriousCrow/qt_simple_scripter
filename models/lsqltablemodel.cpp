@@ -259,7 +259,7 @@ bool LSqlTableModel::setData(int row, QString columnName, QVariant value, int ro
 Qt::ItemFlags LSqlTableModel::flags(const QModelIndex &index) const
 {
   if (!index.isValid())
-    return 0;
+        return Qt::NoItemFlags;
   //Editing primary key values is forbidden
   if (_primaryIndex.indexOf(_patternRec.fieldName(index.column())) >= 0 ||
       _patternRec.count() <= index.column()){

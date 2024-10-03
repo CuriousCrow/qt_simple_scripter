@@ -9,11 +9,11 @@
 #define SQL_GET_VERSION "select %1 from %2"
 #define FILE_LOG_UPDATER "DbUpdate.log"
 
-const QString SErrCantUpdateToVer = "Ошибка при обновлении до версии %1";
-const QString SMsgDbUpdatedToVersion = "База данных обновлена до версии %1";
-const QString SMsgCurrentDbVersion = "Текущая версия БД: %1";
-const QString SMsgUpdateIsStarting = "Запуск задания обновления БД";
-const QString SMsgUpdateCompleted = "База данных имеет актуальную версию";
+const QString SErrCantUpdateToVer = "Error while updating up to version %1";
+const QString SMsgDbUpdatedToVersion = "Database successfully updated up to version %1";
+const QString SMsgCurrentDbVersion = "Current DB version: %1";
+const QString SMsgUpdateIsStarting = "Starting DB update task";
+const QString SMsgUpdateCompleted = "Database is up to date";
 
 /**
  * @brief Класс реализующий автоматическое обновление базы данных

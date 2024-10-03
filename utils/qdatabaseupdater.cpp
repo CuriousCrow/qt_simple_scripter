@@ -3,7 +3,6 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QDateTime>
-#include "slogger.h"
 
 
 

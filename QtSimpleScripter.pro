@@ -4,13 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql script
+QT       += core gui sql widgets core5compat
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = QtSimpleScripter
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++17
 
 RC_ICONS = SimpleScriptor.ico
 

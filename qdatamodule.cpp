@@ -4,7 +4,7 @@
 #include <QSqlDriver>
 #include <QApplication>
 #include <QScreen>
-#include <QDesktopWidget>
+// #include <QDesktopWidget>
 #include <QFileInfo>
 #include <QDir>
 #include "qtextprocessor.h"
@@ -439,13 +439,19 @@ bool QDataModule::exportProject()
 
 bool QDataModule::exportSpeakerList(QString outDir)
 {
+    auto extendedSpeakerExport = AppSettings::boolVal("", PRM_EXTENDED_SPEAKER_EXPORT, false);
+
   QStringList exportList;
   QSqlRecord rec;
-  QString speakerColName = speakerTitleCol == IDX_ACTOR ? SColActor : SColSpeachRole;
+  QString firstActorCol = speakerTitleCol == IDX_ACTOR ? SColActor : SColSpeachRole;
+  QString secondActorCol = speakerTitleCol == IDX_ACTOR ? SColSpeachRole : SColActor;
   for(int i=0; i<mSpeakers->rowCount(); i++){
     rec = mSpeakers->record(i);
-
-    QString line = rec.value(speakerColName).toString() + SDelimiter + rec.value(SColBirthYear).toString();
+    QString line = rec.value(firstActorCol).toString();
+    if (extendedSpeakerExport) {
+        line.append(SDelimiter).append(rec.value(secondActorCol).toString());
+    }
+    line.append(SDelimiter).append(rec.value(SColBirthYear).toString());
     exportList.append(line);
   }
   return QTextProcessor::stringToFile(exportList.join(SNewLine), outDir.append("/Speakers.txt"));
@@ -647,7 +653,7 @@ QString QDataModule::processByReplacePatterns(QString statement, int patternType
     if (patternRec.value(SColUsageType).toInt() == patternType){
       rx.setPattern(patternRec.value(SColRegexp).toString());
       QString pattern = patternRec.value(SColPattern).toString();
-      result = result.replace(rx, pattern);
+      result = rx.replaceIn(result, pattern);
       if (logging)
         LOG << "Processing step" << row + 1 << ":" << result;
     }
