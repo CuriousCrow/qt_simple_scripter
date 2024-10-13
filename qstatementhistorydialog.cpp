@@ -1,6 +1,8 @@
 #include "qstatementhistorydialog.h"
 #include "ui_qstatementhistorydialog.h"
 
+#include "utils/appconst.h"
+
 
 QStatementHistoryDialog::QStatementHistoryDialog(QWidget *parent) :
     QDialog(parent),
@@ -10,7 +12,7 @@ QStatementHistoryDialog::QStatementHistoryDialog(QWidget *parent) :
 
     _dm = QDataModule::dm();
     ui->lvStatements->setModel(_dm->mStatementHistory);
-    ui->lvStatements->setModelColumn(_dm->mStatementHistory->fieldIndex("STATEMENT"));
+    ui->lvStatements->setModelColumn(_dm->mStatementHistory->fieldIndex(COL_STATEMENT));
 
     connect(ui->lvStatements->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(selectionChanged(QModelIndex,QModelIndex)));

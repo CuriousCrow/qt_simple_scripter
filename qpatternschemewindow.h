@@ -34,6 +34,7 @@ private:
     Ui::QPatternSchemeWindow *ui;
 public slots:
     void onBeforePatternInsert(QSqlRecord& rec);
+    void onBeforeSchemeInsert(QSqlRecord& rec);
 };
 
 #endif // QPATTERNSCHEMEWINDOW_H

@@ -9,6 +9,7 @@
 #include "widgets/qsmartdialog.h"
 #include "models/lsqltablemodel.h"
 #include "utils/slogger.h"
+#include "utils/appconst.h"
 #include "qprojecteditwindow.h"
 
 QProjectListWindow* QProjectListWindow::singletonWindow = nullptr;
@@ -26,7 +27,7 @@ QProjectListWindow::QProjectListWindow(QWidget *parent) :
   LSqlRecord rec = _dm->mProjects->patternRecord();
   for(int i=0; i<rec.count(); i++){
     QStringList visibleColumns;
-    visibleColumns << SColHeader << SColAuthor << SColCreated;
+    visibleColumns << COL_HEADER << COL_AUTHOR << COL_CREATED;
     if (!visibleColumns.contains(rec.fieldName(i), Qt::CaseInsensitive)){
       ui->projectsView->hideColumn(i);
     }
@@ -68,11 +69,11 @@ void QProjectListWindow::on_btnClose_clicked()
 
 void QProjectListWindow::on_projectsView_doubleClicked(const QModelIndex &index)
 {
-  QString projectTitle = _dm->mProjects->data(index.row(), SColHeader).toString();
+  QString projectTitle = _dm->mProjects->data(index.row(), COL_HEADER).toString();
   if (!QSmartDialog::confirmationDialog(SConfirmLoadProject.arg(projectTitle)))
     return;
 
-  int projectId = _dm->mProjects->data(index.row(), SColID).toInt();
+  int projectId = _dm->mProjects->data(index.row(), COL_ID).toInt();
   _dm->loadProjectData(projectId);
 }
 
@@ -110,7 +111,7 @@ void QProjectListWindow::on_btnDeleteProject_clicked()
 {
   //Удаление проекта
   int row = ui->projectsView->currentIndex().row();
-  QString project = _dm->mProjects->data(row, SColHeader).toString();
+  QString project = _dm->mProjects->data(row, COL_HEADER).toString();
   if (QSmartDialog::confirmationDialog(SConfirmDeleteProject.arg(project)))
     _dm->deleteProject(row);
 }

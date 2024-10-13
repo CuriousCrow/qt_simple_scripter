@@ -11,7 +11,9 @@
 #include <QIntValidator>
 
 #include "utils/slogger.h"
+#include "utils/appconst.h"
 #include "widgets/qsmartdialog.h"
+#include "qsqltablemodel.h"
 
 #define WARN_CHOOSE_SPEAKER "Для автосвязывания необходимо сначала выбрать говорящего"
 #define INPUT_SPEAKER_PATTERN "Задайте регулярное выражение соответвующее говорящему \"%1\""
@@ -142,7 +144,7 @@ void QSpeakerWindow::on_btnAutoAssign_clicked()
         QSmartDialog::warningDialog(WARN_CHOOSE_SPEAKER, this);
         return;
     }
-    qlonglong speakerID = _model->data(speakerIndex, SColID).toLongLong();
+    qlonglong speakerID = _model->data(speakerIndex, COL_ID).toLongLong();
 
     QString msg = INPUT_SPEAKER_PATTERN;
     QString pattern =
@@ -163,10 +165,10 @@ void QSpeakerWindow::on_btnAutoAssign_clicked()
     int statementAffected = 0;
     for(int i = 0; i < _dm->mStatements->rowCount(); i++){
         QSqlRecord rec = _dm->mStatements->record(i);
-        QString statement = rec.value(SColStatement).toString();
+        QString statement = rec.value(COL_STATEMENT).toString();
         if (rx.indexIn(statement) > -1){
-            _dm->mStatements->setData(i, SColSpeakerId, speakerID);
-            _dm->mStatements->setData(i, SColStatement, rx.removeIn(statement).trimmed());
+            _dm->mStatements->setData(i, COL_SPEAKER_ID, speakerID);
+            _dm->mStatements->setData(i, COL_STATEMENT, rx.removeIn(statement).trimmed());
             statementAffected++;
         }
     }

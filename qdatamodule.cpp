@@ -86,8 +86,8 @@ void QDataModule::loadProjectData(int id)
     //Загрузка названия проекта
     if (projectId > 0) {
         QSqlRecord* rec = mProjects->recordById(id);
-        projectTitle = rec->value(SColHeader).toString();
-        int speakerType = rec->value(SColSpeakerType).toInt();
+        projectTitle = rec->value(COL_HEADER).toString();
+        int speakerType = rec->value(COL_SPEAKER_TYPE_ID).toInt();
         QSqlRecord* speakerTypeRec = mSpeakerTypes->recordById(speakerType);
         if (speakerTypeRec) {
             LOG << "Speaker type found" << speakerType;
@@ -237,13 +237,13 @@ bool QDataModule::importProject(QString importPath)
     }
     int newRow = mProjects->rowCount() - 1;
     mProjects->setData(mProjects->index(newRow,
-                                        mProjects->fieldIndex(SColHeader)),
+                                        mProjects->fieldIndex(COL_HEADER)),
                        fileInfo.baseName());
     mProjects->setData(mProjects->index(newRow,
-                                        mProjects->fieldIndex(SColPath)),
+                                        mProjects->fieldIndex(COL_PATH)),
                        importPath);
     mProjects->setData(mProjects->index(newRow,
-                                        mProjects->fieldIndex(SColSpeakerType)),
+                                        mProjects->fieldIndex(COL_SPEAKER_TYPE_ID)),
                        0);
     //Если проект не сохранился в БД
     if (!mProjects->submitAll()){
@@ -295,10 +295,10 @@ bool QDataModule::importFromXml(QString importPath)
     }
     auto newRowIdx = mProjects->rowCount() - 1;
     mProjects->setData(mProjects->index(newRowIdx,
-                                        mProjects->fieldIndex(SColHeader)),
+                                        mProjects->fieldIndex(COL_HEADER)),
                        fileInfo.baseName());
-    mProjects->setData(mProjects->index(newRowIdx, mProjects->fieldIndex(SColPath)), importPath);
-    mProjects->setData(mProjects->index(newRowIdx,mProjects->fieldIndex(SColSpeakerType)), 0);
+    mProjects->setData(mProjects->index(newRowIdx, mProjects->fieldIndex(COL_PATH)), importPath);
+    mProjects->setData(mProjects->index(newRowIdx,mProjects->fieldIndex(COL_SPEAKER_TYPE_ID)), 0);
     //Если проект не сохранился в БД
     if (!mProjects->submitAll()){
         return false;
@@ -348,7 +348,7 @@ bool QDataModule::importFromXml(QString importPath)
 
 bool QDataModule::deleteProject(int row)
 {
-    int idColIdx = mProjects->fieldIndex(SColID);
+    int idColIdx = mProjects->fieldIndex(COL_ID);
     int projectToBeDeleted = mProjects->data(mProjects->index(row, idColIdx)).toInt();
     bool result = mProjects->removeRow(row);
     if (result){
@@ -398,9 +398,9 @@ bool QDataModule::exportProject()
     SParams speakerAttrs = SParams();
     for(int i=0; i<mStatements->rowCount(); i++){
         statementRec = mStatements->record(i);
-        currSpeakerId = statementRec.value(SColSpeakerId).toInt();
+        currSpeakerId = statementRec.value(COL_SPEAKER_ID).toInt();
         LOG << i << ":" << currSpeakerId;
-        QString statementText = statementRec.value(SColStatement).toString() + SSpace;
+        QString statementText = statementRec.value(COL_STATEMENT).toString() + SSpace;
         if (!multifileDelimiter.isEmpty() && statementText.trimmed() == multifileDelimiter){
             exportText += SExportStatementPattern.arg(speakerAttrs.toXmlAttrs(true), resStatement.trimmed());
             resStatement.clear();
@@ -416,10 +416,10 @@ bool QDataModule::exportProject()
                 speakerAttrs.clear();
                 if (currSpeakerId != 0){
                     speakerRec = mSpeakers->recordById(currSpeakerId);
-                    speakerAttrs.setValue(COL_ACTOR, speakerRec->value(SColActor).toString());
-                    speakerAttrs.setValue(COL_PROFESSION, speakerRec->value(SColProfession).toString());
-                    speakerAttrs.setValue(COL_ROLE, speakerRec->value(SColSpeechRole).toString());
-                    speakerAttrs.setValue(COL_SEX, speakerRec->value(SColSex).toString());
+                    speakerAttrs.setValue(COL_ACTOR, speakerRec->value(COL_ACTOR).toString());
+                    speakerAttrs.setValue(COL_PROFESSION, speakerRec->value(COL_PROFESSION).toString());
+                    speakerAttrs.setValue(COL_ROLE, speakerRec->value(COL_SPEECH_ROLE).toString());
+                    speakerAttrs.setValue(COL_SEX, speakerRec->value(COL_SEX).toString());
                 }
             }
             resStatement += processByReplacePatterns(statementText, PT_EXPORT, detailedLogging);
@@ -443,15 +443,15 @@ bool QDataModule::exportSpeakerList(QString outDir)
 
     QStringList exportList;
     QSqlRecord rec;
-    QString firstActorCol = speakerTitleCol == IDX_ACTOR ? SColActor : SColSpeechRole;
-    QString secondActorCol = speakerTitleCol == IDX_ACTOR ? SColSpeechRole : SColActor;
+    QString firstActorCol = speakerTitleCol == IDX_ACTOR ? COL_ACTOR : COL_SPEECH_ROLE;
+    QString secondActorCol = speakerTitleCol == IDX_ACTOR ? COL_SPEECH_ROLE : COL_ACTOR;
     for(int i=0; i<mSpeakers->rowCount(); i++){
         rec = mSpeakers->record(i);
         QString line = rec.value(firstActorCol).toString();
         if (extendedSpeakerExport) {
             line.append(SDelimiter).append(rec.value(secondActorCol).toString());
         }
-        line.append(SDelimiter).append(rec.value(SColBirthYear).toString());
+        line.append(SDelimiter).append(rec.value(COL_BIRTH_YEAR).toString());
         exportList.append(line);
     }
     return QTextProcessor::stringToFile(exportList.join(SNewLine), outDir.append("/Speakers.txt"));
@@ -617,7 +617,7 @@ int QDataModule::getLastRecordId(LSqlTableModel *model)
         return -1;
     }
 
-    return model->data(model->index(rowIndex, model->fieldIndex(SColID))).toInt();
+    return model->data(model->index(rowIndex, model->fieldIndex(COL_ID))).toInt();
 }
 
 int QDataModule::checkStatementLengthExceeded()
@@ -650,9 +650,9 @@ QString QDataModule::processByReplacePatterns(QString statement, int patternType
     QRegExp rx;
     for(int row = 0; row < mReplacePatterns->rowCount(); row++){
         patternRec = mReplacePatterns->record(row);
-        if (patternRec.value(SColUsageType).toInt() == patternType){
-            rx.setPattern(patternRec.value(SColRegexp).toString());
-            QString pattern = patternRec.value(SColPattern).toString();
+        if (patternRec.value(COL_USAGE_TYPE).toInt() == patternType){
+            rx.setPattern(patternRec.value(COL_REGEXP).toString());
+            QString pattern = patternRec.value(COL_PATTERN).toString();
             result = rx.replaceIn(result, pattern);
             if (logging)
                 LOG << "Processing step" << row + 1 << ":" << result;
@@ -687,16 +687,16 @@ void QDataModule::on_autosave_timeout()
 
 void QDataModule::initNewSpeaker(QSqlRecord &record)
 {
-    record.setValue(SColProjectId, _dm->projectId);
+    record.setValue(COL_PROJECT_ID, _dm->projectId);
     if (!newSpeakerRole.isEmpty())
-        record.setValue(SColSpeechRole, newSpeakerRole);
+        record.setValue(COL_SPEECH_ROLE, newSpeakerRole);
     if (!newSpeakerActor.isEmpty())
-        record.setValue(SColActor, newSpeakerActor);
+        record.setValue(COL_ACTOR, newSpeakerActor);
     if (!newSpeakerProfession.isEmpty())
-        record.setValue(SColProfession, newSpeakerProfession);
+        record.setValue(COL_PROFESSION, newSpeakerProfession);
     if (!newSpeakerSex.isEmpty())
-        record.setValue(SColSex, newSpeakerSex);
-    record.setValue(SColBirthYear, QVariant());
+        record.setValue(COL_SEX, newSpeakerSex);
+    record.setValue(COL_BIRTH_YEAR, QVariant());
 
     newSpeakerRole = "";
     newSpeakerActor = "";
@@ -706,10 +706,10 @@ void QDataModule::initNewSpeaker(QSqlRecord &record)
 
 void QDataModule::onBeforeStatementInsert(QSqlRecord &rec)
 {
-    rec.setValue(SColProjectId, projectId);
+    rec.setValue(COL_PROJECT_ID, projectId);
     if (newStatementSpeaker >= 0)
-        rec.setValue(SColSpeakerId, newStatementSpeaker);
-    rec.setValue(SColStatement, newStatementText);
+        rec.setValue(COL_SPEAKER_ID, newStatementSpeaker);
+    rec.setValue(COL_STATEMENT, newStatementText);
 
     newStatementText = "";
     newStatementSpeaker = 0;

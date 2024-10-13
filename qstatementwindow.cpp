@@ -1,6 +1,6 @@
 #include "qstatementwindow.h"
 #include "ui_qstatementwindow.h"
-#include "utils/slogger.h"
+
 #include <QTextCursor>
 #include <QMessageBox>
 #include <QTextBrowser>
@@ -8,6 +8,7 @@
 #include "widgets/qsmartdialog.h"
 #include "utils/appsettings.h"
 #include "utils/appconst.h"
+#include "utils/slogger.h"
 #include "qtextprocessor.h"
 #include "qspeakerwindow.h"
 #include "qstatementnavigationwindow.h"
@@ -44,14 +45,14 @@ QStatementWindow::QStatementWindow(QWidget *parent) :
 
   //Связываем комбобокс выбора говорящего с моделью
   ui->cmbSpeaker->setModel(dm->mSpeakers);
-  ui->cmbSpeaker->setModelColumn(dm->mSpeakers->fieldIndex("SPEACH_ROLE"));
+  ui->cmbSpeaker->setModelColumn(dm->mSpeakers->fieldIndex(COL_SPEECH_ROLE));
 
   //Мэппер для навигации по репликам
   dm->_mapperStatements->setModel(dm->mStatementsSmartFiltered);
   _mapperDelegate->setListModel(dm->mSpeakers);
   dm->_mapperStatements->setItemDelegate(_mapperDelegate);
-  dm->_mapperStatements->addMapping(ui->cmbSpeaker, dm->mStatements->fieldIndex("SPEAKER_ID"));
-  dm->_mapperStatements->addMapping(ui->memStatement, dm->mStatements->fieldIndex("STATEMENT"), "plainText");
+  dm->_mapperStatements->addMapping(ui->cmbSpeaker, dm->mStatements->fieldIndex(COL_SPEAKER_ID));
+  dm->_mapperStatements->addMapping(ui->memStatement, dm->mStatements->fieldIndex(COL_STATEMENT), "plainText");
   connect(dm->_mapperStatements, SIGNAL(currentIndexChanged(int)),
           this, SLOT(updateActions(int)));
   if (AppSettings::boolVal("", PRM_SHOW_FRAGMENT_NUMBER, false))
@@ -60,15 +61,15 @@ QStatementWindow::QStatementWindow(QWidget *parent) :
 
   //Мэппер для отображения свойств говорящего
   _mapperSpeakers->setModel(dm->mSpeakers);
-  _mapperSpeakers->addMapping(ui->edtBirthYear, dm->mSpeakers->fieldIndex("BIRTH_YEAR"));
-  _mapperSpeakers->addMapping(ui->edtProfession, dm->mSpeakers->fieldIndex("PROFESSION"));
-  _mapperSpeakers->addMapping(ui->edtSex, dm->mSpeakers->fieldIndex("SEX"));
+  _mapperSpeakers->addMapping(ui->edtBirthYear, dm->mSpeakers->fieldIndex(COL_BIRTH_YEAR));
+  _mapperSpeakers->addMapping(ui->edtProfession, dm->mSpeakers->fieldIndex(COL_PROFESSION));
+  _mapperSpeakers->addMapping(ui->edtSex, dm->mSpeakers->fieldIndex(COL_SEX));
   connect(ui->cmbSpeaker, SIGNAL(currentIndexChanged(int)),
           _mapperSpeakers, SLOT(setCurrentIndex(int)));
 
   //Связываем комбобокс выбора схемы с моделью
   ui->cmbScheme->setModel(dm->mSchemes);
-  ui->cmbScheme->setModelColumn(dm->mSchemes->fieldIndex("NAME"));
+  ui->cmbScheme->setModelColumn(dm->mSchemes->fieldIndex(COL_NAME));
 
   //Highlighter
   _highlighter->setModel(dm->mSchemePatterns);
@@ -209,7 +210,7 @@ void QStatementWindow::on_btnHistory_clicked()
 {
   QStatementHistoryDialog historyDialog(this);
 
-  int curStatementId = dm->mStatements->record(dm->_mapperStatements->currentIndex()).value("ID").toInt();
+  int curStatementId = dm->mStatements->record(dm->_mapperStatements->currentIndex()).value(COL_ID).toInt();
   historyDialog.loadHistory(curStatementId);
 
   //Если была нажата кнопка "ОК" и была выбрана реплика
@@ -363,7 +364,7 @@ void QStatementWindow::updateFragmentNumber()
   int curRow = dm->_mapperStatements->currentIndex();
   int srcRow = dm->mStatementsSmartFiltered->mapToSource(dm->mStatementsSmartFiltered->index(curRow, 0)).row();
   int fragments = 1;
-  int col = dm->mStatements->fieldIndex("STATEMENT");
+  int col = dm->mStatements->fieldIndex(COL_STATEMENT);
   for(int row = 0; row < srcRow; row++) {
     if (dm->mStatements->index(row, col).data().toString().trimmed() == _defStatementDelimiter)
       fragments++;

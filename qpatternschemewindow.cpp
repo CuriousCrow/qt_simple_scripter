@@ -9,6 +9,7 @@
 #include <QSqlTableModel>
 
 #include "widgets/qsmartdialog.h"
+#include "utils/appconst.h"
 
 QPatternSchemeWindow* QPatternSchemeWindow::singletonWindow = nullptr;
 
@@ -22,15 +23,18 @@ QPatternSchemeWindow::QPatternSchemeWindow(QWidget *parent) :
     dm = QDataModule::dm();
 
     ui->lvPatternPool->setModel(dm->mPatterns);
-    ui->lvPatternPool->setModelColumn(dm->mPatterns->fieldIndex("NAME"));
+    ui->lvPatternPool->setModelColumn(dm->mPatterns->fieldIndex(COL_NAME));
 
     ui->cmbSchemes->setModel(dm->mSchemes);
-    ui->cmbSchemes->setModelColumn(dm->mSchemes->fieldIndex("NAME"));
+    ui->cmbSchemes->setModelColumn(dm->mSchemes->fieldIndex(COL_NAME));
 
     ui->lvItems->setModel(dm->mSchemePatterns);
     ui->lvItems->setModelColumn(4);
     connect(dm->mSchemePatterns, SIGNAL(beforeInsert(QSqlRecord&)),
             this, SLOT(onBeforePatternInsert(QSqlRecord&)));
+
+    connect(dm->mSchemes, SIGNAL(beforeInsert(QSqlRecord&)),
+            this, SLOT(onBeforeSchemeInsert(QSqlRecord&)));
 }
 
 QPatternSchemeWindow::~QPatternSchemeWindow()
@@ -54,8 +58,8 @@ void QPatternSchemeWindow::on_btnClose_clicked()
 void QPatternSchemeWindow::on_btnAddItem_clicked()
 {
     //Проверка наличия выбранного шаблона в схеме
-    int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), "ID").toInt();
-    if (dm->mSchemePatterns->rowByValue("PATTERN_ID", patternId) >= 0){
+    int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), COL_ID).toInt();
+    if (dm->mSchemePatterns->rowByValue(COL_PATTERN_ID, patternId) >= 0){
         QSmartDialog::errorDialog(SErrPatternAlreadyAdded);
         return;
     }
@@ -65,10 +69,15 @@ void QPatternSchemeWindow::on_btnAddItem_clicked()
 
 void QPatternSchemeWindow::onBeforePatternInsert(QSqlRecord &rec)
 {
-    int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), "ID").toInt();
-    rec.setValue("PATTERN_ID", patternId);
-    rec.setValue("SCHEME_ID", 0);
-    rec.setValue("ACTIVE", true);
+    int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), COL_ID).toInt();
+    rec.setValue(COL_PATTERN_ID, patternId);
+    rec.setValue(COL_SCHEME_ID, 0);
+    rec.setValue(COL_ACTIVE, true);
+}
+
+void QPatternSchemeWindow::onBeforeSchemeInsert(QSqlRecord &rec)
+{
+    rec.setValue(COL_NAME, "Новая схема");
 }
 
 void QPatternSchemeWindow::on_btnRemoveItem_clicked()
@@ -78,5 +87,6 @@ void QPatternSchemeWindow::on_btnRemoveItem_clicked()
 
 void QPatternSchemeWindow::on_btnAddScheme_clicked()
 {
-
+    dm->mSchemes->insertRow(dm->mSchemes->rowCount());
+    dm->mSchemes->submitAll();
 }

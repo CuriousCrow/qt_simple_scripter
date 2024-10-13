@@ -2,6 +2,7 @@
 #include "ui_qreplacepatternwindow.h"
 
 #include "utils/slogger.h"
+#include "utils/appconst.h"
 
 QReplacePatternWindow* QReplacePatternWindow::singletonWindow = nullptr;
 
@@ -14,16 +15,16 @@ QReplacePatternWindow::QReplacePatternWindow(QWidget *parent) :
 
     dm = QDataModule::dm();
     ui->lvPatterns->setModel(dm->mReplacePatterns);
-    ui->lvPatterns->setModelColumn(dm->mReplacePatterns->fieldIndex("NAME"));
+    ui->lvPatterns->setModelColumn(dm->mReplacePatterns->fieldIndex(COL_NAME));
 
     widgetMapper = new QDataWidgetMapper(this);
     widgetMapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     widgetMapper->setModel(dm->mReplacePatterns);
-    widgetMapper->addMapping(ui->edtName, dm->mReplacePatterns->fieldIndex("NAME"));
-    widgetMapper->addMapping(ui->edtRegexp, dm->mReplacePatterns->fieldIndex("REGEXP"));
-    widgetMapper->addMapping(ui->edtPattern, dm->mReplacePatterns->fieldIndex("PATTERN"));
-    widgetMapper->addMapping(ui->sbPriority, dm->mReplacePatterns->fieldIndex("PRIORITY"));
-    widgetMapper->addMapping(ui->cmbUsageType, dm->mReplacePatterns->fieldIndex("USAGE_TYPE"), "currentIndex");
+    widgetMapper->addMapping(ui->edtName, dm->mReplacePatterns->fieldIndex(COL_NAME));
+    widgetMapper->addMapping(ui->edtRegexp, dm->mReplacePatterns->fieldIndex(COL_REGEXP));
+    widgetMapper->addMapping(ui->edtPattern, dm->mReplacePatterns->fieldIndex(COL_PATTERN));
+    widgetMapper->addMapping(ui->sbPriority, dm->mReplacePatterns->fieldIndex(COL_PRIORITY));
+    widgetMapper->addMapping(ui->cmbUsageType, dm->mReplacePatterns->fieldIndex(COL_USAGE_TYPE), "currentIndex");
 
     connect(ui->lvPatterns->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             widgetMapper, SLOT(setCurrentModelIndex(QModelIndex)));
