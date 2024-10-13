@@ -5,13 +5,11 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QSpinBox>
-#include "models/lsqltablemodel.h"
 #include <QSqlRecord>
+#include <QDataWidgetMapper>
+
 #include "qbasewindow.h"
 #include "qdatamodule.h"
-#include "widgets/qcheckboxcombo.h"
-#include <QDataWidgetMapper>
-#include "utils/sparams.h"
 
 namespace Ui {
 class QProjectEditWindow;

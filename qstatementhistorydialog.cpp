@@ -1,5 +1,6 @@
 #include "qstatementhistorydialog.h"
 #include "ui_qstatementhistorydialog.h"
+
 #include <QDebug>
 
 

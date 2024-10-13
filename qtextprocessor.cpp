@@ -1,7 +1,9 @@
 #include "qtextprocessor.h"
-#include "utils/slogger.h"
+
 #include <QApplication>
 #include <QTextCodec>
+
+#include "utils/slogger.h"
 #include "qdatamodule.h"
 
 #define DIR_CONFIG "/Config/"

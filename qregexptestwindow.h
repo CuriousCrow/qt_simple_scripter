@@ -2,6 +2,7 @@
 #define QREGEXPTESTWINDOW_H
 
 #include <QWidget>
+
 #include "qdatamodule.h"
 #include "qregexphighlighter.h"
 

@@ -1,4 +1,5 @@
 #include "qlookupitemdelegate.h"
+
 #include <QComboBox>
 #include <QLineEdit>
 #include <QDebug>

@@ -1,5 +1,6 @@
 #include "qhighlightpatternwindow.h"
 #include "ui_qhighlightpatternwindow.h"
+
 #include <QSqlRecord>
 #include <QSqlField>
 #include "utils/slogger.h"

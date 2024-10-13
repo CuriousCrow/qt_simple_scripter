@@ -3,10 +3,10 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
-#include "models/lsqltablemodel.h"
+
 #include "qbasewindow.h"
 #include "qdatamodule.h"
-#include "qprojecteditwindow.h"
+
 
 const QString SMsgProjectImportSuccess = "Проект \"%1\" успешно импортирован.";
 const QString SMsgProjectImportError = "Не удалось импортировать проект \"%1\".";

@@ -1,7 +1,9 @@
 #include "qtablehighlighter.h"
+
 #include <QTextCharFormat>
-#include "utils/slogger.h"
 #include <QBrush>
+
+#include "utils/slogger.h"
 
 QTableHighlighter::QTableHighlighter(QObject *parent) :
     QSyntaxHighlighter(parent)

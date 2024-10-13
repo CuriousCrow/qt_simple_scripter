@@ -1,8 +1,8 @@
 #include "slogger.h"
+
 #include <QDebug>
 #include <QDateTime>
 #include <QFile>
-#include <stdio.h>
 #include <QMutex>
 #include <QFileInfo>
 #include <QRegExp>

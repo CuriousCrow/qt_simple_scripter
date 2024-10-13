@@ -1,7 +1,9 @@
 #include "qsqlqueryhelper.h"
+
 #include <QMetaProperty>
 #include <QRegExp>
 #include <QSqlRecord>
+
 #include "utils/slogger.h"
 
 bool QSqlQueryHelper::_logging = false;

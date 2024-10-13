@@ -1,4 +1,5 @@
 #include "sparams.h"
+
 #include <QDebug>
 #include <QFile>
 #include <QCryptographicHash>

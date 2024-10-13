@@ -2,6 +2,7 @@
 #define QPATTERNSCHEMEWINDOW_H
 
 #include <QMainWindow>
+
 #include "qbasewindow.h"
 #include "qdatamodule.h"
 

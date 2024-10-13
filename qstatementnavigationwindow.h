@@ -1,8 +1,8 @@
 #ifndef QSTATEMENTNAVIGATIONWINDOW_H
 #define QSTATEMENTNAVIGATIONWINDOW_H
 
-#include <qbasewindow.h>
-#include <qdatamodule.h>
+#include "qbasewindow.h"
+#include "qdatamodule.h"
 
 namespace Ui {
 class QStatementNavigationWindow;

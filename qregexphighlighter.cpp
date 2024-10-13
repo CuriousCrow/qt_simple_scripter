@@ -1,4 +1,5 @@
 #include "qregexphighlighter.h"
+
 #include <QTextCharFormat>
 
 QRegexpHighlighter::QRegexpHighlighter(QObject *parent) :

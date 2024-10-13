@@ -4,12 +4,15 @@
 #include <QTextCursor>
 #include <QMessageBox>
 #include <QTextBrowser>
-#include "qstatementhistorydialog.h"
+
 #include "widgets/qsmartdialog.h"
-#include "qstatementnavigationwindow.h"
-#include "qtwovaluesinputdialog.h"
 #include "utils/appsettings.h"
 #include "utils/appconst.h"
+#include "qtextprocessor.h"
+#include "qspeakerwindow.h"
+#include "qstatementnavigationwindow.h"
+#include "qtwovaluesinputdialog.h"
+#include "qstatementhistorydialog.h"
 
 #define ACT_BTN_PREFIX "ActionButton_"
 #define FILE_CUSTOM_ACTIONS "Actions.lst"

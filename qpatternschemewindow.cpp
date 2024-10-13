@@ -1,5 +1,6 @@
 #include "qpatternschemewindow.h"
 #include "ui_qpatternschemewindow.h"
+
 #include <QSqlRelationalDelegate>
 #include <QModelIndex>
 #include <QSqlRecord>
@@ -7,6 +8,7 @@
 #include <QDebug>
 #include <QSqlDriver>
 #include <QSqlTableModel>
+
 #include "widgets/qsmartdialog.h"
 
 QPatternSchemeWindow* QPatternSchemeWindow::singletonWindow = nullptr;

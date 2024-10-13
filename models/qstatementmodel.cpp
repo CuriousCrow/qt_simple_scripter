@@ -1,4 +1,5 @@
 #include "qstatementmodel.h"
+
 #include "utils/appconst.h"
 
 QStatementModel::QStatementModel(QObject *parent, QSqlDatabase db) :

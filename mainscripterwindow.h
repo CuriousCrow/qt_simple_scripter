@@ -3,15 +3,6 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
-#include "models/lsqltablemodel.h"
-#include "qdatamodule.h"
-#include "qprojectlistwindow.h"
-#include "qspeakerwindow.h"
-#include "qstatementwindow.h"
-#include "qhighlightpatternwindow.h"
-#include "qpatternschemewindow.h"
-#include "qreplacepatternwindow.h"
-#include "qregexptestwindow.h"
 
 namespace Ui {
 class MainScripterWindow;

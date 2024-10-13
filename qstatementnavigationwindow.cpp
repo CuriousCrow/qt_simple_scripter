@@ -1,5 +1,6 @@
 #include "qstatementnavigationwindow.h"
 #include "ui_qstatementnavigationwindow.h"
+
 #include <QDebug>
 
 QStatementNavigationWindow* QStatementNavigationWindow::singletonWindow = nullptr;

@@ -1,6 +1,6 @@
 #include "qspeakerwindow.h"
 #include "ui_qspeakerwindow.h"
-#include "utils/slogger.h"
+
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QRegExp>
@@ -9,6 +9,8 @@
 #include <QMessageBox>
 #include <QDate>
 #include <QIntValidator>
+
+#include "utils/slogger.h"
 #include "widgets/qsmartdialog.h"
 
 #define WARN_CHOOSE_SPEAKER "Для автосвязывания необходимо сначала выбрать говорящего"

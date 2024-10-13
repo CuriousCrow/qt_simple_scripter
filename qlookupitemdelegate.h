@@ -2,6 +2,7 @@
 #define QLOOKUPITEMDELEGATE_H
 
 #include <QItemDelegate>
+
 #include "models/lsqltablemodel.h"
 
 class QLookupItemDelegate : public QItemDelegate

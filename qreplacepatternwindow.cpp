@@ -1,5 +1,6 @@
 #include "qreplacepatternwindow.h"
 #include "ui_qreplacepatternwindow.h"
+
 #include "utils/slogger.h"
 
 QReplacePatternWindow* QReplacePatternWindow::singletonWindow = nullptr;

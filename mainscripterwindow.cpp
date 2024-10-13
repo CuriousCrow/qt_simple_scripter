@@ -1,10 +1,22 @@
 #include "mainscripterwindow.h"
 #include "ui_mainscripterwindow.h"
+
 #include <QWhatsThis>
-#include "qdatamodule.h"
 #include <QFileDialog>
-#include "utils/slogger.h"
+
 #include "widgets/qsmartdialog.h"
+#include "models/lsqltablemodel.h"
+#include "utils/slogger.h"
+#include "qdatamodule.h"
+#include "qprojectlistwindow.h"
+#include "qprojecteditwindow.h"
+#include "qspeakerwindow.h"
+#include "qstatementwindow.h"
+#include "qhighlightpatternwindow.h"
+#include "qpatternschemewindow.h"
+#include "qreplacepatternwindow.h"
+#include "qregexptestwindow.h"
+#include "qtextprocessor.h"
 
 MainScripterWindow::MainScripterWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -110,5 +122,5 @@ void MainScripterWindow::on_aExecuteScript_triggered()
                                                       INFO << "Executing script from " << scriptFile;
                                                       bool scriptResult = QDataModule::dm()->execSqlScript(script);
                                                       QString resultMessage = scriptResult ? "Скрипт успешно выполнен" : "Ошибка при выполнении скрипта";
-        QSmartDialog::infoDialog(resultMessage);
+                                                      QSmartDialog::infoDialog(resultMessage);
 }

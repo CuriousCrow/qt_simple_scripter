@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDataWidgetMapper>
+
 #include "qbasewindow.h"
 #include "qdatamodule.h"
 

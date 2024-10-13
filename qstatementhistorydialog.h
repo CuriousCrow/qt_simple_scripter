@@ -2,6 +2,7 @@
 #define QSTATEMENTHISTORYDIALOG_H
 
 #include <QDialog>
+
 #include "qdatamodule.h"
 
 namespace Ui {

@@ -2,8 +2,9 @@
 #define QTABLEHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
-#include "models/lsqltablemodel.h"
 #include <QRegExp>
+
+#include "models/lsqltablemodel.h"
 
 class QTableHighlighter : public QSyntaxHighlighter
 {

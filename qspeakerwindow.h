@@ -3,6 +3,7 @@
 
 #include <QDataWidgetMapper>
 #include <QSqlRecord>
+
 #include "qsqltablemodel.h"
 #include "qdatamodule.h"
 #include "qbasewindow.h"

@@ -1,17 +1,17 @@
 #ifndef QSTATEMENTWINDOW_H
 #define QSTATEMENTWINDOW_H
 
-#include "qbasewindow.h"
-#include "qdatamodule.h"
-#include "utils/sparams.h"
-#include "widgets/colormonitor.h"
 #include <QDataWidgetMapper>
 #include <QMenu>
-#include "qspeakerwindow.h"
+
+
+#include "utils/sparams.h"
+#include "widgets/colormonitor.h"
+#include "qbasewindow.h"
 #include "qdatamodule.h"
 #include "qlookupitemdelegate.h"
 #include "qtablehighlighter.h"
-#include "qtextprocessor.h"
+
 
 namespace Ui {
 class QStatementWindow;

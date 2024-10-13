@@ -1,11 +1,15 @@
 #include "qprojectlistwindow.h"
 #include "ui_qprojectlistwindow.h"
-#include "utils/slogger.h"
+
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QFileDialog>
 #include <QMenu>
+
 #include "widgets/qsmartdialog.h"
+#include "models/lsqltablemodel.h"
+#include "utils/slogger.h"
+#include "qprojecteditwindow.h"
 
 QProjectListWindow* QProjectListWindow::singletonWindow = nullptr;
 

@@ -1,9 +1,13 @@
 #include "qprojecteditwindow.h"
 #include "ui_qprojecteditwindow.h"
 #include <QDebug>
+#include <QVariantMap>
+
 #include "qtextprocessor.h"
 #include "widgets/dictcombobox.h"
-#include <QVariantMap>
+#include "models/lsqltablemodel.h"
+#include "widgets/qcheckboxcombo.h"
+#include "utils/sparams.h"
 
 #define EDITOR_COMBOBOX "COMBOBOX"
 #define EDITOR_CHECKLIST "CHECKLIST"
