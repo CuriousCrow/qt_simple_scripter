@@ -7,21 +7,21 @@
 
 class QTableHighlighter : public QSyntaxHighlighter
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit QTableHighlighter(QObject *parent = nullptr);
-  void setModel(LSqlTableModel* tableModel){ _model = tableModel; }
-  void setPatternColumn(QString name){ _patternColName = name; }
-  void setHexcolorColumn(QString name){ _hexcolorColName = name; }
-  void setEnabled(bool value);
+    explicit QTableHighlighter(QObject *parent = nullptr);
+    void setModel(LSqlTableModel* tableModel){ _model = tableModel; }
+    void setPatternColumn(QString name){ _patternColName = name; }
+    void setHexcolorColumn(QString name){ _hexcolorColName = name; }
+    void setEnabled(bool value);
 protected:
-  LSqlTableModel* _model;
-  void highlightBlock(const QString & text);
+    LSqlTableModel* _model;
+    void highlightBlock(const QString & text);
 private:
-  QRegExp rx;
-  bool _isEnabled = false;
-  QString _patternColName = "PATTERN";
-  QString _hexcolorColName = "HEXCOLOR";
+    QRegExp rx;
+    bool _isEnabled = false;
+    QString _patternColName = "PATTERN";
+    QString _hexcolorColName = "HEXCOLOR";
 signals:
 
 public slots:

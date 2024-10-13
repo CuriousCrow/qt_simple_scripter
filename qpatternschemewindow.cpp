@@ -12,67 +12,67 @@
 QPatternSchemeWindow* QPatternSchemeWindow::singletonWindow = nullptr;
 
 QPatternSchemeWindow::QPatternSchemeWindow(QWidget *parent) :
-  QBaseWindow(parent),
-  ui(new Ui::QPatternSchemeWindow)
+    QBaseWindow(parent),
+    ui(new Ui::QPatternSchemeWindow)
 {
-  ui->setupUi(this);
-  setObjectName("QPatternSchemeWindow");
+    ui->setupUi(this);
+    setObjectName("QPatternSchemeWindow");
 
-  dm = QDataModule::dm();
+    dm = QDataModule::dm();
 
-  ui->lvPatternPool->setModel(dm->mPatterns);
-  ui->lvPatternPool->setModelColumn(dm->mPatterns->fieldIndex("NAME"));
+    ui->lvPatternPool->setModel(dm->mPatterns);
+    ui->lvPatternPool->setModelColumn(dm->mPatterns->fieldIndex("NAME"));
 
-  ui->cmbSchemes->setModel(dm->mSchemes);
-  ui->cmbSchemes->setModelColumn(dm->mSchemes->fieldIndex("NAME"));
+    ui->cmbSchemes->setModel(dm->mSchemes);
+    ui->cmbSchemes->setModelColumn(dm->mSchemes->fieldIndex("NAME"));
 
-  ui->lvItems->setModel(dm->mSchemePatterns);
-  ui->lvItems->setModelColumn(4);
-  connect(dm->mSchemePatterns, SIGNAL(beforeInsert(QSqlRecord&)),
-          this, SLOT(onBeforePatternInsert(QSqlRecord&)));
+    ui->lvItems->setModel(dm->mSchemePatterns);
+    ui->lvItems->setModelColumn(4);
+    connect(dm->mSchemePatterns, SIGNAL(beforeInsert(QSqlRecord&)),
+            this, SLOT(onBeforePatternInsert(QSqlRecord&)));
 }
 
 QPatternSchemeWindow::~QPatternSchemeWindow()
 {
-  delete ui;
+    delete ui;
 }
 
 QPatternSchemeWindow *QPatternSchemeWindow::Instance(QWidget *parent)
 {
-  if (!singletonWindow){
-    singletonWindow = new QPatternSchemeWindow(parent);    
-  }
-  return singletonWindow;
+    if (!singletonWindow){
+        singletonWindow = new QPatternSchemeWindow(parent);
+    }
+    return singletonWindow;
 }
 
 void QPatternSchemeWindow::on_btnClose_clicked()
 {
-  close();
+    close();
 }
 
 void QPatternSchemeWindow::on_btnAddItem_clicked()
 {
-  //Проверка наличия выбранного шаблона в схеме
-  int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), "ID").toInt();
-  if (dm->mSchemePatterns->rowByValue("PATTERN_ID", patternId) >= 0){
-    QSmartDialog::errorDialog(SErrPatternAlreadyAdded);
-    return;
-  }
-  dm->mSchemePatterns->insertRow(0);
-  dm->mSchemePatterns->submitAll();
+    //Проверка наличия выбранного шаблона в схеме
+    int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), "ID").toInt();
+    if (dm->mSchemePatterns->rowByValue("PATTERN_ID", patternId) >= 0){
+        QSmartDialog::errorDialog(SErrPatternAlreadyAdded);
+        return;
+    }
+    dm->mSchemePatterns->insertRow(0);
+    dm->mSchemePatterns->submitAll();
 }
 
 void QPatternSchemeWindow::onBeforePatternInsert(QSqlRecord &rec)
 {
-  int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), "ID").toInt();
-  rec.setValue("PATTERN_ID", patternId);
-  rec.setValue("SCHEME_ID", 0);
-  rec.setValue("ACTIVE", true);
+    int patternId = dm->mPatterns->data(ui->lvPatternPool->currentIndex().row(), "ID").toInt();
+    rec.setValue("PATTERN_ID", patternId);
+    rec.setValue("SCHEME_ID", 0);
+    rec.setValue("ACTIVE", true);
 }
 
 void QPatternSchemeWindow::on_btnRemoveItem_clicked()
 {
-  dm->mSchemePatterns->removeRow(ui->lvItems->currentIndex().row());
+    dm->mSchemePatterns->removeRow(ui->lvItems->currentIndex().row());
 }
 
 void QPatternSchemeWindow::on_btnAddScheme_clicked()

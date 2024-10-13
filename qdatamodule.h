@@ -46,11 +46,6 @@
 #define TABLE_STATEMENTS_HISTORY "STATEMENTS_HISTORY"
 #define TABLE_SPEAKER_TYPES "SPEAKER_TYPES"
 
-#define TAG_SPEECH "speech"
-#define ATTR_ROLE "role"
-#define ATTR_PROFESSION "profession"
-#define ATTR_SEX "sex"
-#define ATTR_ACTOR "actor"
 const QString SMainWinTitle = "";
 const QString SErrDatabase = "Ошибка БД: ";
 const QString SErrWhileDbConnection = "Не удалось подключиться к базе данных";
@@ -122,100 +117,100 @@ enum AddOperation {
 
 class QDataModule : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit QDataModule(QObject *parent = nullptr);
-  ~QDataModule();
+    explicit QDataModule(QObject *parent = nullptr);
+    ~QDataModule();
 
-  static QDataModule* _dm;
-  static QDataModule* dm(QObject* parent = nullptr);
+    static QDataModule* _dm;
+    static QDataModule* dm(QObject* parent = nullptr);
 
-  static const int PT_IMPORT = 1;
-  static const int PT_EXPORT = 2;
+    static const int PT_IMPORT = 1;
+    static const int PT_EXPORT = 2;
 
-  QSqlDatabase db;
-  LSqlTableModel* mProjects;
-  LSqlTableModel* mSpeakers;
-  QStatementModel* mStatements;
-  QSortFilterProxyModel* mStatementsNavigation;
-  QStatementFilterModel* mStatementsSmartFiltered;
-  LSqlTableModel* mPatterns;
-  LSqlTableModel* mSchemes;
-  LSqlTableModel* mSchemePatterns;
-  LSqlTableModel* mReplacePatterns;
-  LSqlTableModel* mStatementHistory;
-  LSqlTableModel* mSpeakerTypes;
+    QSqlDatabase db;
+    LSqlTableModel* mProjects;
+    LSqlTableModel* mSpeakers;
+    QStatementModel* mStatements;
+    QSortFilterProxyModel* mStatementsNavigation;
+    QStatementFilterModel* mStatementsSmartFiltered;
+    LSqlTableModel* mPatterns;
+    LSqlTableModel* mSchemes;
+    LSqlTableModel* mSchemePatterns;
+    LSqlTableModel* mReplacePatterns;
+    LSqlTableModel* mStatementHistory;
+    LSqlTableModel* mSpeakerTypes;
 
-  int projectId = 0;
+    int projectId = 0;
 
-  int speakerTitleCol = 2;
-  QString roleTitle = "Роль";
-  QString actorTitle = "Актер";
-  QString professionTitle = "Профессия";
+    int speakerTitleCol = 2;
+    QString roleTitle = "Роль";
+    QString actorTitle = "Актер";
+    QString professionTitle = "Профессия";
 
-  AddOperation addOper;
-  int newStatementSpeaker = 0;
-  QString newStatementText;
+    AddOperation addOper;
+    int newStatementSpeaker = 0;
+    QString newStatementText;
 
-  QString newSpeakerRole;
-  QString newSpeakerActor;
-  QString newSpeakerSex;
-  QString newSpeakerProfession;
+    QString newSpeakerRole;
+    QString newSpeakerActor;
+    QString newSpeakerSex;
+    QString newSpeakerProfession;
 
-  QString projectTitle;
+    QString projectTitle;
 
-  QString appPath();
+    QString appPath();
 
-  void loadProjectData(int id);
-  bool saveProjectData(bool verbose = false);
-  bool backupLocalProject();
-  void checkForUnsavedProject(bool showDialog = false);
+    void loadProjectData(int id);
+    bool saveProjectData(bool verbose = false);
+    bool backupLocalProject();
+    void checkForUnsavedProject(bool showDialog = false);
 
-  void saveLastStatement();
-  void loadLastStatement();
+    void saveLastStatement();
+    void loadLastStatement();
 
-  int nextId(QString sequenceName);
-  bool execSql(const QString &sql);
-  bool execSqlScript(QString script);
+    int nextId(QString sequenceName);
+    bool execSql(const QString &sql);
+    bool execSqlScript(QString script);
 
-  //Импорт проекта из файла
-  bool importProject(QString importPath);
+    //Импорт проекта из файла
+    bool importProject(QString importPath);
 
-  bool importFromXml(QString importPath);
-  //Удаление проекта
-  bool deleteProject(int row);
-  //Экспорт загруженного проекта
-  bool exportProject();
-  //Экспорт списка говорящих
-  bool exportSpeakerList(QString outDir);
-  //Экспорт списка проектов
-  bool exportSqlTableModel(LSqlTableModel* model, QString outPath);
+    bool importFromXml(QString importPath);
+    //Удаление проекта
+    bool deleteProject(int row);
+    //Экспорт загруженного проекта
+    bool exportProject();
+    //Экспорт списка говорящих
+    bool exportSpeakerList(QString outDir);
+    //Экспорт списка проектов
+    bool exportSqlTableModel(LSqlTableModel* model, QString outPath);
 
-  bool editSetting(QString settingName, QString caption);
-  QDataWidgetMapper* _mapperStatements;  
+    bool editSetting(QString settingName, QString caption);
+    QDataWidgetMapper* _mapperStatements;
 protected:
 
 private:
-  QString _appPath;
-  QTimer* timer;  
-  bool initDatabase();
-  bool loadModels();
-  bool startTransaction();
-  bool commitTransaction();
-  bool rollbackTransaction();
-  bool loadModel(LSqlTableModel* model, QString table, QString sequence = "");
-  int getLastRecordId(LSqlTableModel* model);
-  int checkStatementLengthExceeded();
-  void setTableHeaders(QSqlTableModel* table, QStringList headers);
-  //Применение шаблонов замены к строке
-  QString processByReplacePatterns(QString statement, int patternType, bool logging);
+    QString _appPath;
+    QTimer* timer;
+    bool initDatabase();
+    bool loadModels();
+    bool startTransaction();
+    bool commitTransaction();
+    bool rollbackTransaction();
+    bool loadModel(LSqlTableModel* model, QString table, QString sequence = "");
+    int getLastRecordId(LSqlTableModel* model);
+    int checkStatementLengthExceeded();
+    void setTableHeaders(QSqlTableModel* table, QStringList headers);
+    //Применение шаблонов замены к строке
+    QString processByReplacePatterns(QString statement, int patternType, bool logging);
 signals:
-  void projectLoaded(int oldProjecId, int newProjectId);
+    void projectLoaded(int oldProjecId, int newProjectId);
 private slots:
-  void on_autosave_timeout();
-  void initNewSpeaker(QSqlRecord &record);
+    void on_autosave_timeout();
+    void initNewSpeaker(QSqlRecord &record);
 public slots:
-  void onBeforeStatementInsert(QSqlRecord& rec);
+    void onBeforeStatementInsert(QSqlRecord& rec);
 };
 
 //Перемещение виджета в центр экрана

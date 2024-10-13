@@ -11,28 +11,28 @@ class QPatternSchemeWindow;
 
 class QPatternSchemeWindow : public QBaseWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit QPatternSchemeWindow(QWidget *parent = nullptr);
-  ~QPatternSchemeWindow();
+    explicit QPatternSchemeWindow(QWidget *parent = nullptr);
+    ~QPatternSchemeWindow();
 
-  static QPatternSchemeWindow* Instance(QWidget* parent = nullptr);
+    static QPatternSchemeWindow* Instance(QWidget* parent = nullptr);
 private slots:
-  void on_btnClose_clicked();
+    void on_btnClose_clicked();
 
-  void on_btnAddItem_clicked();
+    void on_btnAddItem_clicked();
 
-  void on_btnRemoveItem_clicked();
+    void on_btnRemoveItem_clicked();
 
-  void on_btnAddScheme_clicked();
+    void on_btnAddScheme_clicked();
 
 private:
-  static QPatternSchemeWindow* singletonWindow;
-  QDataModule* dm;
-  Ui::QPatternSchemeWindow *ui;  
+    static QPatternSchemeWindow* singletonWindow;
+    QDataModule* dm;
+    Ui::QPatternSchemeWindow *ui;
 public slots:
-  void onBeforePatternInsert(QSqlRecord& rec);
+    void onBeforePatternInsert(QSqlRecord& rec);
 };
 
 #endif // QPATTERNSCHEMEWINDOW_H

@@ -11,20 +11,20 @@ class QRegexpTestWindow;
 
 class QRegexpTestWindow : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit QRegexpTestWindow(QWidget *parent = nullptr);
-  ~QRegexpTestWindow();
+    explicit QRegexpTestWindow(QWidget *parent = nullptr);
+    ~QRegexpTestWindow();
 
-  static QRegexpTestWindow* Instance(QWidget* parent = nullptr);
+    static QRegexpTestWindow* Instance(QWidget* parent = nullptr);
 private slots:
-  void on_edtRegexp_textChanged(const QString &arg1);
+    void on_edtRegexp_textChanged(const QString &arg1);
 
 private:
-  static QRegexpTestWindow* singletonWindow;
-  QRegexpHighlighter* highlighter;
-  Ui::QRegexpTestWindow *ui;
+    static QRegexpTestWindow* singletonWindow;
+    QRegexpHighlighter* highlighter;
+    Ui::QRegexpTestWindow *ui;
 };
 
 #endif // QREGEXPTESTWINDOW_H

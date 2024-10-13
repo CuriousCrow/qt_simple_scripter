@@ -6,18 +6,18 @@
 class PlainStatementField : public LCalcField
 {
 public:
-  PlainStatementField(QString name);
+    PlainStatementField(QString name);
 
-  // LCalcField interface
+    // LCalcField interface
 public:
-  virtual QVariant data(int row, int role) override;
+    virtual QVariant data(int row, int role) override;
 };
 
 class QStatementModel : public LSqlLinkedRecordsModel
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit QStatementModel(QObject *parent = 0, QSqlDatabase db = QSqlDatabase());
+    explicit QStatementModel(QObject *parent = 0, QSqlDatabase db = QSqlDatabase());
 };
 
 #endif // QSTATEMENTMODEL_H

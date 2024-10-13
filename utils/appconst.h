@@ -30,6 +30,12 @@
 #define COL_SEX "sex"
 #define COL_PROFESSION "profession"
 
+#define TAG_SPEECH "speech"
+#define ATTR_ROLE "role"
+#define ATTR_PROFESSION "profession"
+#define ATTR_SEX "sex"
+#define ATTR_ACTOR "actor"
+
 #define GEN_STATEMENTS "GEN_STATEMENTS_ID"
 #define GEN_SPEAKERS "GEN_SPEAKERS_ID"
 #define GEN_REPLACE_PATTERNS "GEN_REPLACE_PATTERNS_ID"

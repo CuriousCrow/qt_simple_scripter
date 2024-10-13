@@ -29,7 +29,7 @@ QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
     ui->setupUi(this);
     setObjectName("QSpeakerWindow");
 
-//    ui->edtBirthYear->setValidator(new QIntValidator(1000, QDate::currentDate().year(), this));
+    //    ui->edtBirthYear->setValidator(new QIntValidator(1000, QDate::currentDate().year(), this));
 
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
@@ -43,31 +43,31 @@ QSpeakerWindow::QSpeakerWindow(QWidget *parent) :
 
 QSpeakerWindow::~QSpeakerWindow()
 {
-  delete ui;
+    delete ui;
 }
 
 QSpeakerWindow *QSpeakerWindow::Instance(QWidget* parent)
 {
-  if (!singletonWindow){
-    singletonWindow = new QSpeakerWindow(parent);    
-  }
-  return singletonWindow;
+    if (!singletonWindow){
+        singletonWindow = new QSpeakerWindow(parent);
+    }
+    return singletonWindow;
 }
 
 void QSpeakerWindow::setEditable(bool on)
 {
-  setTitle(on ? _dm->projectTitle : "");
+    setTitle(on ? _dm->projectTitle : "");
 
-  setLayoutEditable(ui->loBasicActions, on);
-  setLayoutEditable(ui->loAdvancedActions, on);
-  setLayoutEditable(ui->loFieldWidgets, on);
+    setLayoutEditable(ui->loBasicActions, on);
+    setLayoutEditable(ui->loAdvancedActions, on);
+    setLayoutEditable(ui->loFieldWidgets, on);
 }
 
 void QSpeakerWindow::onProjectLoaded(int oldId, int newId)
 {
-  Q_UNUSED(oldId)
-  setEditable(newId > 0);
-  updateSpeakerFields();
+    Q_UNUSED(oldId)
+    setEditable(newId > 0);
+    updateSpeakerFields();
 }
 
 void QSpeakerWindow::setModel(LSqlTableModel *model)
@@ -120,11 +120,11 @@ void QSpeakerWindow::on_btnSave_clicked()
 
 void QSpeakerWindow::on_btnAddSpeaker_clicked()
 {
-  if (QDataModule::dm()->speakerTitleCol  == IDX_ROLE)
-    QDataModule::dm()->newSpeakerRole = NEW_SPEAKER;
-  else if (QDataModule::dm()->speakerTitleCol == IDX_ACTOR)
-    QDataModule::dm()->newSpeakerActor = NEW_SPEAKER;
-  _model->insertRow(_model->rowCount());
+    if (QDataModule::dm()->speakerTitleCol  == IDX_ROLE)
+        QDataModule::dm()->newSpeakerRole = NEW_SPEAKER;
+    else if (QDataModule::dm()->speakerTitleCol == IDX_ACTOR)
+        QDataModule::dm()->newSpeakerActor = NEW_SPEAKER;
+    _model->insertRow(_model->rowCount());
 }
 
 void QSpeakerWindow::on_btnDeleteSpeaker_clicked()
@@ -135,45 +135,45 @@ void QSpeakerWindow::on_btnDeleteSpeaker_clicked()
 
 void QSpeakerWindow::on_btnAutoAssign_clicked()
 {
-  int speakerIndex = ui->listView->currentIndex().row();
-  if (speakerIndex < 0){
-    QSmartDialog::warningDialog(WARN_CHOOSE_SPEAKER, this);
-    return;
-  }
-  qlonglong speakerID = _model->data(speakerIndex, SColID).toLongLong();
-
-  QString msg = INPUT_SPEAKER_PATTERN;
-  QString pattern =
-      QSmartDialog::inputStringDialog(SPEAKER_BINDING_WIZARD,
-                                      msg.arg(ui->edtRole->isVisible() ? ui->edtRole->text() : ui->edtActor->text()),
-                                      this);
-  //Пользователь отменил действие
-  if (pattern.isEmpty())
-    return;
-
-  QRegExp rx(pattern);
-  //Проверка регулярного выражения на корректность
-  if (!rx.isValid() || rx.isEmpty() || rx.exactMatch("")){
-    QSmartDialog::warningDialog(INVALID_REGEXP);
-    return;
-  }
-
-  int statementAffected = 0;
-  for(int i = 0; i < _dm->mStatements->rowCount(); i++){
-    QSqlRecord rec = _dm->mStatements->record(i);
-    QString statement = rec.value(SColStatement).toString();
-    if (rx.indexIn(statement) > -1){
-      _dm->mStatements->setData(i, SColSpeakerId, speakerID);
-      _dm->mStatements->setData(i, SColStatement, rx.removeIn(statement).trimmed());
-      statementAffected++;
+    int speakerIndex = ui->listView->currentIndex().row();
+    if (speakerIndex < 0){
+        QSmartDialog::warningDialog(WARN_CHOOSE_SPEAKER, this);
+        return;
     }
-  }
-  msg = SPEAKER_BINDING_SUCCESS;
-  QMessageBox::information(this, ACTION_COMPLETED,
-                           msg.arg(QString::number(statementAffected)));
+    qlonglong speakerID = _model->data(speakerIndex, SColID).toLongLong();
+
+    QString msg = INPUT_SPEAKER_PATTERN;
+    QString pattern =
+        QSmartDialog::inputStringDialog(SPEAKER_BINDING_WIZARD,
+                                        msg.arg(ui->edtRole->isVisible() ? ui->edtRole->text() : ui->edtActor->text()),
+                                        this);
+    //Пользователь отменил действие
+    if (pattern.isEmpty())
+        return;
+
+    QRegExp rx(pattern);
+    //Проверка регулярного выражения на корректность
+    if (!rx.isValid() || rx.isEmpty() || rx.exactMatch("")){
+        QSmartDialog::warningDialog(INVALID_REGEXP);
+        return;
+    }
+
+    int statementAffected = 0;
+    for(int i = 0; i < _dm->mStatements->rowCount(); i++){
+        QSqlRecord rec = _dm->mStatements->record(i);
+        QString statement = rec.value(SColStatement).toString();
+        if (rx.indexIn(statement) > -1){
+            _dm->mStatements->setData(i, SColSpeakerId, speakerID);
+            _dm->mStatements->setData(i, SColStatement, rx.removeIn(statement).trimmed());
+            statementAffected++;
+        }
+    }
+    msg = SPEAKER_BINDING_SUCCESS;
+    QMessageBox::information(this, ACTION_COMPLETED,
+                             msg.arg(QString::number(statementAffected)));
 }
 
 void QSpeakerWindow::onSpeakerSelected(QModelIndex idx)
 {
-  emit mapper->setCurrentModelIndex(idx);
+    emit mapper->setCurrentModelIndex(idx);
 }

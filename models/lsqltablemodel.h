@@ -63,145 +63,145 @@ class LCalcField;
 class LSqlRecord : public QSqlRecord
 {
 public:
-  LSqlRecord();
-  LSqlRecord(const QSqlRecord& rec);
+    LSqlRecord();
+    LSqlRecord(const QSqlRecord& rec);
 
-  enum CacheAction {None, Insert, Update, Delete};
+    enum CacheAction {None, Insert, Update, Delete};
 
-  void setCacheAction(CacheAction action){ _cacheAction = action; }
-  CacheAction cacheAction() const { return _cacheAction; }
+    void setCacheAction(CacheAction action){ _cacheAction = action; }
+    CacheAction cacheAction() const { return _cacheAction; }
 private:
-  CacheAction _cacheAction;
+    CacheAction _cacheAction;
 };
 
 
 class LSqlTableModel : public QAbstractTableModel
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit LSqlTableModel(QObject *parent = 0, QSqlDatabase db = QSqlDatabase());
+    explicit LSqlTableModel(QObject *parent = 0, QSqlDatabase db = QSqlDatabase());
 
-  bool setTable(QString tableName);
-  QString tableName();
-  void setFilter(QString sqlFilter){ _sqlFilter = sqlFilter; }
-  QString filter(){ return _sqlFilter; }
-  void setSort(int colIndex, Qt::SortOrder sortOrder);
-  void setSort(QString colName, Qt::SortOrder sortOrder);
+    bool setTable(QString tableName);
+    QString tableName();
+    void setFilter(QString sqlFilter){ _sqlFilter = sqlFilter; }
+    QString filter(){ return _sqlFilter; }
+    void setSort(int colIndex, Qt::SortOrder sortOrder);
+    void setSort(QString colName, Qt::SortOrder sortOrder);
 
-  void setHeaders(QStringList strList);
+    void setHeaders(QStringList strList);
 
-  void addCalcField(LCalcField* field);
+    void addCalcField(LCalcField* field);
 
-  int fieldIndex(QString fieldName) const;
-  bool isDirty(const QModelIndex & index) const;
-  bool isDirty() const;
-  void setCacheAction(qlonglong recId, LSqlRecord::CacheAction action);
+    int fieldIndex(QString fieldName) const;
+    bool isDirty(const QModelIndex & index) const;
+    bool isDirty() const;
+    void setCacheAction(qlonglong recId, LSqlRecord::CacheAction action);
 
-  void setUserDataColumn(int idx = 0);
-  void setIdUserDataColumn();
+    void setUserDataColumn(int idx = 0);
+    void setIdUserDataColumn();
 
-  void setSequenceName(QString name);
-  //Populate model with table data
-  virtual bool select();
-  //Submit one record by row
-  bool submitRow(int row);
-  //Submit all cached changes to database
-  bool submitAll();
-  //Revert all cached changes
-  bool revertAll();
+    void setSequenceName(QString name);
+    //Populate model with table data
+    virtual bool select();
+    //Submit one record by row
+    bool submitRow(int row);
+    //Submit all cached changes to database
+    bool submitAll();
+    //Revert all cached changes
+    bool revertAll();
 
-  void clear();
+    void clear();
 
-  int rowCount(const QModelIndex & parent = QModelIndex()) const;
-  int columnCount(const QModelIndex & parent = QModelIndex()) const;
-  QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-  QVariant data(int row, QString columnName, int role = Qt::DisplayRole);
-  bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
-  bool setData(int row, QString columnName, QVariant value, int role = Qt::EditRole);
-  Qt::ItemFlags flags(const QModelIndex & index) const ;
-  QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    int columnCount(const QModelIndex & parent = QModelIndex()) const;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    QVariant data(int row, QString columnName, int role = Qt::DisplayRole);
+    bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    bool setData(int row, QString columnName, QVariant value, int role = Qt::EditRole);
+    Qt::ItemFlags flags(const QModelIndex & index) const ;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-  bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
-  bool removeRows(int row, int count, const QModelIndex & parent = QModelIndex());
+    bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
+    bool removeRows(int row, int count, const QModelIndex & parent = QModelIndex());
 
-  QSqlRecord record(int row) const;
-  int rowByValue(QString field, QVariant value);
-  qlonglong idByRow(int row);
-  QSqlRecord* recordById(qlonglong id);
-  QSqlRecord patternRecord() { return _patternRec; }
-  QStringList sqlErrors();
+    QSqlRecord record(int row) const;
+    int rowByValue(QString field, QVariant value);
+    qlonglong idByRow(int row);
+    QSqlRecord* recordById(qlonglong id);
+    QSqlRecord patternRecord() { return _patternRec; }
+    QStringList sqlErrors();
 
-  //TODO: Should be static method
-  QVariant execQuery(const QString &sql, QString resColumn);
-  //Wrapper for all sql-queries (for debugging)
-  bool execQuery(const QString &sql);
+    //TODO: Should be static method
+    QVariant execQuery(const QString &sql, QString resColumn);
+    //Wrapper for all sql-queries (for debugging)
+    bool execQuery(const QString &sql);
 
-  static void enableLogging(bool enable);
+    static void enableLogging(bool enable);
 signals:
-  void beforeInsert(QSqlRecord &rec);
-  void beforeUpdate(QSqlRecord &rec);
+    void beforeInsert(QSqlRecord &rec);
+    void beforeUpdate(QSqlRecord &rec);
 private:
-  QString _tableName;
-  QString _sqlFilter;
-  int _userDataCol = 0;
-  QString _orderByClause;
-  QString _sequenceName;
-  QStringList _headers;
+    QString _tableName;
+    QString _sqlFilter;
+    int _userDataCol = 0;
+    QString _orderByClause;
+    QString _sequenceName;
+    QStringList _headers;
 
-  typedef QHash<qlonglong, LSqlRecord> CacheMap;
-  QSqlIndex _primaryIndex;
-  QSqlRecord _patternRec;
-  QList<LCalcField*> _calcFields;
+    typedef QHash<qlonglong, LSqlRecord> CacheMap;
+    QSqlIndex _primaryIndex;
+    QSqlRecord _patternRec;
+    QList<LCalcField*> _calcFields;
 
-  bool _modified = false;
+    bool _modified = false;
 
-  void setCacheAction(LSqlRecord &rec, LSqlRecord::CacheAction action);
-  bool submitRecord(LSqlRecord &rec);
-  bool reloadRow(int row);
-  bool isNull(const QModelIndex &index);
-  //Get next sequence value
-  qlonglong nextSequenceNumber();
-  bool returningInsertMode();
-  int _insertedCount = 0;
-  bool _autoIncrementID;
+    void setCacheAction(LSqlRecord &rec, LSqlRecord::CacheAction action);
+    bool submitRecord(LSqlRecord &rec);
+    bool reloadRow(int row);
+    bool isNull(const QModelIndex &index);
+    //Get next sequence value
+    qlonglong nextSequenceNumber();
+    bool returningInsertMode();
+    int _insertedCount = 0;
+    bool _autoIncrementID;
 
-  static bool _logging;
+    static bool _logging;
 protected:
-  CacheMap _recMap;
-  QList<qlonglong> _recIndex;
+    CacheMap _recMap;
+    QList<qlonglong> _recIndex;
 
-  void clearData();
-  QSqlRecord primaryValues(QSqlRecord rec) const;
-  qlonglong primaryKey(int row, int part = 0);
-  QString primaryKeyName(int part = 0);
-  int primaryKeyCount();
-  bool canConvert(const QVariant value, QVariant::Type type);
-  QVariant convert(const QVariant value, QVariant::Type type);
+    void clearData();
+    QSqlRecord primaryValues(QSqlRecord rec) const;
+    qlonglong primaryKey(int row, int part = 0);
+    QString primaryKeyName(int part = 0);
+    int primaryKeyCount();
+    bool canConvert(const QVariant value, QMetaType type);
+    QVariant convert(const QVariant value, QMetaType type);
 
-  QSqlDatabase _db;
-  QSqlQuery _query;
-  QStringList _sqlErrors;
+    QSqlDatabase _db;
+    QSqlQuery _query;
+    QStringList _sqlErrors;
 
-  virtual QString selectAllSql();
-  virtual bool selectRowInTable(QSqlRecord &values);
-  virtual bool updateRowInTable(const QSqlRecord &values);
-  virtual bool insertRowInTable(const QSqlRecord &values);
-  virtual bool deleteRowInTable(const QSqlRecord &values);
+    virtual QString selectAllSql();
+    virtual bool selectRowInTable(QSqlRecord &values);
+    virtual bool updateRowInTable(const QSqlRecord &values);
+    virtual bool insertRowInTable(const QSqlRecord &values);
+    virtual bool deleteRowInTable(const QSqlRecord &values);
 };
 
 class LCalcField
 {
 public:
-  LCalcField(QString name);
-  virtual ~LCalcField();
-  void setModel(LSqlTableModel* model);
-  QString name(){ return _name; }
-  virtual QVariant data(int row, int role = Qt::DisplayRole) = 0;
+    LCalcField(QString name);
+    virtual ~LCalcField();
+    void setModel(LSqlTableModel* model);
+    QString name(){ return _name; }
+    virtual QVariant data(int row, int role = Qt::DisplayRole) = 0;
 protected:
-  QVariant modelData(int row, QString field, int role = Qt::DisplayRole);
+    QVariant modelData(int row, QString field, int role = Qt::DisplayRole);
 private:
-  QString _name;
-  LSqlTableModel* _model;
+    QString _name;
+    LSqlTableModel* _model;
 };
 
 class LLookupField : public LCalcField

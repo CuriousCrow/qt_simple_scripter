@@ -12,18 +12,18 @@
  */
 class QCheckboxCombo : public QComboBox
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit QCheckboxCombo(QWidget *parent = 0);
-  bool eventFilter(QObject * watched, QEvent * event);
-  void hidePopup();
-  void showPopup();
-  void setDelimiter(QString str){ _delimiter = str; }
+    explicit QCheckboxCombo(QWidget *parent = 0);
+    bool eventFilter(QObject * watched, QEvent * event);
+    void hidePopup();
+    void showPopup();
+    void setDelimiter(QString str){ _delimiter = str; }
 private:
-  QString _delimiter = ",";
+    QString _delimiter = ",";
 signals:
-  //can be used to update items dynamically
-  void beforeOpen();
+    //can be used to update items dynamically
+    void beforeOpen();
 public slots:
 
 };

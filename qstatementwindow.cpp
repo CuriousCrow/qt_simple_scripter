@@ -344,8 +344,8 @@ void QStatementWindow::createAddMenu()
 {
   QMenu* addMenu = new QMenu(this);
   addMenu->addAction(SActionAddStatement, this, SLOT(on_addStatementMenuClicked()))->setProperty("Action", (int)Add);
-  addMenu->addAction(SActionInsertStatement, this, SLOT(on_addStatementMenuClicked()), QKeySequence(Qt::CTRL + Qt::Key_D))->setProperty("Action", (int)Insert);
-  addMenu->addAction(SActionSplitStatement, this, SLOT(on_addStatementMenuClicked()), QKeySequence(Qt::CTRL + Qt::Key_S))->setProperty("Action", (int)Split);
+  addMenu->addAction(SActionInsertStatement, QKeySequence(Qt::CTRL | Qt::Key_D), this, SLOT(on_addStatementMenuClicked()))->setProperty("Action", (int)Insert);
+  addMenu->addAction(SActionSplitStatement, QKeySequence(Qt::CTRL | Qt::Key_S), this, SLOT(on_addStatementMenuClicked()))->setProperty("Action", (int)Split);
 
   ui->btnAdd->setMenu(addMenu);
 }

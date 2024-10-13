@@ -20,17 +20,17 @@ const QString SMsgUpdateCompleted = "Database is up to date";
  */
 class QDatabaseUpdater : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 public:  
-   //Запуск обновления БД
-  static bool updateDatabase(QSqlDatabase db, QString versionTable, QString versionField);
+        //Запуск обновления БД
+    static bool updateDatabase(QSqlDatabase db, QString versionTable, QString versionField);
 private:
-  //Получает текущую версию БД
-  static int getDbVersion(QSqlDatabase db, QString versionTable, QString versionField);
-  //Обновляет значение версии в БД
-  static void setDbVersion(QSqlDatabase db, QString versionTable, QString versionField, int version);
-  //Формирование списка запросов обновления БД
-  static QStringList initializeUpdateScript();
+    //Получает текущую версию БД
+    static int getDbVersion(QSqlDatabase db, QString versionTable, QString versionField);
+    //Обновляет значение версии в БД
+    static void setDbVersion(QSqlDatabase db, QString versionTable, QString versionField, int version);
+    //Формирование списка запросов обновления БД
+    static QStringList initializeUpdateScript();
 signals:
 
 public slots:

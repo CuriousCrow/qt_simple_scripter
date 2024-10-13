@@ -19,36 +19,36 @@ class QProjectListWindow;
 
 class QProjectListWindow : public QBaseWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit QProjectListWindow(QWidget *parent = nullptr);
-  ~QProjectListWindow();
+    explicit QProjectListWindow(QWidget *parent = nullptr);
+    ~QProjectListWindow();
 
-  static QProjectListWindow* Instance(QWidget *parent = nullptr);
+    static QProjectListWindow* Instance(QWidget *parent = nullptr);
 private slots:
-  void on_btnEditProject_clicked();
+    void on_btnEditProject_clicked();
 
-  void on_btnClose_clicked();
+    void on_btnClose_clicked();
 
-  void on_projectsView_doubleClicked(const QModelIndex &index);
+    void on_projectsView_doubleClicked(const QModelIndex &index);
 
-  void importProjectFromTxt();
+    void importProjectFromTxt();
 
-  void on_btnExportProject_clicked();
+    void on_btnExportProject_clicked();
 
-  void on_btnNewProject_clicked();
+    void on_btnNewProject_clicked();
 
-  void on_btnDeleteProject_clicked();
+    void on_btnDeleteProject_clicked();
 
-  void updateColumnSize(const QModelIndex &index);
+    void updateColumnSize(const QModelIndex &index);
 
-  void importProjectFromXml();
+    void importProjectFromXml();
 private:
-  static QProjectListWindow* singletonWindow;
-  QDataModule* _dm;
-  Ui::QProjectListWindow *ui;
-  void createImportMenu();
+    static QProjectListWindow* singletonWindow;
+    QDataModule* _dm;
+    Ui::QProjectListWindow *ui;
+    void createImportMenu();
 };
 
 #endif // QPROJECTLISTWINDOW_H
