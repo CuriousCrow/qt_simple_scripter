@@ -293,12 +293,12 @@ bool QDataModule::importFromXml(QString importPath)
   if (!insertProjectResult){
     return false;
   }
-  mProjects->setData(mProjects->index(mProjects->rowCount() - 1,
+  auto newRowIdx = mProjects->rowCount() - 1;
+  mProjects->setData(mProjects->index(newRowIdx,
                      mProjects->fieldIndex(SColHeader)),
                      fileInfo.baseName());
-  mProjects->setData(mProjects->index(mProjects->rowCount() - 1,
-                     mProjects->fieldIndex(SColPath)),
-                     importPath);
+  mProjects->setData(mProjects->index(newRowIdx, mProjects->fieldIndex(SColPath)), importPath);
+  mProjects->setData(mProjects->index(newRowIdx,mProjects->fieldIndex(SColSpeakerType)), 0);
   //Если проект не сохранился в БД
   if (!mProjects->submitAll()){
     return false;
@@ -315,7 +315,7 @@ bool QDataModule::importFromXml(QString importPath)
 
   foreach(QString xmlStatement, textLines){
     int speakerId = 0;
-    QHash<QString, QString> strValHash = StrUtils::tagToHash(xmlStatement, "speach");
+    QHash<QString, QString> strValHash = StrUtils::tagToHash(xmlStatement, TAG_SPEECH);
     if (strValHash.contains(COL_ROLE)) {
       if (!newSpeakers.contains(strValHash.value(COL_ROLE))) {
         newSpeakerRole = strValHash.value(COL_ROLE);
@@ -418,7 +418,7 @@ bool QDataModule::exportProject()
           speakerRec = mSpeakers->recordById(currSpeakerId);
           speakerAttrs.setValue(COL_ACTOR, speakerRec->value(SColActor).toString());
           speakerAttrs.setValue(COL_PROFESSION, speakerRec->value(SColProfession).toString());
-          speakerAttrs.setValue(COL_ROLE, speakerRec->value(SColSpeachRole).toString());
+          speakerAttrs.setValue(COL_ROLE, speakerRec->value(SColSpeechRole).toString());
           speakerAttrs.setValue(COL_SEX, speakerRec->value(SColSex).toString());
         }
       }
@@ -443,8 +443,8 @@ bool QDataModule::exportSpeakerList(QString outDir)
 
   QStringList exportList;
   QSqlRecord rec;
-  QString firstActorCol = speakerTitleCol == IDX_ACTOR ? SColActor : SColSpeachRole;
-  QString secondActorCol = speakerTitleCol == IDX_ACTOR ? SColSpeachRole : SColActor;
+  QString firstActorCol = speakerTitleCol == IDX_ACTOR ? SColActor : SColSpeechRole;
+  QString secondActorCol = speakerTitleCol == IDX_ACTOR ? SColSpeechRole : SColActor;
   for(int i=0; i<mSpeakers->rowCount(); i++){
     rec = mSpeakers->record(i);
     QString line = rec.value(firstActorCol).toString();
@@ -689,7 +689,7 @@ void QDataModule::initNewSpeaker(QSqlRecord &record)
 {
   record.setValue(SColProjectId, _dm->projectId);
   if (!newSpeakerRole.isEmpty())
-    record.setValue(SColSpeachRole, newSpeakerRole);
+      record.setValue(SColSpeechRole, newSpeakerRole);
   if (!newSpeakerActor.isEmpty())
     record.setValue(SColActor, newSpeakerActor);
   if (!newSpeakerProfession.isEmpty())

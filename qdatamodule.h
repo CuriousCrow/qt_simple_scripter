@@ -46,6 +46,11 @@
 #define TABLE_STATEMENTS_HISTORY "STATEMENTS_HISTORY"
 #define TABLE_SPEAKER_TYPES "SPEAKER_TYPES"
 
+#define TAG_SPEECH "speech"
+#define ATTR_ROLE "role"
+#define ATTR_PROFESSION "profession"
+#define ATTR_SEX "sex"
+#define ATTR_ACTOR "actor"
 const QString SMainWinTitle = "";
 const QString SErrDatabase = "Ошибка БД: ";
 const QString SErrWhileDbConnection = "Не удалось подключиться к базе данных";
@@ -77,31 +82,31 @@ const QString SActionAddStatement = "Добавить реплику";
 const QString SActionInsertStatement = "Вставить реплику";
 const QString SActionSplitStatement = "Разделить реплику";
 
-const QString SNewLine = "\r\n";
-const QString SDelimiter = "\t";
-const QString SSpace = " ";
+#define SNewLine "\r\n"
+#define SDelimiter "\t"
+#define SSpace " "
 
-const QString SColHeader = "HEADER";
-const QString SColID = "ID";
-const QString SColAuthor = "AUTHOR";
-const QString SColCreated = "CREATED";
-const QString SColPath = "PATH";
-const QString SColStatement = "STATEMENT";
-const QString SColProjectId = "PROJECT_ID";
-const QString SColSex = "SEX";
-const QString SColProfession = "PROFESSION";
-const QString SColSpeachRole = "SPEACH_ROLE";
-const QString SColActor = "ACTOR";
-const QString SColSpeakerId = "SPEAKER_ID";
-const QString SColBirthYear = "BIRTH_YEAR";
-const QString SColName = "NAME";
-const QString SColPattern = "PATTERN";
-const QString SColRegexp = "REGEXP";
-const QString SColUsageType = "USAGE_TYPE";
-const QString SColSpeakerType = "SPEAKER_TYPE_ID";
-const QString SColRoleTitle = "ROLE_TITLE";
-const QString SColProfessionTitle = "PROFESSION_TITLE";
-const QString SColActorTitle = "ACTOR_TITLE";
+#define SColHeader "HEADER"
+#define SColID "ID"
+#define SColAuthor "AUTHOR"
+#define SColCreated "CREATED"
+#define SColPath "PATH"
+#define SColStatement "STATEMENT"
+#define SColProjectId "PROJECT_ID"
+#define SColSex "SEX"
+#define SColProfession "PROFESSION"
+#define SColSpeechRole "SPEACH_ROLE"
+#define SColActor "ACTOR"
+#define SColSpeakerId "SPEAKER_ID"
+#define SColBirthYear "BIRTH_YEAR"
+#define SColName "NAME"
+#define SColPattern "PATTERN"
+#define SColRegexp "REGEXP"
+#define SColUsageType "USAGE_TYPE"
+#define SColSpeakerType "SPEAKER_TYPE_ID"
+#define SColRoleTitle "ROLE_TITLE"
+#define SColProfessionTitle "PROFESSION_TITLE"
+#define SColActorTitle "ACTOR_TITLE"
 
 #define IDX_ROLE 2
 #define IDX_ACTOR 6

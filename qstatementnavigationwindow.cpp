@@ -14,7 +14,7 @@ QStatementNavigationWindow::QStatementNavigationWindow(QWidget *parent) :
   ui->lvStatements->setModelColumn(dm->mStatementsNavigation->columnCount() - 1);
   // Редактирование поля фильтра связываем с фильтрацией модели
   connect(ui->edtFilter, SIGNAL(textChanged(QString)),
-          dm->mStatementsNavigation, SLOT(setFilterRegExp(QString)));
+          dm->mStatementsNavigation, SLOT(setFilterRegularExpression(QString)));
 }
 
 QStatementNavigationWindow::~QStatementNavigationWindow()
