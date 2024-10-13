@@ -555,7 +555,7 @@ bool QDataModule::loadModels()
     connect(mStatements, SIGNAL(beforeInsert(QSqlRecord&)),
             this, SLOT(onBeforeStatementInsert(QSqlRecord&)));
     result = loadModel(mStatements, TABLE_STATEMENTS, GEN_STATEMENTS);
-    mStatementsNavigation->setFilterKeyColumn(mStatements->columnCount(QModelIndex()) - 1);
+    mStatementsNavigation->setFilterKeyColumn(mStatements->fieldIndex(COL_STATEMENT_PLAIN));
     mStatementsNavigation->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     //Фильтрованная прокси-модель реплик

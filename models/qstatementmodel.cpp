@@ -16,7 +16,7 @@ QVariant PlainStatementField::data(int row, int role)
 {
     if (role == Qt::DisplayRole){
         QString rawText = modelData(row, COL_STATEMENT, role).toString();
-        return rawText.replace("'", "");
+        return rawText.replace("'", "").replace("\u0301", "");
     }
     return QVariant();
 }
