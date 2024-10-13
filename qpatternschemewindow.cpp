@@ -5,7 +5,6 @@
 #include <QModelIndex>
 #include <QSqlRecord>
 #include <QSqlField>
-#include <QDebug>
 #include <QSqlDriver>
 #include <QSqlTableModel>
 

@@ -1,7 +1,6 @@
 #include "qregexptestwindow.h"
 #include "ui_qregexptestwindow.h"
 
-#include <QDebug>
 
 QRegexpTestWindow* QRegexpTestWindow::singletonWindow = nullptr;
 

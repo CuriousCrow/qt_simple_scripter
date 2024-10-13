@@ -1,6 +1,7 @@
 #include "lsqltablemodel.h"
 #include <QDebug>
 #include <QSqlError>
+#include "utils/slogger.h"
 
 #define F_ID "ID"
 
@@ -79,7 +80,7 @@ int LSqlTableModel::fieldIndex(QString fieldName) const
         }
     }
     if (index < 0)
-        qDebug() << "Model" << objectName() << "contains no field named" << fieldName;
+        CRITICAL << "Model" << objectName() << "contains no field named" << fieldName;
     return index;
 }
 
@@ -240,7 +241,7 @@ bool LSqlTableModel::setData(const QModelIndex &index, const QVariant &value, in
 
         rec.setValue(index.column(), convert(value, fieldType));
         setCacheAction(rec, LSqlRecord::Update);
-        qDebug() << "Record" << index.row() << "updated:"
+        INFO << "Record" << index.row() << "updated:"
                  << data(index) << "->" << value;
         emit dataChanged(index, index);
     }
@@ -436,7 +437,7 @@ bool LSqlTableModel::submitRecord(LSqlRecord &rec)
         setCacheAction(rec, LSqlRecord::None);
     }
     else {
-        qDebug() << "Error while submitting record: " << rec;
+        CRITICAL << "Error while submitting record: " << rec;
     }
     return result;
 }
@@ -638,13 +639,13 @@ QString LSqlTableModel::selectAllSql()
 qlonglong LSqlTableModel::nextSequenceNumber()
 {
     if (_sequenceName.isEmpty()){
-        qDebug() << "No sequence specified for table " << _tableName;
+        CRITICAL << "No sequence specified for table " << _tableName;
         return -1;
     }
 
     QString sql = "select GEN_ID(%1, 1) from rdb$database";
     if (!execQuery(sql.arg(_sequenceName))){
-        qDebug() << "Error handling sequence: " << _sequenceName;
+        CRITICAL << "Error handling sequence: " << _sequenceName;
         return -1;
     }
     _query.next();

@@ -1,7 +1,6 @@
 #include "qstatementnavigationwindow.h"
 #include "ui_qstatementnavigationwindow.h"
 
-#include <QDebug>
 
 QStatementNavigationWindow* QStatementNavigationWindow::singletonWindow = nullptr;
 
@@ -10,6 +9,7 @@ QStatementNavigationWindow::QStatementNavigationWindow(QWidget *parent) :
     ui(new Ui::QStatementNavigationWindow)
 {
     ui->setupUi(this);
+
     dm = QDataModule::dm();
     ui->lvStatements->setModel(dm->mStatementsNavigation);
     ui->lvStatements->setModelColumn(dm->mStatementsNavigation->columnCount() - 1);

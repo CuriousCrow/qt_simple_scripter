@@ -147,22 +147,22 @@ QString SLogger::createLogStr(QtMsgType type, const QString &msg)
         QString s = QString(msg).left(6);
         if (s.left(2) == "I:") {
             if (_logInfo)
-                logStr = QString("I %1| %2").arg(dateStamp).arg(QString(msg));
+                logStr = QString("I %1| %2").arg(dateStamp, QString(msg));
         } else if (_logDebug)
-            logStr = QString("D %1| %2").arg(dateStamp).arg(QString(msg));
+            logStr = QString("D %1| %2").arg(dateStamp, QString(msg));
         break;
     }
     case QtWarningMsg:
         if (_logWarning)
-            logStr = QString("W %1| %2").arg(dateStamp).arg(QString(msg));
+            logStr = QString("W %1| %2").arg(dateStamp, QString(msg));
         break;
     case QtCriticalMsg:
         if (_logCritical)
-            logStr = QString("C %1| %2").arg(dateStamp).arg(QString(msg));
+            logStr = QString("C %1| %2").arg(dateStamp, QString(msg));
         break;
     case QtFatalMsg:
         if (_logFatal)
-            logStr = QString("F %1| %2").arg(dateStamp).arg(QString(msg));
+            logStr = QString("F %1| %2").arg(dateStamp, QString(msg));
         break;
     default: ;
     }

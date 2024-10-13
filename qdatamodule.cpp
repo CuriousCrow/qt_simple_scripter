@@ -1,5 +1,5 @@
 #include "qdatamodule.h"
-#include "utils/slogger.h"
+
 #include <QSqlQuery>
 #include <QSqlDriver>
 #include <QApplication>
@@ -8,13 +8,14 @@
 #include <QDir>
 #include <QTextCodec>
 #include <QDateTime>
+
 #include "qtextprocessor.h"
-#include "utils/qdatabaseupdater.h"
 #include "widgets/qsmartdialog.h"
 #include "utils/appsettings.h"
 #include "utils/qsqlqueryhelper.h"
 #include "utils/slogger.h"
 #include "utils/strutils.h"
+#include "utils/qdatabaseupdater.h"
 #include "utils/qfileutils.h"
 #include "utils/appconst.h"
 

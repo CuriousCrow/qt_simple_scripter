@@ -11,7 +11,7 @@ bool QSqlQueryHelper::_logging = false;
 QSqlQuery QSqlQueryHelper::execSql(QString sql, QString connectionName)
 {
   if (_logging)
-    LOG << QString("SQL(%1): %2").arg(connectionName).arg(sql);
+    LOG << QString("SQL(%1): %2").arg(connectionName, sql);
 
   QSqlQuery sqlResult = QSqlDatabase::database(connectionName).exec(sql);  
   if (sqlResult.lastError().isValid() && _logging){

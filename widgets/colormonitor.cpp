@@ -1,5 +1,5 @@
 #include "colormonitor.h"
-#include <QDebug>
+
 
 ColorMonitor::ColorMonitor(QWidget *parent) : QFrame(parent)
 {

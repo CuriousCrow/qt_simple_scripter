@@ -1,6 +1,5 @@
 #include "qcheckboxcombo.h"
 #include <QMouseEvent>
-#include <QDebug>
 
 QCheckboxCombo::QCheckboxCombo(QWidget *parent) :
     QComboBox(parent)

@@ -1,6 +1,5 @@
 #include "qstatementfiltermodel.h"
 
-#include <QDebug>
 
 QStatementFilterModel::QStatementFilterModel(QObject *parent) : QSortFilterProxyModel(parent)
 {

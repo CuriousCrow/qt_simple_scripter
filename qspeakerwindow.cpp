@@ -177,5 +177,5 @@ void QSpeakerWindow::on_btnAutoAssign_clicked()
 
 void QSpeakerWindow::onSpeakerSelected(QModelIndex idx)
 {
-    emit mapper->setCurrentModelIndex(idx);
+    mapper->setCurrentModelIndex(idx);
 }

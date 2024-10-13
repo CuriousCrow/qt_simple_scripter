@@ -4,13 +4,14 @@
 #include <QObject>
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
-#include "models/lsqltablemodel.h"
 #include <QDataWidgetMapper>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QTimer>
 #include <QSettings>
 #include <QSortFilterProxyModel>
+
+#include "models/lsqltablemodel.h"
 #include "models/qstatementmodel.h"
 #include "models/qstatementfiltermodel.h"
 

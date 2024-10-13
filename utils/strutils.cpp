@@ -1,6 +1,5 @@
 #include "strutils.h"
 
-#include <QDebug>
 #include <QtMath>
 #include <QRegExp>
 

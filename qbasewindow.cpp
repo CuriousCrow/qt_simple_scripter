@@ -1,8 +1,9 @@
 #include "qbasewindow.h"
 #include "ui_qbasewindow.h"
+
 #include <QApplication>
 #include <QScreen>
-#include <QDebug>
+
 #include "utils/appsettings.h"
 
 QBaseWindow::QBaseWindow(QWidget *parent) :

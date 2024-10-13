@@ -2,7 +2,6 @@
 
 #include <QComboBox>
 #include <QLineEdit>
-#include <QDebug>
 
 QLookupItemDelegate::QLookupItemDelegate(QObject *parent) :
     QItemDelegate(parent)

@@ -1,14 +1,13 @@
 #include "qstatementhistorydialog.h"
 #include "ui_qstatementhistorydialog.h"
 
-#include <QDebug>
-
 
 QStatementHistoryDialog::QStatementHistoryDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QStatementHistoryDialog)
 {
     ui->setupUi(this);
+
     _dm = QDataModule::dm();
     ui->lvStatements->setModel(_dm->mStatementHistory);
     ui->lvStatements->setModelColumn(_dm->mStatementHistory->fieldIndex("STATEMENT"));
@@ -34,7 +33,8 @@ void QStatementHistoryDialog::loadHistory(int statementId)
 
 void QStatementHistoryDialog::selectionChanged(const QModelIndex &newIndex, const QModelIndex &oldIndex)
 {
-    std::ignore = oldIndex;
+    Q_UNUSED(oldIndex)
+
     resultStatement = _dm->mStatementHistory->data(newIndex).toString();
 }
 

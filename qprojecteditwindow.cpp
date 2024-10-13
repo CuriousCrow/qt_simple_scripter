@@ -1,6 +1,6 @@
 #include "qprojecteditwindow.h"
 #include "ui_qprojecteditwindow.h"
-#include <QDebug>
+
 #include <QVariantMap>
 
 #include "qtextprocessor.h"

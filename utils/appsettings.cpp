@@ -1,6 +1,7 @@
 #include "appsettings.h"
 #include <QApplication>
-#include <QDebug>
+
+#include "utils/slogger.h"
 
 #define DELIMITER "/"
 
@@ -11,7 +12,7 @@ QVariant AppSettings::val(QString key, QVariant defValue)
   if (!_settings)
     init();
   QVariant res = _settings->value(key, defValue);
-  qDebug() << "Load:" << key << res;
+  INFO << "Load:" << key << res;
   return res;
 }
 
@@ -25,7 +26,7 @@ void AppSettings::setVal(QString key, QVariant val)
   if (!_settings)
     init();
   _settings->setValue(key, val);
-  qDebug() << "Save:" << key << val;
+  INFO << "Save:" << key << val;
 }
 
 void AppSettings::setVal(QString section, QString param, QVariant val)

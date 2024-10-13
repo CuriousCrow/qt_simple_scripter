@@ -1,5 +1,4 @@
 #include "qcolorbox.h"
-#include <QDebug>
 
 QColorBox::QColorBox(QWidget *widget) : QComboBox(widget)
 {

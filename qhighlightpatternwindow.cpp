@@ -3,6 +3,7 @@
 
 #include <QSqlRecord>
 #include <QSqlField>
+
 #include "utils/slogger.h"
 
 QHighlightPatternWindow* QHighlightPatternWindow::singletonWindow = nullptr;

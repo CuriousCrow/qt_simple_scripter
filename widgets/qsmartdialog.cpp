@@ -4,7 +4,6 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QInputDialog>
-#include <QDebug>
 
 #define TITLE_ERROR "Ошибка"
 #define TITLE_WARNING "Предупреждение"
