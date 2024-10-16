@@ -1,6 +1,6 @@
 #include "qstatementmodel.h"
 
-#include "utils/appconst.h"
+#include "core/appconst.h"
 
 QStatementModel::QStatementModel(QObject *parent, QSqlDatabase db) :
     LSqlLinkedRecordsModel(parent, db)

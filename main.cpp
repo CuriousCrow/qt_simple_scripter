@@ -2,9 +2,9 @@
 #include <QApplication>
 #include <QTranslator>
 #include "utils/slogger.h"
-#include "utils/appsettings.h"
+#include "core/appsettings.h"
 #include "utils/qfileutils.h"
-#include "utils/appconst.h"
+#include "core/appconst.h"
 
 int main(int argc, char *argv[])
 {  

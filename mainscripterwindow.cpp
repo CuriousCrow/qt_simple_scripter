@@ -5,18 +5,17 @@
 #include <QFileDialog>
 
 #include "widgets/qsmartdialog.h"
-#include "models/lsqltablemodel.h"
 #include "utils/slogger.h"
-#include "datamodule.h"
-#include "projectlistwindow.h"
-#include "projecteditwindow.h"
-#include "speakerwindow.h"
-#include "statementwindow.h"
-#include "highlightpatternwindow.h"
-#include "patternschemewindow.h"
-#include "replacepatternwindow.h"
-#include "regexptestwindow.h"
-#include "textprocessor.h"
+#include "core/datamodule.h"
+#include "forms/projectlistwindow.h"
+#include "forms/projecteditwindow.h"
+#include "forms/speakerwindow.h"
+#include "forms/statementwindow.h"
+#include "forms/highlightpatternwindow.h"
+#include "forms/patternschemewindow.h"
+#include "forms/replacepatternwindow.h"
+#include "forms/regexptestwindow.h"
+#include "core/textprocessor.h"
 
 MainScripterWindow::MainScripterWindow(QWidget *parent) :
     QMainWindow(parent),

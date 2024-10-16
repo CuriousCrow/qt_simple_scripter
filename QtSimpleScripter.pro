@@ -15,23 +15,23 @@ CONFIG += c++17
 RC_ICONS = SimpleScriptor.ico
 
 SOURCES += main.cpp\
-    basewindow.cpp \
-    datamodule.cpp \
-    highlightpatternwindow.cpp \
+    forms/basewindow.cpp \
+    core/datamodule.cpp \
+    forms/highlightpatternwindow.cpp \
     lookupitemdelegate.cpp \
-    patternschemewindow.cpp \
-    projecteditwindow.cpp \
-    projectlistwindow.cpp \
-    regexphighlighter.cpp \
-    regexptestwindow.cpp \
-    replacepatternwindow.cpp \
-    speakerwindow.cpp \
-    statementhistorydialog.cpp \
-    statementnavigationwindow.cpp \
-    statementwindow.cpp \
-    tablehighlighter.cpp \
-    textprocessor.cpp \
-    twovaluesinputdialog.cpp \
+    forms/patternschemewindow.cpp \
+    forms/projecteditwindow.cpp \
+    forms/projectlistwindow.cpp \
+    core/regexphighlighter.cpp \
+    forms/regexptestwindow.cpp \
+    forms/replacepatternwindow.cpp \
+    forms/speakerwindow.cpp \
+    forms/statementhistorydialog.cpp \
+    forms/statementnavigationwindow.cpp \
+    forms/statementwindow.cpp \
+    core/tablehighlighter.cpp \
+    core/textprocessor.cpp \
+    forms/twovaluesinputdialog.cpp \
     widgets/dictcombobox.cpp \
     widgets/qcolorbox.cpp \
     models/lsqltablemodel.cpp \
@@ -39,11 +39,11 @@ SOURCES += main.cpp\
     mainscripterwindow.cpp \
     utils/sparams.cpp \
     widgets/qsmartdialog.cpp \
-    utils/qdatabaseupdater.cpp \
+    core/qdatabaseupdater.cpp \
     models/lsqllinkedrecordsmodel.cpp \
     models/qstatementmodel.cpp \
     models/qstatementfiltermodel.cpp \
-    utils/appsettings.cpp \
+    core/appsettings.cpp \
     utils/qsqlqueryhelper.cpp \
     utils/slogger.cpp \
     utils/qfileutils.cpp \
@@ -51,23 +51,23 @@ SOURCES += main.cpp\
     widgets/colormonitor.cpp
 
 HEADERS  += \
-    basewindow.h \
-    datamodule.h \
-    highlightpatternwindow.h \
+    forms/basewindow.h \
+    core/datamodule.h \
+    forms/highlightpatternwindow.h \
     lookupitemdelegate.h \
-    patternschemewindow.h \
-    projecteditwindow.h \
-    projectlistwindow.h \
-    regexphighlighter.h \
-    regexptestwindow.h \
-    replacepatternwindow.h \
-    speakerwindow.h \
-    statementhistorydialog.h \
-    statementnavigationwindow.h \
-    statementwindow.h \
-    tablehighlighter.h \
-    textprocessor.h \
-    twovaluesinputdialog.h \
+    forms/patternschemewindow.h \
+    forms/projecteditwindow.h \
+    forms/projectlistwindow.h \
+    core/regexphighlighter.h \
+    forms/regexptestwindow.h \
+    forms/replacepatternwindow.h \
+    forms/speakerwindow.h \
+    forms/statementhistorydialog.h \
+    forms/statementnavigationwindow.h \
+    forms/statementwindow.h \
+    core/tablehighlighter.h \
+    core/textprocessor.h \
+    forms/twovaluesinputdialog.h \
     widgets/dictcombobox.h \
     widgets/qcolorbox.h \
     models/lsqltablemodel.h \
@@ -75,12 +75,12 @@ HEADERS  += \
     mainscripterwindow.h \
     utils/sparams.h \
     widgets/qsmartdialog.h \
-    utils/qdatabaseupdater.h \
+    core/qdatabaseupdater.h \
     models/lsqllinkedrecordsmodel.h \
     models/qstatementmodel.h \
     models/qstatementfiltermodel.h \
-    utils/appconst.h \
-    utils/appsettings.h \
+    core/appconst.h \
+    core/appsettings.h \
     utils/qsqlqueryhelper.h \
     utils/slogger.h \
     utils/qfileutils.h \
@@ -88,19 +88,19 @@ HEADERS  += \
     widgets/colormonitor.h
 
 FORMS    += \
-    basewindow.ui \
-    highlightpatternwindow.ui \
-    patternschemewindow.ui \
-    projecteditwindow.ui \
-    projectlistwindow.ui \
+    forms/basewindow.ui \
+    forms/highlightpatternwindow.ui \
+    forms/patternschemewindow.ui \
+    forms/projecteditwindow.ui \
+    forms/projectlistwindow.ui \
     mainscripterwindow.ui \
-    regexptestwindow.ui \
-    replacepatternwindow.ui \
-    speakerwindow.ui \
-    statementhistorydialog.ui \
-    statementnavigationwindow.ui \
-    statementwindow.ui \
-    twovaluesinputdialog.ui \
+    forms/regexptestwindow.ui \
+    forms/replacepatternwindow.ui \
+    forms/speakerwindow.ui \
+    forms/statementhistorydialog.ui \
+    forms/statementnavigationwindow.ui \
+    forms/statementwindow.ui \
+    forms/twovaluesinputdialog.ui \
     widgets/qsmartdialog.ui
 
 RESOURCES += \
