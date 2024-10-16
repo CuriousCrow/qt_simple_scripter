@@ -7,16 +7,16 @@
 #include "widgets/qsmartdialog.h"
 #include "models/lsqltablemodel.h"
 #include "utils/slogger.h"
-#include "qdatamodule.h"
-#include "qprojectlistwindow.h"
-#include "qprojecteditwindow.h"
-#include "qspeakerwindow.h"
-#include "qstatementwindow.h"
-#include "qhighlightpatternwindow.h"
-#include "qpatternschemewindow.h"
-#include "qreplacepatternwindow.h"
-#include "qregexptestwindow.h"
-#include "qtextprocessor.h"
+#include "datamodule.h"
+#include "projectlistwindow.h"
+#include "projecteditwindow.h"
+#include "speakerwindow.h"
+#include "statementwindow.h"
+#include "highlightpatternwindow.h"
+#include "patternschemewindow.h"
+#include "replacepatternwindow.h"
+#include "regexptestwindow.h"
+#include "textprocessor.h"
 
 MainScripterWindow::MainScripterWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,8 +24,8 @@ MainScripterWindow::MainScripterWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     baseWindowTitle = windowTitle();
-
-    QDataModule* dm = QDataModule::dm(this);
+    
+    DataModule* dm = DataModule::dm(this);
     connect(dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded()));
     on_aProjectList_triggered();
 }
@@ -47,65 +47,65 @@ void MainScripterWindow::on_aExit_triggered()
 
 void MainScripterWindow::on_aProjectList_triggered()
 {
-    QProjectListWindow::Instance(this)->show();
+    ProjectListWindow::Instance(this)->show();
 }
 
 void MainScripterWindow::on_aEditProject_triggered()
 {
-    QProjectEditWindow::Instance()->show();
+    ProjectEditWindow::Instance()->show();
 }
 
 void MainScripterWindow::on_aSpeakerList_triggered()
 {
-    QSpeakerWindow::Instance(this)->show();
+    SpeakerWindow::Instance(this)->show();
 }
 
 void MainScripterWindow::on_aStatementList_triggered()
 {
-    QStatementWindow::Instance(this)->show();
+    StatementWindow::Instance(this)->show();
 }
 
 void MainScripterWindow::on_aHighlightPatterns_triggered()
 {
-    QHighlightPatternWindow::Instance(this)->show();
+    HighlightPatternWindow::Instance(this)->show();
 }
 
 void MainScripterWindow::on_aPatternSchemes_triggered()
 {
-    QPatternSchemeWindow::Instance(this)->show();
+    PatternSchemeWindow::Instance(this)->show();
 }
 
 void MainScripterWindow::on_aReplacePatterns_triggered()
 {
-    QReplacePatternWindow::Instance(this)->show();
+    ReplacePatternWindow::Instance(this)->show();
 }
 
 void MainScripterWindow::on_aTestPattern_triggered()
 {
-    QRegexpTestWindow* regExpWindow = QRegexpTestWindow::Instance(this);
+    RegexpTestWindow* regExpWindow = RegexpTestWindow::Instance(this);
     moveWidgetToCenter(regExpWindow);
     regExpWindow->show();
 }
 
 void MainScripterWindow::closeEvent(QCloseEvent *)
 {
-    QDataModule::dm(this)->checkForUnsavedProject(true);
+    DataModule::dm(this)->checkForUnsavedProject(true);
 }
 
 void MainScripterWindow::on_aAutosaveSetting_triggered()
 {
-    QDataModule::dm(this)->editSetting(SETTING_AUTOSAVE, SPrmAutosavePeriod);
+    DataModule::dm(this)->editSetting(SETTING_AUTOSAVE, SPrmAutosavePeriod);
 }
 
 void MainScripterWindow::on_aNewProject_triggered()
 {
-    QProjectListWindow::Instance(this)->show();
-    QDataModule::dm(this)->mProjects->insertRow(QDataModule::dm(this)->mProjects->rowCount());
+    ProjectListWindow::Instance(this)->show();
+    DataModule::dm(this)->mProjects->insertRow(DataModule::dm(this)->mProjects->rowCount());
 }
 
 void MainScripterWindow::onProjectLoaded()
 {
-    QString projectTitle = QDataModule::dm()->projectTitle;
+    QString projectTitle = DataModule::dm()->projectTitle;
     setWindowTitle(baseWindowTitle + " - " + projectTitle);
 }
 
@@ -118,9 +118,9 @@ void MainScripterWindow::on_aWhatsThis_triggered()
 void MainScripterWindow::on_aExecuteScript_triggered()
 {
     QString scriptFile = QFileDialog::getOpenFileName(this, "Запуск SQL скрипта", "", "*.sql");
-                                                      QString script = QTextProcessor::fileToString(scriptFile);
+                                                      QString script = TextProcessor::fileToString(scriptFile);
                                                       INFO << "Executing script from " << scriptFile;
-                                                      bool scriptResult = QDataModule::dm()->execSqlScript(script);
+                                                      bool scriptResult = DataModule::dm()->execSqlScript(script);
                                                       QString resultMessage = scriptResult ? "Скрипт успешно выполнен" : "Ошибка при выполнении скрипта";
                                                       QSmartDialog::infoDialog(resultMessage);
 }

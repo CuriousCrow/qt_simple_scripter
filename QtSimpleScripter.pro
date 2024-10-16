@@ -15,33 +15,33 @@ CONFIG += c++17
 RC_ICONS = SimpleScriptor.ico
 
 SOURCES += main.cpp\
-    qdatamodule.cpp \
-    qstatementwindow.cpp \
-    qspeakerwindow.cpp \
-    qlookupitemdelegate.cpp \
-    qhighlightpatternwindow.cpp \
+    basewindow.cpp \
+    datamodule.cpp \
+    highlightpatternwindow.cpp \
+    lookupitemdelegate.cpp \
+    patternschemewindow.cpp \
+    projecteditwindow.cpp \
+    projectlistwindow.cpp \
+    regexphighlighter.cpp \
+    regexptestwindow.cpp \
+    replacepatternwindow.cpp \
+    speakerwindow.cpp \
+    statementhistorydialog.cpp \
+    statementnavigationwindow.cpp \
+    statementwindow.cpp \
+    tablehighlighter.cpp \
+    textprocessor.cpp \
+    twovaluesinputdialog.cpp \
     widgets/dictcombobox.cpp \
     widgets/qcolorbox.cpp \
-    qpatternschemewindow.cpp \
     models/lsqltablemodel.cpp \
-    qtablehighlighter.cpp \
-    qprojecteditwindow.cpp \
-    qtextprocessor.cpp \
     widgets/qcheckboxcombo.cpp \
-    qprojectlistwindow.cpp \
     mainscripterwindow.cpp \
-    qreplacepatternwindow.cpp \
-    qregexptestwindow.cpp \
-    qregexphighlighter.cpp \
-    qstatementhistorydialog.cpp \
     utils/sparams.cpp \
-    qbasewindow.cpp \
     widgets/qsmartdialog.cpp \
     utils/qdatabaseupdater.cpp \
     models/lsqllinkedrecordsmodel.cpp \
-    qstatementnavigationwindow.cpp \
     models/qstatementmodel.cpp \
-    qtwovaluesinputdialog.cpp \
     models/qstatementfiltermodel.cpp \
     utils/appsettings.cpp \
     utils/qsqlqueryhelper.cpp \
@@ -51,33 +51,33 @@ SOURCES += main.cpp\
     widgets/colormonitor.cpp
 
 HEADERS  += \
-    qdatamodule.h \
-    qstatementwindow.h \
-    qspeakerwindow.h \
-    qlookupitemdelegate.h \
-    qhighlightpatternwindow.h \
+    basewindow.h \
+    datamodule.h \
+    highlightpatternwindow.h \
+    lookupitemdelegate.h \
+    patternschemewindow.h \
+    projecteditwindow.h \
+    projectlistwindow.h \
+    regexphighlighter.h \
+    regexptestwindow.h \
+    replacepatternwindow.h \
+    speakerwindow.h \
+    statementhistorydialog.h \
+    statementnavigationwindow.h \
+    statementwindow.h \
+    tablehighlighter.h \
+    textprocessor.h \
+    twovaluesinputdialog.h \
     widgets/dictcombobox.h \
     widgets/qcolorbox.h \
-    qpatternschemewindow.h \
     models/lsqltablemodel.h \
-    qtablehighlighter.h \
-    qprojecteditwindow.h \
-    qtextprocessor.h \
     widgets/qcheckboxcombo.h \
-    qprojectlistwindow.h \
     mainscripterwindow.h \
-    qreplacepatternwindow.h \
-    qregexptestwindow.h \
-    qregexphighlighter.h \
-    qstatementhistorydialog.h \
     utils/sparams.h \
-    qbasewindow.h \
     widgets/qsmartdialog.h \
     utils/qdatabaseupdater.h \
     models/lsqllinkedrecordsmodel.h \
-    qstatementnavigationwindow.h \
     models/qstatementmodel.h \
-    qtwovaluesinputdialog.h \
     models/qstatementfiltermodel.h \
     utils/appconst.h \
     utils/appsettings.h \
@@ -88,20 +88,20 @@ HEADERS  += \
     widgets/colormonitor.h
 
 FORMS    += \
-    qstatementwindow.ui \
-    qspeakerwindow.ui \
-    qhighlightpatternwindow.ui \
-    qpatternschemewindow.ui \
-    qprojecteditwindow.ui \
-    qprojectlistwindow.ui \
+    basewindow.ui \
+    highlightpatternwindow.ui \
+    patternschemewindow.ui \
+    projecteditwindow.ui \
+    projectlistwindow.ui \
     mainscripterwindow.ui \
-    qreplacepatternwindow.ui \
-    qregexptestwindow.ui \
-    qstatementhistorydialog.ui \
-    qbasewindow.ui \
-    widgets/qsmartdialog.ui \
-    qstatementnavigationwindow.ui \
-    qtwovaluesinputdialog.ui
+    regexptestwindow.ui \
+    replacepatternwindow.ui \
+    speakerwindow.ui \
+    statementhistorydialog.ui \
+    statementnavigationwindow.ui \
+    statementwindow.ui \
+    twovaluesinputdialog.ui \
+    widgets/qsmartdialog.ui
 
 RESOURCES += \
     icons.qrc
