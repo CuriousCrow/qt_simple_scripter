@@ -31,6 +31,7 @@ void BaseWindow::setTitle(QString title)
 
 void BaseWindow::loadSettings()
 {
+    qDebug() << "LOAD POSITION SETTINGS";
     if (AppSettings::contains(SECTION_FORMS, objectName())){
         setGeometry(AppSettings::val(SECTION_FORMS, objectName()).toRect());
     }
@@ -41,15 +42,16 @@ void BaseWindow::loadSettings()
 
 void BaseWindow::saveSettings()
 {
+    qDebug() << "SAVE POSITION SETTINGS";
     AppSettings::setVal(SECTION_FORMS, objectName(), geometry());
 }
 
 void BaseWindow::moveToScreenCenter()
 {
-    auto screens = QApplication::screens();
-    QRect desktopRect = screens.first()->availableGeometry();
-    this->move(desktopRect.width()/2 - this->width()/2,
-               desktopRect.height()/2 - this->height()/2);
+    auto screen = QApplication::primaryScreen();
+    QRect desktopRect = screen->geometry();
+    this->setGeometry(desktopRect.width()/2 - this->width()/2,
+                      desktopRect.height()/2 - this->height()/2, this->width(), this->height());
 }
 
 void BaseWindow::setLayoutEditable(QLayout *layout, bool on)

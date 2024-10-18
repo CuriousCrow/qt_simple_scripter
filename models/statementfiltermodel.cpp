@@ -1,23 +1,23 @@
-#include "qstatementfiltermodel.h"
+#include "statementfiltermodel.h"
 
 
-QStatementFilterModel::QStatementFilterModel(QObject *parent) : QSortFilterProxyModel(parent)
+StatementFilterModel::StatementFilterModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
 
 }
 
-void QStatementFilterModel::setFiltered(bool value)
+void StatementFilterModel::setFiltered(bool value)
 {
     _isFiltered = value;
     invalidateFilter();
 }
 
-QStatementFilterModel::~QStatementFilterModel()
+StatementFilterModel::~StatementFilterModel()
 {
 
 }
 
-bool QStatementFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+bool StatementFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
     //Если модель для подсветки не задана или подсвечивание выключено

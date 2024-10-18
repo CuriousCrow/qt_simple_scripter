@@ -12,8 +12,8 @@
 #include <QSortFilterProxyModel>
 
 #include "models/lsqltablemodel.h"
-#include "models/qstatementmodel.h"
-#include "models/qstatementfiltermodel.h"
+#include "models/statementmodel.h"
+#include "models/statementfiltermodel.h"
 
 #define DB_VERSION_TABLE "SYS_PARAMS"
 #define DB_VERSION_FIELD "DATABASE_VERSION"
@@ -114,9 +114,9 @@ public:
     QSqlDatabase db;
     LSqlTableModel* mProjects;
     LSqlTableModel* mSpeakers;
-    QStatementModel* mStatements;
+    StatementModel* mStatements;
     QSortFilterProxyModel* mStatementsNavigation;
-    QStatementFilterModel* mStatementsSmartFiltered;
+    StatementFilterModel* mStatementsSmartFiltered;
     LSqlTableModel* mPatterns;
     LSqlTableModel* mSchemes;
     LSqlTableModel* mSchemePatterns;

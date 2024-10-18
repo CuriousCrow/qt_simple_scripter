@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Qt Simple Scripter 2.2024.10.14</string>
+   <string>Qt Simple Scripter 2.2024.10.18</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -270,6 +270,7 @@
      <string>Помощь</string>
     </property>
     <addaction name="aWhatsThis"/>
+    <addaction name="aTest"/>
    </widget>
    <addaction name="menuProject"/>
    <addaction name="menuWindows"/>
@@ -346,6 +347,11 @@
   <action name="aExecuteScript">
    <property name="text">
     <string>Выполнить SQL скрипт</string>
+   </property>
+  </action>
+  <action name="aTest">
+   <property name="text">
+    <string>проверка</string>
    </property>
   </action>
  </widget>

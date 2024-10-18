@@ -26,7 +26,6 @@ MainScripterWindow::MainScripterWindow(QWidget *parent) :
     
     DataModule* dm = DataModule::dm(this);
     connect(dm, SIGNAL(projectLoaded(int,int)), this, SLOT(onProjectLoaded()));
-    on_aProjectList_triggered();
 }
 
 MainScripterWindow::~MainScripterWindow()
@@ -123,3 +122,15 @@ void MainScripterWindow::on_aExecuteScript_triggered()
                                                       QString resultMessage = scriptResult ? "Скрипт успешно выполнен" : "Ошибка при выполнении скрипта";
                                                       QSmartDialog::infoDialog(resultMessage);
 }
+
+void MainScripterWindow::on_aTest_triggered()
+{
+    auto screen = QApplication::primaryScreen();
+    QRect desktopRect = screen->geometry();
+    auto form = ProjectListWindow::Instance();
+    form->setGeometry(desktopRect.width()/2 - form->width()/2,
+                      desktopRect.height()/2 - form->height()/2, form->width(), form->height());
+
+
+}
+

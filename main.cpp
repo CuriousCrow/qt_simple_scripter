@@ -3,7 +3,7 @@
 #include <QTranslator>
 #include "utils/slogger.h"
 #include "core/appsettings.h"
-#include "utils/qfileutils.h"
+#include "utils/fileutils.h"
 #include "core/appconst.h"
 
 int main(int argc, char *argv[])
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
   if (AppSettings::contains(SECTION_LOGGER, PRM_LOG_FILE)) {
     logPath = AppSettings::strVal(SECTION_LOGGER, PRM_LOG_FILE);
   }
-  QFileUtils::forcePath(QFileUtils::extractDirPath(logPath));
+  FileUtils::forcePath(FileUtils::extractDirPath(logPath));
   log.setLogToFile(logPath);
   log.setLogCritical(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_CRITICAL, true));
   log.setLogDebug(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_DEBUG, true));

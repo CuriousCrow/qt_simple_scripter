@@ -12,11 +12,11 @@
 #include "textprocessor.h"
 #include "widgets/qsmartdialog.h"
 #include "core/appsettings.h"
-#include "utils/qsqlqueryhelper.h"
+#include "utils/sqlqueryhelper.h"
 #include "utils/slogger.h"
 #include "utils/strutils.h"
 #include "core/qdatabaseupdater.h"
-#include "utils/qfileutils.h"
+#include "utils/fileutils.h"
 #include "core/appconst.h"
 
 DataModule* DataModule::_dm = nullptr;
@@ -115,7 +115,7 @@ bool DataModule::saveProjectData(bool verbose)
         QString msg = "Произошло %1 ошибок при сохранении проекта!\r\n№1: %2";
         if (verbose)
             QSmartDialog::errorDialog(msg.arg(sqlErrors.count()).arg(sqlErrors.first()));
-        QFileUtils::stringToFile(sqlErrors.join("\r\n"), "sql_errors.txt");
+        FileUtils::stringToFile(sqlErrors.join("\r\n"), "sql_errors.txt");
     }
 
     return saveResult;
@@ -124,7 +124,7 @@ bool DataModule::saveProjectData(bool verbose)
 bool DataModule::backupLocalProject()
 {
     if (AppSettings::boolVal("", PRM_LOCAL_PROJECT_BACKUP, false)) {
-        QString backupFile = QFileUtils::legalFilename(projectTitle + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh_mm") + ".backup");
+        QString backupFile = FileUtils::legalFilename(projectTitle + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh_mm") + ".backup");
         INFO << "Backup project" << projectTitle << "to" << backupFile;
         exportSqlTableModel(mStatements, backupFile);
     }
@@ -500,7 +500,7 @@ bool DataModule::initDatabase()
     if (ok) {
         INFO << SDbConnectionSuccess;
         LSqlTableModel::enableLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
-        QSqlQueryHelper::setLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
+        SqlQueryHelper::setLogging(AppSettings::boolVal(SECTION_LOGGER, PRM_LOG_SQL, false));
     }
     else
         CRITICAL << SErrDatabase << db.lastError().databaseText();
@@ -545,7 +545,7 @@ bool DataModule::loadModels()
             this, SLOT(initNewSpeaker(QSqlRecord&)));
     result = result && loadModel(mSpeakers, TABLE_SPEAKERS, GEN_SPEAKERS);
 
-    mStatements = new QStatementModel(this, db);
+    mStatements = new StatementModel(this, db);
     mStatements->setFilter("project_id=0");
     mStatements->setLinkField(COL_PARENT_ID);
 
@@ -559,7 +559,7 @@ bool DataModule::loadModels()
     mStatementsNavigation->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     //Фильтрованная прокси-модель реплик
-    mStatementsSmartFiltered = new QStatementFilterModel(this);
+    mStatementsSmartFiltered = new StatementFilterModel(this);
     mStatementsSmartFiltered->setSourceModel(mStatements);
     mStatementsSmartFiltered->setModel(mSchemePatterns);
     mStatementsSmartFiltered->setFilterKeyColumn(mStatements->fieldIndex(COL_STATEMENT));

@@ -32,6 +32,10 @@ SOURCES += main.cpp\
     core/tablehighlighter.cpp \
     core/textprocessor.cpp \
     forms/twovaluesinputdialog.cpp \
+    models/statementfiltermodel.cpp \
+    models/statementmodel.cpp \
+    utils/fileutils.cpp \
+    utils/sqlqueryhelper.cpp \
     widgets/dictcombobox.cpp \
     widgets/qcolorbox.cpp \
     models/lsqltablemodel.cpp \
@@ -41,12 +45,8 @@ SOURCES += main.cpp\
     widgets/qsmartdialog.cpp \
     core/qdatabaseupdater.cpp \
     models/lsqllinkedrecordsmodel.cpp \
-    models/qstatementmodel.cpp \
-    models/qstatementfiltermodel.cpp \
     core/appsettings.cpp \
-    utils/qsqlqueryhelper.cpp \
     utils/slogger.cpp \
-    utils/qfileutils.cpp \
     utils/strutils.cpp \
     widgets/colormonitor.cpp
 
@@ -68,6 +68,10 @@ HEADERS  += \
     core/tablehighlighter.h \
     core/textprocessor.h \
     forms/twovaluesinputdialog.h \
+    models/statementfiltermodel.h \
+    models/statementmodel.h \
+    utils/fileutils.h \
+    utils/sqlqueryhelper.h \
     widgets/dictcombobox.h \
     widgets/qcolorbox.h \
     models/lsqltablemodel.h \
@@ -77,13 +81,9 @@ HEADERS  += \
     widgets/qsmartdialog.h \
     core/qdatabaseupdater.h \
     models/lsqllinkedrecordsmodel.h \
-    models/qstatementmodel.h \
-    models/qstatementfiltermodel.h \
     core/appconst.h \
     core/appsettings.h \
-    utils/qsqlqueryhelper.h \
     utils/slogger.h \
-    utils/qfileutils.h \
     utils/strutils.h \
     widgets/colormonitor.h
 

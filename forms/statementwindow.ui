@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>651</width>
+    <width>665</width>
     <height>413</height>
    </rect>
   </property>
@@ -118,7 +118,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset resource="../icons.qrc">
           <normaloff>:/images/icons/microphone.png</normaloff>:/images/icons/microphone.png</iconset>
         </property>
         <property name="iconSize">
@@ -262,7 +262,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/arrow-left-double.png</normaloff>:/images/icons/arrow-left-double.png</iconset>
           </property>
           <property name="iconSize">
@@ -294,7 +294,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/arrow-left.png</normaloff>:/images/icons/arrow-left.png</iconset>
           </property>
           <property name="iconSize">
@@ -329,7 +329,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/arrow-right.png</normaloff>:/images/icons/arrow-right.png</iconset>
           </property>
           <property name="iconSize">
@@ -364,7 +364,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/arrow-right-double.png</normaloff>:/images/icons/arrow-right-double.png</iconset>
           </property>
           <property name="iconSize">
@@ -396,7 +396,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/find.png</normaloff>:/images/icons/find.png</iconset>
           </property>
           <property name="iconSize">
@@ -445,7 +445,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/word-processing.png</normaloff>:/images/icons/word-processing.png</iconset>
           </property>
           <property name="iconSize">
@@ -480,7 +480,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/history.png</normaloff>:/images/icons/history.png</iconset>
           </property>
           <property name="iconSize">
@@ -535,7 +535,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/add.png</normaloff>:/images/icons/add.png</iconset>
           </property>
           <property name="iconSize">
@@ -567,7 +567,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/edit-delete.png</normaloff>:/images/icons/edit-delete.png</iconset>
           </property>
           <property name="iconSize">
@@ -587,7 +587,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/images/icons/save.png</normaloff>:/images/icons/save.png</iconset>
           </property>
           <property name="iconSize">
@@ -621,7 +621,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset resource="../icons.qrc">
           <normaloff>:/images/icons/cancel.png</normaloff>:/images/icons/cancel.png</iconset>
         </property>
         <property name="iconSize">
@@ -641,8 +641,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>651</width>
-     <height>21</height>
+     <width>665</width>
+     <height>32</height>
     </rect>
    </property>
   </widget>
@@ -657,7 +657,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

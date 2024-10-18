@@ -1,8 +1,8 @@
-#include "qstatementmodel.h"
+#include "statementmodel.h"
 
 #include "core/appconst.h"
 
-QStatementModel::QStatementModel(QObject *parent, QSqlDatabase db) :
+StatementModel::StatementModel(QObject *parent, QSqlDatabase db) :
     LSqlLinkedRecordsModel(parent, db)
 {
     addCalcField(new PlainStatementField(COL_STATEMENT_PLAIN));

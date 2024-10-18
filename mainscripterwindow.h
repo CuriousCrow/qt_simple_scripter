@@ -5,7 +5,7 @@
 #include <QSqlTableModel>
 
 namespace Ui {
-class MainScripterWindow;
+    class MainScripterWindow;
 }
 
 class MainScripterWindow : public QMainWindow
@@ -42,9 +42,12 @@ private slots:
     void on_aNewProject_triggered();
 
     void onProjectLoaded();
+
     void on_aWhatsThis_triggered();
 
     void on_aExecuteScript_triggered();
+
+    void on_aTest_triggered();
 
 private:
     Ui::MainScripterWindow *ui;

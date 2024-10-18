@@ -1,12 +1,12 @@
-#include "qfileutils.h"
+#include "fileutils.h"
 #include "slogger.h"
 #include <QRegExp>
 
-QFileUtils::QFileUtils()
+FileUtils::FileUtils()
 {
 }
 
-QString QFileUtils::fileToString(QString filepath, bool isUtf8)
+QString FileUtils::fileToString(QString filepath, bool isUtf8)
 {
     QFile file(filepath);
     if (!file.exists()){
@@ -26,7 +26,7 @@ QString QFileUtils::fileToString(QString filepath, bool isUtf8)
     return result;
 }
 
-bool QFileUtils::stringToFile(QString str, QString filepath, bool isUtf)
+bool FileUtils::stringToFile(QString str, QString filepath, bool isUtf)
 {
     QFile file(filepath);
     bool result = file.open(QIODevice::WriteOnly);
@@ -41,7 +41,7 @@ bool QFileUtils::stringToFile(QString str, QString filepath, bool isUtf)
     return result;
 }
 
-QString QFileUtils::transliterate(QString &inStr)
+QString FileUtils::transliterate(QString &inStr)
 {
     QString result = inStr;
     result = result.replace("А","A", Qt::CaseInsensitive);
@@ -77,25 +77,25 @@ QString QFileUtils::transliterate(QString &inStr)
     return result;
 }
 
-bool QFileUtils::forcePath(const QString &path)
+bool FileUtils::forcePath(const QString &path)
 {
     QDir dir;
     return dir.mkpath(path);
 }
 
-QString QFileUtils::extractDirPath(const QString &fullPath)
+QString FileUtils::extractDirPath(const QString &fullPath)
 {
     QFileInfo info(fullPath);
     return info.absolutePath();
 }
 
-QString QFileUtils::extractFileName(const QString &fullPath)
+QString FileUtils::extractFileName(const QString &fullPath)
 {
     QFileInfo info(fullPath);
     return info.fileName();
 }
 
-QString QFileUtils::legalFilename(QString original)
+QString FileUtils::legalFilename(QString original)
 {
     QRegExp rx("[, \"\\!\\?]{1,}");
     return rx.replaceIn(original, "_");

@@ -19,7 +19,7 @@ ProjectListWindow::ProjectListWindow(QWidget *parent) :
   ui(new Ui::ProjectListWindow)
 {
   ui->setupUi(this);
-  setObjectName("QProjectListWindow");
+  setObjectName("ProjectListWindow");
   
   _dm = DataModule::dm();
 
@@ -51,7 +51,7 @@ ProjectListWindow::~ProjectListWindow()
 ProjectListWindow *ProjectListWindow::Instance(QWidget *parent)
 {
   if (!singletonWindow){
-        singletonWindow = new ProjectListWindow(parent);
+    singletonWindow = new ProjectListWindow(parent);
     singletonWindow->ui->projectsView->resizeColumnsToContents();
   }
   return singletonWindow;

@@ -1,4 +1,4 @@
-#include "qsqlqueryhelper.h"
+#include "sqlqueryhelper.h"
 
 #include <QMetaProperty>
 #include <QRegExp>
@@ -6,9 +6,9 @@
 
 #include "utils/slogger.h"
 
-bool QSqlQueryHelper::_logging = false;
+bool SqlQueryHelper::_logging = false;
 
-QSqlQuery QSqlQueryHelper::execSql(QString sql, QString connectionName)
+QSqlQuery SqlQueryHelper::execSql(QString sql, QString connectionName)
 {
   if (_logging)
     LOG << QString("SQL(%1): %2").arg(connectionName, sql);
@@ -20,33 +20,33 @@ QSqlQuery QSqlQueryHelper::execSql(QString sql, QString connectionName)
   return sqlResult;
 }
 
-qlonglong QSqlQueryHelper::getCurrentSequenceValue(QString sequenceName, QString connectionName)
+qlonglong SqlQueryHelper::getCurrentSequenceValue(QString sequenceName, QString connectionName)
 {
     QString sql = "SELECT gen_id(%1, 0) FROM rdb$database";
     return getSingleValue(sql.arg(sequenceName), connectionName).toLongLong();
 }
 
-QVariant QSqlQueryHelper::getSingleValue(QString sql, QString connectionName)
+QVariant SqlQueryHelper::getSingleValue(QString sql, QString connectionName)
 {
     QSqlQuery query = execSql(sql, connectionName);
     return query.next() ? query.value(0) : QVariant();
 }
 
-QString QSqlQueryHelper::databaseName(QString connection)
+QString SqlQueryHelper::databaseName(QString connection)
 {
   QSqlDatabase dbCon = QSqlDatabase::database(connection, false);
   Q_ASSERT(dbCon.isValid());
   return dbCon.databaseName();
 }
 
-QString QSqlQueryHelper::driverName(QString connection)
+QString SqlQueryHelper::driverName(QString connection)
 {
   QSqlDatabase dbCon = QSqlDatabase::database(connection, false);
   Q_ASSERT(dbCon.isValid());
   return dbCon.driverName();
 }
 
-QSqlRecord QSqlQueryHelper::tableRowInfo(QString table, QString connectionName)
+QSqlRecord SqlQueryHelper::tableRowInfo(QString table, QString connectionName)
 {
   QSqlRecord rec = QSqlDatabase::database(connectionName).record(table);
   LOG << "Table info:" << rec;
@@ -54,7 +54,7 @@ QSqlRecord QSqlQueryHelper::tableRowInfo(QString table, QString connectionName)
 }
 
 
-QString QSqlQueryHelper::fillSqlPattern(QString pattern, QObject *object)
+QString SqlQueryHelper::fillSqlPattern(QString pattern, QObject *object)
 {
   QRegExp rx = QRegExp("#([A-Za-z]+)#");
   QStringList fields;
@@ -74,7 +74,7 @@ QString QSqlQueryHelper::fillSqlPattern(QString pattern, QObject *object)
   return result;
 }
 
-void QSqlQueryHelper::fillObjectFromRecord(QObject *object, QSqlRecord &rec)
+void SqlQueryHelper::fillObjectFromRecord(QObject *object, QSqlRecord &rec)
 {  
   for (int i=0; i<rec.count(); i++){
 
@@ -82,7 +82,7 @@ void QSqlQueryHelper::fillObjectFromRecord(QObject *object, QSqlRecord &rec)
   }
 }
 
-void QSqlQueryHelper::setLogging(bool enable)
+void SqlQueryHelper::setLogging(bool enable)
 {
   _logging = enable;
 }
