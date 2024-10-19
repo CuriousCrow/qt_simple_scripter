@@ -2,12 +2,15 @@
 #include "ui_projecteditwindow.h"
 
 #include <QVariantMap>
+#include <QJSEngine>
+#include <QJSValue>
 
 #include "core/textprocessor.h"
 #include "widgets/dictcombobox.h"
 #include "models/lsqltablemodel.h"
 #include "widgets/qcheckboxcombo.h"
 #include "utils/sparams.h"
+#include "utils/slogger.h"
 
 #define EDITOR_COMBOBOX "COMBOBOX"
 #define EDITOR_CHECKLIST "CHECKLIST"
@@ -102,22 +105,24 @@ void ProjectEditWindow::createControls()
 
 QString ProjectEditWindow::listFileFromScript(QWidget* editor)
 {
-    //TODO: Restore script logic
+    QString script = TextProcessor::editorScript();
+    QJSEngine engine;
+    // engine.installExtensions(QJSEngine::ConsoleExtension);
 
-    // QScriptEngine engine;
-    // QVariantMap values;
-    // for (int i=0; i<projectMapper->model()->columnCount(); i++){
-    //   QWidget* widget = projectMapper->mappedWidgetAt(i);
-    //   if (widget)
-    //     values.insert(widget->objectName(), widget->property("text"));
-    // }
-    // engine.globalObject().setProperty("colName", editor->objectName());
-    // QScriptValue sValues = engine.newVariant(values);
-    // engine.globalObject().setProperty("values", sValues);
-    // QString script = QTextProcessor::editorScript();
-    // QScriptValue resValue = engine.evaluate(script);
-    QString resValue = editor->objectName() + ".lst";
-    return resValue; //.toString();
+
+    QVariantMap values;
+    for (int i=0; i<projectMapper->model()->columnCount(); i++){
+        QWidget* widget = projectMapper->mappedWidgetAt(i);
+        if (widget) {
+            values.insert(widget->objectName(), widget->property("currentText"));
+        }
+    }
+    engine.globalObject().setProperty("colName", editor->objectName());
+    QJSValue sValues = engine.toScriptValue(values);
+    engine.globalObject().setProperty("values", sValues);
+    QJSValue resValue = engine.evaluate(script);
+    INFO << "Editor" << editor->objectName() << "filename" << resValue.toString();
+    return resValue.toString();
 }
 
 void ProjectEditWindow::on_btnSave_clicked()

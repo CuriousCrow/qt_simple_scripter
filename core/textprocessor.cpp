@@ -12,7 +12,7 @@
 #define FILE_OUT_ACCENT_BAT "temp.acc.txt"
 #define FILE_ACCENT_BAT "accent.bat"
 #define FILE_EDITOR_LIST "editors.lst"
-#define FILE_EDITOR_SCRIPT "editors.script"
+#define FILE_EDITOR_SCRIPT "editors.js"
 #define FILE_SETTINGS "QtSimpleScripter.ini"
 
 QTextCodec* win1251 = QTextCodec::codecForName("Windows-1251");
